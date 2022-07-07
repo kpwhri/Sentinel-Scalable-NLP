@@ -1,9 +1,9 @@
 # High Sensitivity Filter
 
-Improve identification of patients with a phenotype of interest:
+Improve identification of patients with a phenotype of interest (A):
 
-* ...over and above traditional filtering approaches that identify presumptive cases using small sets of disease-specific diagnosis codes that are reasonably specific but overlook some true cases 
-* ...via a data-driven approach for discovering other coded data that may serve as surrogates to traditional filters
+* (B)...over and above traditional filtering approaches that identify presumptive cases using small sets of disease-specific diagnosis codes that are reasonably specific but overlook some true cases 
+* (C)...via a data-driven approach for discovering other coded data that may serve as surrogates to traditional filters
 * ...thereby improving overall sensitivity at reasonable cost in specificity, illustrated using a COVID-19 phenotype.
 
 
