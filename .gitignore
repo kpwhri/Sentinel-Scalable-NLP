@@ -1,0 +1,4 @@
+*.log
+*.sas7bdat
+out/
+.idea/
