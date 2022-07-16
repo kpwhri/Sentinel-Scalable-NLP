@@ -57,7 +57,7 @@ In general, components of this project have been used/tested with:
 
 <!-- Uses [SEMVER](https://semver.org/). -->
 
-Updates/changes are not expected. Versioning likely based on release timing in `YYYYmm`. See https://github.com/kpwhri/Sentinel-Anaphylaxis/releases.
+Updates/changes are not expected. Versioning likely based on release timing in `YYYYmm`. See https://github.com/kpwhri/Sentinel-Scalable-NLP/releases.
 
 
 <!-- ROADMAP -->
