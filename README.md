@@ -29,11 +29,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+This project currently documents the high-sensivitiy filtering method to improve the sensitivity of filtering rules used as the first step in developing an automated phenotype model.  Eventually, this project will also document an automated approach to developing a phenotype model itself (i.e., a model that predicts which of the candidates is a true phenotype case and which are not). 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-The project is divided among several components:
+There is one folder for each project documented here.  Currently there is one project:
 
 1. High Sensitivity Filter
    * [Instructions](High-Sensitivity-Filter/README.md)
@@ -41,21 +42,17 @@ The project is divided among several components:
 ### Prerequisites
 
 In general, components of this project have been used/tested with:
-* Python version 3.8+
 * SAS version 9.4+ (?)
-* Data model (which data model?)
-* R version ?
+* Structured healthcare data organized according to the Sentinel Common Data Model (or any other comparable "flat file" formatted collection of structured healthcare data)
+* Excel (or comparable spreadsheet softwared used to display data in a tabular format)
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-
-
-
-## Versions
-
-<!-- Uses [SEMVER](https://semver.org/). -->
+Though it can be applied to any health-related phenotype documented by diagnosis, procedure, or medication codes, we developed and applied the high-sensitivity filtering (HSF) method to improve filtering of patients who may have symptomatic COVID-19 infection. Traditionally, a filtering rule to identify candidates for this phenotype would be patients (or patient encounters) coded with an International Classification of Disease, 10th Revision (ICD-10) diagnosis code for COVID-19 (i.e., the ICD-10 code U07.1 "COVID-19"). Briefly, the HSF method uses SAS code and structured healthcare data for a large collection of patients and encounters to to investigate other healthcare codes -- including diagnoses other than U07.1, medical procedure codes, and medication codes -- that co-occur with the traditional filter (ICD-10 U07.1) and may thereby be used to identify what could be described as surrogate codes for the traditional filter, U07.1. The method summarizes these co-occurrences in a tabular format, separatly for each type of coded data (e.g., diagnoses, procedures, medications) allowing it to be easily and rapidly manually reviewed by a clinical expert.  This review yields a set of codes that 1) have clinical face validity, 2) are much more likely to appear in the charts of patients with the phenotype in question (e.g., COVID-19) than patients without, and 3) if used as an additional filter criteria, would increase the sample size of candidate patients/events only momodestly dentify surrogate codes (or, seeks to identif. As described in a poster presented at the 2022 ICPE conference in Copenhagen, when applying the HSV method in an effort to identify patients with  COVID-19in two very differenty healthcare settings, the HSF approach increased the number of true COVID-19 cases by 13% at the expense of a 22% increase in the sample of candidate patients.2titled "" DATA-DRIVEN APPROACHES TO IMPROVE
+PHENOTYPE SENSITIVITY USING EHR DATA
+ s [SEMVER](https://semver.org/). -->
 
 Updates/changes are not expected. Versioning likely based on release timing in `YYYYmm`. See https://github.com/kpwhri/Sentinel-Scalable-NLP/releases.
 
