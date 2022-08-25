@@ -9,7 +9,7 @@
   <h3 align="center">Sentinel Scalable NLP</h3>
 
   <p>
-    Sentinel Initiative-sponsored work on designing scalable approaches to developinig computable phenotypoe models and reusable tools to improve overall efficiecy and transportability.
+    Sentinel Initiative-sponsored work on designing scalable approaches to developinig computable phenotypoe models and reusable tools to improve overall efficiecy and transportability.  One of the projects shared here implements a methods for improving the sensitivity of filters used to identify patients or healthcare events that are candidates for phenotype modeling, where these models are used to determine which of the candidates have the phenotype and which do not.  We refer to this method as "high-sensitivity filtering."
   </p>
 </div>
 
