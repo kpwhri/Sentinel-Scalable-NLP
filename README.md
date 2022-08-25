@@ -9,7 +9,7 @@
   <h3 align="center">Sentinel Scalable NLP</h3>
 
   <p>
-    Sentinel Initiative-sponsored work on designing scalable solutions.
+    Sentinel Initiative-sponsored work on designing scalable approaches to developinig computable phenotypoe models and reusable tools to improve overall efficiecy and transportability.
   </p>
 </div>
 
