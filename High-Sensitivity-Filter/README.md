@@ -1,6 +1,8 @@
 # High Sensitivity Filter
 
-See the README file in the root of the Sentinel-Scalable-NLP GitHub.
+SAS code used to implement the high-sensitivity filtering approach is available in folder "Programs."  Instructions on using and modifying this SAS code are provided as in-line comments in the SAS code.
+
+For additional background on the high-sensitivity filtering approach see the README file in the root of the Sentinel-Scalable-NLP GitHub.
 
 * The following graphics illustrate how patients with a phenotype of interest (left) may be identified with reasonable sensitivity and specificity by a simple rule based on three related diagnosis codes (middle) and how the set identified by the simple rule may be augmented to improve sensitivity for true cases at moderate expense in terms of specificity by adding to the original filter several additional codes identified by the data-driven high-sensitivity approach (right).
 <div style="background:white;">
