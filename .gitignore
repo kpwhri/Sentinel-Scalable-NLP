@@ -2,3 +2,4 @@
 *.sas7bdat
 out/
 .idea/
+Prediction-Modeling/phenorm_covid/r_io_files/*
