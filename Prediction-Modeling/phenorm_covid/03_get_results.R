@@ -140,4 +140,6 @@ perf_wide %>%
   group_by(id) %>%
   filter(abs(F1 - max(F1, na.rm = TRUE)) < 0.0005) %>%
   write_csv(file = paste0(result_prefix, "_max_f1.csv"))
+# print out the final model (covariates, coefficients)
+# variable importance
 print("Results complete.")

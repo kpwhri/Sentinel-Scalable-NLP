@@ -21,6 +21,9 @@ for (( i=0; i<${n_analyses}; i++)); do
         --gold_label "${gold_label[$i]}" --valid_label "${valid_label}" \
         --study_id ${study_id} --utilization "${util_var}" --site "${site}"
     )
+    if [[ ${analysis} =~ "non_negated" ]]; then
+        args+=(--no_nonneg)
+    fi
     if [ ${no_dimension_reduction} -ge 1 ]; then
         args+=(--no_afep)
     fi
