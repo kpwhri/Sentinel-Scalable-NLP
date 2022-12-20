@@ -166,7 +166,7 @@ phenorm_afep <- function(train = NULL, test = NULL, study_id = "Studyid", cui_of
                          utilization_variable = "Utiliz",
                          cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train))],
                          threshold = 0.15) {
-  cui_col_of_interest <- cui_cols[grepl(cui_of_interest, names(train[, cui_cols]))]
+  cui_col_of_interest <- cui_cols[grepl(cui_of_interest, names(train[, cui_cols]))][1]
   other_cui_cols <- cui_cols[!grepl(cui_of_interest[1], names(train[, cui_cols]))]
   train_selected <- afep(dataset = train %>% select(-!!study_id), nlp_label = cui_of_interest,
                          features = names(train[, other_cui_cols]),
@@ -341,7 +341,13 @@ predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
 #'  Defaults to 0.15, the value proposed in Yu et al. (2015).
 afep <- function(dataset = NULL, nlp_label = NULL, features = NULL, threshold = 0.15) {
   mat <- as.matrix(dataset)
-  nlp_label_data <- mat[, nlp_label, drop = FALSE]
+  if (inherits(dataset, "data.frame")) {
+    nms <- names(dataset)
+  } else {
+    nms <- colnames(dataset)
+  }
+  nlp_label_indx <- which(grepl(nlp_label, nms))[1]
+  nlp_label_data <- mat[, nlp_label_indx, drop = FALSE]
   feature_data <- mat[, features, drop = FALSE]
   corrs <- apply(nlp_label_data, 2, function(x) {
     abs(cor(x, feature_data, method = "spearman"))
