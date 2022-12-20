@@ -21,14 +21,14 @@ for (( i=0; i<${n_analyses}; i++)); do
         --gold_label "${gold_label[$i]}" --valid_label "${valid_label}" \
         --study_id ${study_id} --utilization "${util_var}" --site "${site}"
     )
-    if [ ${use_dimension_reduction} -ge 1 ]; then
-        args+=(--use_afep)
+    if [ ${no_dimension_reduction} -ge 1 ]; then
+        args+=(--no_afep)
     fi
-    if [ ${use_nonnormalized_data} -ge 1 ]; then
-        args+=(--use_nonnormalized)
+    if [ ${no_nonnormalized_data} -ge 1 ]; then
+        args+=(--no_nonnormalized)
     fi
-    if [ ${use_normalized_data} -ge 1 ]; then
-        args+=(--use_normalized)
+    if [ ${no_normalized_data} -ge 1 ]; then
+        args+=(--no_normalized)
     fi
     if [ ${train_on_gold_data} -ge 1 ]; then
         args+=(--train_on_gold)
@@ -36,5 +36,4 @@ for (( i=0; i<${n_analyses}; i++)); do
     # process the dataset: 
     echo "Processing data for analysis ${analysis}"
     Rscript phenorm_covid/01_process_data.R "${args[@]}" > "./${io_dir}/01_process_data_${analysis}.out" 2>&1
-    # Rscript phenorm_covid/01_process_data.R --data_dir "${raw_data_dir}" --analysis_data_dir "${analysis_data_dir}" --data_name "${data_name}" --analysis "$analysis" --gold_label "${gold_label[$i]}" --valid_label "${valid_label}" --study_id ${study_id} --utilization "${util_var}" --site "${site}" > "./${io_dir}/01_process_data_${analysis}.out" 2>&1
 done

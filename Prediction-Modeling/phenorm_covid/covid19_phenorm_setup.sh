@@ -23,10 +23,10 @@ util_var="Utiliz"
 site="kpwa"
 external_site="vumc"
 # toggle dimension reduction on/off, defaults to TRUE
-use_dimension_reduction=1
+no_dimension_reduction=0
 # should we use non-normalized, normalized NLP variables? both default to TRUE
-use_nonnormalized_data=1
-use_normalized_data=1
+no_nonnormalized_data=0
+no_normalized_data=0
 # should we train on gold-labeled data as well? defaults to FALSE
 train_on_gold_data=0
 # edit the following directories to correspond to the filesystem on *your* computer

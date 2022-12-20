@@ -55,12 +55,14 @@ process_structured_data <- function(data, vars_to_process, values) {
 #' @param gold_label a string specifying the gold label variable name
 #' @param utilization_variable a string specifying the name of the utilization 
 #'   variable (if empty, a vector of 1s will be created [i.e., no normalization])
+#' @param train_on_gold_data should we train on gold data? defaults to FALSE (i.e., train/test split)
 #' @return a list, with nlp and structured data (both training and testing sets)
 process_data <- function(dataset = NULL, structured_data_names = "AGE",
                          nlp_data_names = "C", study_id = "STUDYID",
                          validation_name = "GOLD_STANDARD_VALIDATION",
                          gold_label = "AP_GOLD_LABEL",
-                         utilization_variable = "") {
+                         utilization_variable = "",
+                         train_on_gold_data = FALSE) {
   if (!any(grepl(utilization_variable, names(dataset)))) {
     dataset[[utilization_variable]] <- 1
   }
@@ -81,8 +83,12 @@ process_data <- function(dataset = NULL, structured_data_names = "AGE",
     }
     all_data[[outcome_indx]] <- outcomes
   }
-  train <- dplyr::select(dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 0),
-                         -!!matches(gold_label))
+  if (train_on_gold_data) {
+    train <- dplyr::select(all_data, -!!matches(gold_label))
+  } else {
+    train <- dplyr::select(dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 0),
+                           -!!matches(gold_label))
+  }
   test <- dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 1)
   train_cc <- train[complete.cases(train), ]
   test_cc <- test[complete.cases(test), ]
@@ -97,6 +103,40 @@ process_data <- function(dataset = NULL, structured_data_names = "AGE",
   return(list("outcome" = outcomes, "train_structured" = train_structured,
               "train_nlp" = train_nlp, "test_structured" = test_structured,
               "test_nlp" = test_nlp, "all" = all_data))
+}
+
+# remove CUI variables based on flags ------------------------------------------
+#' @param dataset the input data
+#' @param use_nonnegative should we use non-negated mentions? or not?
+#' @param use_normalized should we include normalized version of CUIs? or not?
+#' @param use_normalized should we include non-normalized counts of CUIs? or not?
+#' @param nonneg_id regular expression designating non-negated CUIs
+#' @return the dataset with correct CUI variables of interest
+filter_cui_variables <- function(dataset = NULL, use_nonnegated = TRUE,
+                                 use_normalized = TRUE, use_nonnormalized = TRUE,
+                                 nonneg_id = "_nonneg") {
+  if (use_nonnegated) {
+    cui_names <- names(dataset)[grepl("C[0-9]", names(dataset))]
+    names_to_keep <- rep(TRUE, length(names(dataset)))
+    names_to_keep[grepl("C[0-9]", names(dataset))] <- grepl(nonneg_id, cui_names)
+    dataset <- dataset[, names_to_keep]
+    dataset_names <- names(dataset)
+    names(dataset) <- gsub(nonneg_id, "", gsub("count", "Count", dataset_names))
+  } else {
+    dataset <- dataset %>% 
+      select(-contains("nonneg"))
+  }
+  if (!use_normalized) {
+    dataset <- dataset %>% 
+      select(-contains("normalized"))
+  }
+  if (!use_nonnormalized) {
+    cui_names <- names(dataset)[grepl("C[0-9]", names(dataset))]
+    names_to_keep <- rep(TRUE, length(names(dataset)))
+    names_to_keep[grepl("C[0-9]", names(dataset))] <- !grepl("count", cui_names, ignore.case = TRUE)
+    dataset <- dataset[, names_to_keep]
+  }
+  return(dataset)
 }
 
 # apply log transformation to structured, NLP variables ------------------------

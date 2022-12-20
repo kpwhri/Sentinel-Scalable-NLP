@@ -25,7 +25,11 @@ structured_data_vals_to_binary <- "F"
 valid_values <- c("Training", "Evaluation")
 na_values <- c("NA", ".", "")
 # variable specifiying the CUI of interest
-cui_of_interest <- "C5203670_Count"
+if (args$use_nonnormalized) {
+  cui_of_interest <- "C5203670_Count"  
+} else {
+  cui_of_interest <- "C5203670_normalized"
+}
 # tuning parameters for PheNorm. note we're setting "recommended" values.
 corrupt_rate <- 0.3
 train_size_multiplier <- 13 # to match Jing's analysis

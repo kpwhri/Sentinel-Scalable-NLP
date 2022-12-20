@@ -22,19 +22,27 @@ parser <- add_option(parser, "--data_name",
                      default = "COVID_PheNorm_N8329_12DEC2022.csv", help = "The name of the dataset")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_enhanced_symptomatic_covid_all_mentions", help = "The name of the analysis")
-parser <- add_option(parser, "--use_afep", default = FALSE, action = "store_true",
+parser <- add_option(parser, "--use_afep", default = TRUE, action = "store_true",
                      help = "Should we use AFEP screening for NLP variables?")
-parser <- add_option(parser, "--use_nonneg", default = FALSE, action = "store_true",
+parser <- add_option(parser, "--no_afep", action = "store_false",
+                     dest = "use_afep")
+parser <- add_option(parser, "--use_nonneg", default = TRUE, action = "store_true",
                      help = "Should we use the non-negated mentions (FALSE) or all mentions (TRUE)?")
+parser <- add_option(parser, "--no_nonneg", action = "store_false",
+                     dest = "use_nonneg")
 parser <- add_option(parser, "--gold_label", default = "PTYPE_MODERATE_PLUS_POSITIVE", help = "The name of the gold label")
 parser <- add_option(parser, "--valid_label", default = "Train_Eval_Set", help = "The name of the validation set variable")
 parser <- add_option(parser, "--study_id", default = "Studyid", help = "The study id variable")
 parser <- add_option(parser, "--utilization", default = "Utiliz", help = "The utilization variable")
 parser <- add_option(parser, "--site", default = "kpwa", help = "The site from which the data come from")
-parser <- add_option(parser, "--use_nonnormalized", default = FALSE, action = "store_true",
+parser <- add_option(parser, "--use_nonnormalized", default = TRUE, action = "store_true",
                      help = "Should we use nonnormalized features?")
-parser <- add_option(parser, "--use_normalized", default = FALSE, action = "store_true",
+parser <- add_option(parser, "--no_nonnormalized", action = "store_false",
+                     dest = "use_nonnormalized")
+parser <- add_option(parser, "--use_normalized", default = TRUE, action = "store_true",
                      help = "Should we use normalized features?")
+parser <- add_option(parser, "--no_normalized", action = "store_false",
+                     dest = "use_normalized")
 parser <- add_option(parser, "--train_on_gold", default = FALSE, action = "store_true",
                      help = "Should we train on gold-labeled data too?")
 args <- parse_args(parser)
@@ -49,41 +57,38 @@ if (!dir.exists(args$analysis_data_dir)) {
 }
 
 # process the dataset ---------------------------------------------------------
+# read in the data
 input_data <- readr::read_csv(paste0(args$data_dir, args$data_name), na = na_values)
 if (!is.numeric(input_data %>% pull(!!args$valid_label))) {
   valid_label_index <- which(grepl(args$valid_label, names(input_data), ignore.case = TRUE))
   input_data[[valid_label_index]] <- ifelse(input_data[[valid_label_index]] == valid_values[1], 0, 1)
 }
-# if we're using all mentions, drop non-negated mentions (if they exist)
-if (!args$use_nonneg) {
-  input_data <- input_data %>% 
-    select(-contains("nonneg"))
-} else {
-  cui_names <- names(input_data)[grepl("C[0-9]", names(input_data))]
-  names_to_keep <- rep(TRUE, length(names(input_data)))
-  names_to_keep[grepl("C[0-9]", names(input_data))] <- grepl(nonneg_id, cui_names)
-  input_data <- input_data[, names_to_keep]
-  input_data_names <- names(input_data)
-  names(input_data) <- gsub(nonneg_id, "", gsub("count", "Count", input_data_names))
-}
-# drop normalized (or nonnormalized) if requested
+# get to the correct set of CUI variables:
+#   if we're using all mentions, drop non-negated mentions (if they exist)
+#   drop normalized (or nonnormalized) if requested
+only_cuis_of_interest <- filter_cui_variables(dataset = input_data, use_nonnegated = args$use_nonneg,
+                                              use_normalized = args$use_normalized,
+                                              use_nonnormalized = args$use_nonnormalized,
+                                              nonneg_id = nonneg_id)
 
 # do any minor preprocessing we need to; process_structured_data defined specific to each problem
-input_data <- process_structured_data(input_data, vars_to_process = structured_data_vars_to_binary,
-                                      values = structured_data_vals_to_binary)
-data_names <- names(input_data)
+processed_structured <- process_structured_data(only_cuis_of_interest, 
+                                                vars_to_process = structured_data_vars_to_binary,
+                                                values = structured_data_vals_to_binary)
+data_names <- names(processed_structured)
 cui_names <- data_names[grepl("C[0-9]", data_names)]
 nlp_names <- c(silver_labels, args$utilization, cui_names)
 
 # if requested to train on gold-labeled data (as well as non-gold-labeled data),
 # change training/testing split
-processed_data <- process_data(dataset = input_data,
+processed_data <- process_data(dataset = processed_structured,
                                structured_data_names = structured_data_names,
                                nlp_data_names = nlp_names,
                                study_id = args$study_id,
                                validation_name = args$valid_label,
                                gold_label = args$gold_label,
-                               utilization_variable = args$utilization)
+                               utilization_variable = args$utilization,
+                               train_on_gold_data = args$train_on_gold)
 train_structured <- processed_data$train_structured
 test_structured <- processed_data$test_structured
 train_nlp <- processed_data$train_nlp
