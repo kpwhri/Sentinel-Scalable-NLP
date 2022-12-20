@@ -225,17 +225,19 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL, identifie
 #' @inheritParams predict.PheNorm
 #' @param preds the predictions using the test data
 #' @param measure the variable importance measure to use, currently only "ate" is implemented
+#' @param outcomes the labels
 #' @return the estimated variable importance for each variable in the model
 get_vimp <- function(phenorm_model = NULL, preds = NULL,
                      newdata = NULL, silver_labels = NULL, features = NULL,
                      utilization = NULL, use_empirical_sd = TRUE,
                      aggregate_labels = silver_labels,
+                     outcomes = NULL,
                      na.rm = TRUE, measure = "ate") {
   X <- as.matrix(newdata)
+  eval(parse(text = paste0("est_vim <- data.frame(var = colnames(X), ",
+                           paste(paste0("est_", silver_labels, " = NA"), collapse = ", "), ")")))
+  est_vim$est_Aggregate <- NA
   if (grepl("ate", measure)) {
-    eval(parse(text = paste0("est_vim <- data.frame(var = colnames(X), ",
-               paste(paste0("est_", silver_labels, " = NA"), collapse = ", "), ")")))
-    est_vim$est_Aggregate <- NA
     # for the ATE vim, treat binary and continuous features differently
     is_binary <- apply(X, 2, function(x) length(unique(x)) == 2)
     # binary features: compare predictions when X is 1 vs 0 for everyone
@@ -263,8 +265,25 @@ get_vimp <- function(phenorm_model = NULL, preds = NULL,
                                    aggregate_labels = aggregate_labels, na.rm = na.rm)
       est_vim[i, 2:ncol(est_vim)] <- colMeans(preds - new_preds)
     }
+  } else if (grepl("permute", measure)) {
+    # return permutation-based difference in AUC
+    orig_auc <- unlist(lapply(as.list(1:ncol(preds)), function(i) {
+      cvAUC::AUC(predictions = preds[, i], labels = outcomes)
+    }))
+    for (i in 1:ncol(X)) {
+      newX <- X
+      newX[, i] <- X[sample(nrow(X), replace = FALSE), i]
+      shuffle_preds <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX,
+                                       silver_labels = silver_labels, features = features,
+                                       utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                       aggregate_labels = aggregate_labels, na.rm = na.rm)
+      shuffle_aucs <- unlist(lapply(as.list(1:ncol(shuffle_preds)), function(k) {
+        cvAUC::AUC(predictions = shuffle_preds[, k], labels = outcomes)
+      }))
+      est_vim[i, 2:ncol(est_vim)] <- orig_auc - shuffle_aucs
+    }
   } else {
-    stop("The requested variable importance measure is not currently implemented. Please enter 'ate'.")
+    stop("The entered variable importance measure is not currently supported. Please enter one of 'ate' or 'permute'.")
   }
   return(est_vim)
 }
@@ -431,12 +450,14 @@ predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
   }
   # predict, for each silver label separately and overall ("voting")
   phenorm_score <- normalized_data %*% as.matrix(phenorm_model$betas)
-  posterior_probs <- apply(phenorm_score, 2, function(x) {
-    fit <- PheNorm:::normalmixEM2comp2(x, lambda = 0.5,
-                                       mu = quantile(x, probs = c(1/3, 2/3), na.rm = na.rm),
-                                       sigsqrd = ifelse(use_empirical_sd, sd(x, na.rm = na.rm) / 2, 1))
+  original_phenorm_score <- phenorm_model$scores
+  posterior_probs <- do.call(cbind, sapply(1:ncol(phenorm_score), function(i) {
+    fit <- PheNorm:::normalmixEM2comp2(phenorm_score[, i], lambda = 0.5,
+                                       mu = quantile(original_phenorm_score[, i], probs = c(1/3, 2/3), na.rm = na.rm),
+                                       sigsqrd = ifelse(use_empirical_sd, sd(original_phenorm_score[, i], na.rm = na.rm) / 2, 1))
     fit$posterior[, 2]
-  })
+  }, simplify = FALSE))
+  colnames(posterior_probs) <- colnames(phenorm_score)
   posterior_probs_vote <- rowMeans(posterior_probs[, aggregate_labels])
   all_posterior_probs <- cbind.data.frame(posterior_probs, "Aggregate" = posterior_probs_vote)
   return(all_posterior_probs)
