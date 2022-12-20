@@ -34,11 +34,11 @@ The main code to run the analysis is in the following files:
 * `03_get_results.R`: input the PheNorm model and predictions and the true (gold-standard) outcomes; return plots and tables describing prediction performance.
 * `04_get_predicted_probabilities.R`: input the PheNorm model and the entire dataset; return datasets (.csv files) with study id and predicted probabilities.
 * `run_all_covid19_phenorm.sh`: run all KPWA data-based analyses (i.e., KPWA is the data site; the external model site is VUMC). Calls the following in turn:
-    * `covid19_phenorm_setup.sh`: system-specific environment variables _(this will have to be changed for each person running code, based on your computer's filesystem)_.
-    * `install_packages.sh`: only needs to be run a single time. Installs R packages.
-    * `process_covid19_datasets.sh`: creates analysis datasets for all analyses of interest.
-    * `run_covid19_phenorm_internal.sh`: run all internal PheNorm model building and evaluation analyses.
-    * `run_covid19_phenorm_external.sh`: run all external PheNorm model evaluation analyses. Requires PheNorm model trained at an external site (e.g., VUMC if the evaluation site is KPWA).
+    * `00_covid19_phenorm_setup.sh`: system-specific environment variables _(this will have to be changed for each person running code, based on your computer's filesystem)_.
+    * `00_install_packages.sh`: only needs to be run a single time. Installs R packages.
+    * `01_process_covid19_datasets.sh`: creates analysis datasets for all analyses of interest.
+    * `02_run_covid19_phenorm_internal.sh`: run all internal PheNorm model building and evaluation analyses.
+    * `03_run_covid19_phenorm_external.sh`: run all external PheNorm model evaluation analyses. Requires PheNorm model trained at an external site (e.g., VUMC if the evaluation site is KPWA).
 
 ## Running the analysis
 
