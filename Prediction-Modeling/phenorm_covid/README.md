@@ -99,3 +99,5 @@ These specifications can be changed by changing the value of the following varia
 2. `no_nonnormalized_data`: set to 1 to not include non-normalized CUI variables 
 3. `no_normalized_data`: set to 1 to not include normalized CUI variables
 4. `train_on_gold_data`: set to 1 to use observations with gold labels in training
+
+_If you set these flags differently, please make sure to save your results from other analyses in different folders: otherwise, the analysis will be overwritten_
