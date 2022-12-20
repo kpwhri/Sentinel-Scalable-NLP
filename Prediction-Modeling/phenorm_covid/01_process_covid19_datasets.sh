@@ -3,7 +3,7 @@
 # process datasets -------------------------------------------------------------
 
 # project-specific setup
-source phenorm_covid/covid19_phenorm_setup.sh
+source phenorm_covid/00_covid19_phenorm_setup.sh
 
 # ensure that required packages are installed by first running install_packages.sh
 
