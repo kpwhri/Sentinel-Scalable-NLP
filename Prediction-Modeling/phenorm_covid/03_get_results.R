@@ -144,7 +144,7 @@ perf_wide %>%
 final_model <- fit$betas
 rownames(final_model) <- model_fit_names
 readr::write_csv(
-  final_model, file = paste0(
+  as.data.frame(final_model), file = paste0(
     result_prefix, "_coefficients.csv"
   )
 )
@@ -155,5 +155,11 @@ est_vim <- get_vimp(phenorm_model = fit, preds = preds,
                     silver_labels = silver_labels,
                     features = model_features,
                     utilization = utilization_variable, aggregate_labels = silver_labels,
-                    measure = "ate")
+                    outcomes = outcomes,
+                    measure = "permute")
+readr::write_csv(
+  est_vim, file = paste0(
+    result_prefix, "_vim.csv"
+  )
+)
 print("Results complete.")
