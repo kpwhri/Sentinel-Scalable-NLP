@@ -3,6 +3,7 @@
 out/
 .idea/
 Prediction-Modeling/phenorm_covid/r_io_files/*
+Prediction-Modeling/phenorm_covid_io_files/*
 .Rproj.user
 *.Rproj
 *.zip
