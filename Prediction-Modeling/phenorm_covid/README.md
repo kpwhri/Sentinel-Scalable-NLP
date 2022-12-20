@@ -86,3 +86,16 @@ Alternatively, you can use the following steps (each step is run twice, once for
 5. Get predicted probabilities for the entire sample:
     1. `Rscript phenorm_covid/04_get_predicted_probabilities --data_dir "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets/" --output_dir "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/results/" --analysis "phase_1_enhanced_symptomatic_covid_all_mentions" --data_site "kpwa" --model_site "kpwa"`
     2. `Rscript phenorm_covid/04_get_predicted_probabilities --data_dir "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets/" --output_dir "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/results/" --analysis "phase_1_enhanced_symptomatic_covid_non_negated" --data_site "kpwa" --model_site "kpwa"`
+
+## Using other specifications
+
+In the main analysis, we used the following specifications:
+1. Dimension reduction: yes
+2. Include both normalized and non-normalized CUI variables: yes
+3. Train on observations with gold labels (but don't look at gold labels): no
+
+These specifications can be changed by changing the value of the following variables in `covid19_phenorm_setup.sh`:
+1. `no_dimension_reduction`: set to 1 to turn off dimension reduction
+2. `no_nonnormalized_data`: set to 1 to not include non-normalized CUI variables 
+3. `no_normalized_data`: set to 1 to not include normalized CUI variables
+4. `train_on_gold_data`: set to 1 to use observations with gold labels in training
