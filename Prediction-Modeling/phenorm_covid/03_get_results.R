@@ -66,16 +66,16 @@ phenorm_analysis <- readRDS(
   )
 )
 fit <- phenorm_analysis$fit
+model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
+model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels, utilization_variable))]
 if (args$model_site == args$data_site) {
   preds <- phenorm_analysis$preds
 } else {
   # get features used to train external PheNorm model
-  external_model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
-  external_model_features <- external_model_fit_names[!(external_model_fit_names %in% c(silver_labels, utilization_variable))]
   set.seed(1234)
   preds <- predict.PheNorm(
     phenorm_model = fit, newdata = analysis_data$test_all, silver_labels = silver_labels,
-    features = external_model_features,
+    features = model_features,
     utilization = utilization_variable, aggregate_labels = silver_labels
   )
   saveRDS(
@@ -140,4 +140,26 @@ perf_wide %>%
   group_by(id) %>%
   filter(abs(F1 - max(F1, na.rm = TRUE)) < 0.0005) %>%
   write_csv(file = paste0(result_prefix, "_max_f1.csv"))
+# print out the final model (covariates, coefficients)
+final_model <- fit$betas
+rownames(final_model) <- model_fit_names
+readr::write_csv(
+  as.data.frame(final_model), file = paste0(
+    result_prefix, "_coefficients.csv"
+  )
+)
+# variable importance
+set.seed(5678)
+est_vim <- get_vimp(phenorm_model = fit, preds = preds,
+                    newdata = analysis_data$test_all, 
+                    silver_labels = silver_labels,
+                    features = model_features,
+                    utilization = utilization_variable, aggregate_labels = silver_labels,
+                    outcomes = outcomes,
+                    measure = "permute")
+readr::write_csv(
+  est_vim, file = paste0(
+    result_prefix, "_vim.csv"
+  )
+)
 print("Results complete.")

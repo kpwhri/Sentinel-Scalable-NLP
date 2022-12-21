@@ -16,7 +16,7 @@ run_phenorm <- function(train = NULL, test = NULL, silver_labels = "", features 
   corrupt_rate <- ifelse(is.null(L$corrupt.rate), .3, L$corrupt.rate)
   train_size <- ifelse(is.null(L$train.size), 10 * nrow(train), L$train.size)
   set.seed(seeds[1])
-  phenorm_fit <- PheNorm::PheNorm.Prob(
+  phenorm_fit <- phenorm_prob(
     nm.logS.ori = silver_labels, nm.utl = utilization, dat = train,
     nm.X = features, corrupt.rate = corrupt_rate, train.size = train_size
   )
@@ -166,7 +166,7 @@ phenorm_afep <- function(train = NULL, test = NULL, study_id = "Studyid", cui_of
                          utilization_variable = "Utiliz",
                          cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train))],
                          threshold = 0.15) {
-  cui_col_of_interest <- cui_cols[grepl(cui_of_interest, names(train[, cui_cols]))]
+  cui_col_of_interest <- cui_cols[grepl(cui_of_interest, names(train[, cui_cols]))][1]
   other_cui_cols <- cui_cols[!grepl(cui_of_interest[1], names(train[, cui_cols]))]
   train_selected <- afep(dataset = train %>% select(-!!study_id), nlp_label = cui_of_interest,
                          features = names(train[, other_cui_cols]),
@@ -219,6 +219,73 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL, identifie
   cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff)
   output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, cutoff_dependent)
   return(output_tibble)
+}
+
+# variable importance for the fitted model -------------------------------------
+#' @inheritParams predict.PheNorm
+#' @param preds the predictions using the test data
+#' @param measure the variable importance measure to use, currently only "ate" is implemented
+#' @param outcomes the labels
+#' @return the estimated variable importance for each variable in the model
+get_vimp <- function(phenorm_model = NULL, preds = NULL,
+                     newdata = NULL, silver_labels = NULL, features = NULL,
+                     utilization = NULL, use_empirical_sd = TRUE,
+                     aggregate_labels = silver_labels,
+                     outcomes = NULL,
+                     na.rm = TRUE, measure = "ate") {
+  X <- as.matrix(newdata)
+  eval(parse(text = paste0("est_vim <- data.frame(var = colnames(X), ",
+                           paste(paste0("est_", silver_labels, " = NA"), collapse = ", "), ")")))
+  est_vim$est_Aggregate <- NA
+  if (grepl("ate", measure)) {
+    # for the ATE vim, treat binary and continuous features differently
+    is_binary <- apply(X, 2, function(x) length(unique(x)) == 2)
+    # binary features: compare predictions when X is 1 vs 0 for everyone
+    for (i in which(is_binary)) {
+      newX_0 <- newX_1 <- X
+      newX_0[, i] <- 0
+      newX_1[, i] <- 1
+      preds_0 <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX_0,
+                                 silver_labels = silver_labels, features = features,
+                                 utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                 aggregate_labels = aggregate_labels, na.rm = na.rm)
+      preds_1 <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX_1,
+                                 silver_labels = silver_labels, features = features,
+                                 utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                 aggregate_labels = aggregate_labels, na.rm = na.rm)
+      est_vim[i, 2:ncol(est_vim)] <- colMeans(preds_1 - preds_0)
+    }
+    # continuous features: compare predictions on original x vs x + sd(x)
+    for (i in which(!is_binary)) {
+      newX <- X
+      newX[, i] <- X[, i] + sd(X[, i])
+      new_preds <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX,
+                                   silver_labels = silver_labels, features = features,
+                                   utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                   aggregate_labels = aggregate_labels, na.rm = na.rm)
+      est_vim[i, 2:ncol(est_vim)] <- colMeans(preds - new_preds)
+    }
+  } else if (grepl("permute", measure)) {
+    # return permutation-based difference in AUC
+    orig_auc <- unlist(lapply(as.list(1:ncol(preds)), function(i) {
+      cvAUC::AUC(predictions = preds[, i], labels = outcomes)
+    }))
+    for (i in 1:ncol(X)) {
+      newX <- X
+      newX[, i] <- X[sample(nrow(X), replace = FALSE), i]
+      shuffle_preds <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX,
+                                       silver_labels = silver_labels, features = features,
+                                       utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                       aggregate_labels = aggregate_labels, na.rm = na.rm)
+      shuffle_aucs <- unlist(lapply(as.list(1:ncol(shuffle_preds)), function(k) {
+        cvAUC::AUC(predictions = shuffle_preds[, k], labels = outcomes)
+      }))
+      est_vim[i, 2:ncol(est_vim)] <- orig_auc - shuffle_aucs
+    }
+  } else {
+    stop("The entered variable importance measure is not currently supported. Please enter one of 'ate' or 'permute'.")
+  }
+  return(est_vim)
 }
 
 # nice plots of phenorm results ------------------------------------------------
@@ -276,7 +343,73 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
   return(combined_plot)
 }
 
-# PheNorm-based predictions on new data ----------------------------------------
+# PheNorm implementations ------------------------------------------------------
+# implementation of PheNorm.Prob that returns the normalization constant and the phenorm scores
+#' Fit the phenotyping algorithm PheNorm using EHR features
+#'
+#' @description
+#' The function requires as input:
+#' * a surrogate, such as the ICD code
+#' * the healthcare utilization
+#' It can leverage other EHR features (optional) to assist risk prediction.
+#'
+#' @param nm.logS.ori name of the surrogates (log(ICD+1), log(NLP+1) and log(ICD+NLP+1))
+#' @param nm.utl name of healthcare utilization (e.g. note count, encounter_num etc)
+#' @param dat all data columns need to be log-transformed and need column names
+#' @param nm.X additional features other than the main ICD and NLP
+#' @param corrupt.rate rate for random corruption denoising, between 0 and 1, default value=0.3
+#' @param train.size size of training sample, default value 10 * nrow(dat)
+#' @return list containing probability and beta coefficient
+#' @examples
+#' \dontrun{
+#' set.seed(1234)
+#' fit.dat <- read.csv("https://raw.githubusercontent.com/celehs/PheNorm/master/data-raw/data.csv")
+#' fit.phenorm=PheNorm.Prob("ICD", "utl", fit.dat, nm.X = NULL,
+#'                           corrupt.rate=0.3, train.size=nrow(fit.dat));
+#' head(fit.phenorm$probs)
+#' }
+#' @export
+phenorm_prob <- function(nm.logS.ori, nm.utl, dat, nm.X = NULL, corrupt.rate = 0.3, train.size = 10 * nrow(dat)) {
+  dat <- as.matrix(dat)
+  S.ori <- dat[, nm.logS.ori, drop = FALSE]
+  utl <- dat[, nm.utl]
+  a.hat <- apply(S.ori, 2, function(S) {PheNorm:::findMagicNumber(S, utl)$coef})
+  S.norm <- S.ori - PheNorm:::VTM(a.hat, nrow(dat)) * utl
+  if (!is.null(nm.X)) {
+    X <- as.matrix(dat[, nm.X])
+    SX.norm <- cbind(S.norm, X, utl)
+    id <- sample(1:nrow(dat), train.size, replace = TRUE)
+    SX.norm.corrupt <- apply(SX.norm[id, ], 2,
+                             function(x) {ifelse(rbinom(length(id), 1, corrupt.rate), mean(x), x)}
+    )
+    b.all <- apply(S.norm, 2, function(ss) {lm(ss[id] ~ SX.norm.corrupt - 1)$coef})
+    b.all[is.na(b.all)] <- 0
+    S.norm <- as.matrix(SX.norm) %*% b.all
+    b.all <- b.all[-dim(b.all)[1], ]
+  } else {
+    b.all <- NULL
+  }
+  if (length(nm.logS.ori) > 1) {
+    postprob <- apply(S.norm, 2,
+                      function(x) {
+                        fit = PheNorm:::normalmixEM2comp2(x, lambda = 0.5,
+                                                mu = quantile(x, probs=c(1/3, 2/3)), sigsqrd = 1
+                        )
+                        fit$posterior[, 2]
+                      }
+    )
+    list("probs" = rowMeans(postprob, na.rm = TRUE), "betas" = b.all, "scores" = S.norm,
+         "alpha" = a.hat)
+    
+  } else {
+    fit <- PheNorm:::normalmixEM2comp2(unlist(S.norm), lambda = 0.5,
+                             mu = quantile(S.norm, probs=c(1/3, 2/3)), sigsqrd = 1
+    )
+    list("probs" = fit$posterior[,2], "betas" = b.all, "scores" = S.norm,
+         "alpha" = a.hat)
+  }
+}
+
 # get predicted probabilities based on PheNorm model and new data
 #' @param phenorm_model the fitted PheNorm model
 #' @param newdata the new dataset
@@ -306,11 +439,8 @@ predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
   newmat <- as.matrix(newdata)
   silver_label_data <- newmat[, silver_labels, drop = FALSE]
   util <- newmat[, utilization]
-  normal_approximation_minimizer <- apply(silver_label_data, 2, function(s) {
-    PheNorm:::findMagicNumber(s, util)$coef
-  })
   normalized_silver_labels <- silver_label_data -
-    PheNorm:::VTM(normal_approximation_minimizer, nrow(newdata)) * util
+    PheNorm:::VTM(phenorm_model$alpha, nrow(newdata)) * util
   # also add features if we used them
   if (!is.null(features)) {
     feature_data <- newmat[, features, drop = FALSE]
@@ -320,12 +450,14 @@ predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
   }
   # predict, for each silver label separately and overall ("voting")
   phenorm_score <- normalized_data %*% as.matrix(phenorm_model$betas)
-  posterior_probs <- apply(phenorm_score, 2, function(x) {
-    fit <- PheNorm:::normalmixEM2comp2(x, lambda = 0.5,
-                                       mu = quantile(x, probs = c(1/3, 2/3), na.rm = na.rm),
-                                       sigsqrd = ifelse(use_empirical_sd, sd(x, na.rm = na.rm) / 2, 1))
+  original_phenorm_score <- phenorm_model$scores
+  posterior_probs <- do.call(cbind, sapply(1:ncol(phenorm_score), function(i) {
+    fit <- PheNorm:::normalmixEM2comp2(phenorm_score[, i], lambda = 0.5,
+                                       mu = quantile(original_phenorm_score[, i], probs = c(1/3, 2/3), na.rm = na.rm),
+                                       sigsqrd = ifelse(use_empirical_sd, sd(original_phenorm_score[, i], na.rm = na.rm) / 2, 1))
     fit$posterior[, 2]
-  })
+  }, simplify = FALSE))
+  colnames(posterior_probs) <- colnames(phenorm_score)
   posterior_probs_vote <- rowMeans(posterior_probs[, aggregate_labels])
   all_posterior_probs <- cbind.data.frame(posterior_probs, "Aggregate" = posterior_probs_vote)
   return(all_posterior_probs)
@@ -341,7 +473,13 @@ predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
 #'  Defaults to 0.15, the value proposed in Yu et al. (2015).
 afep <- function(dataset = NULL, nlp_label = NULL, features = NULL, threshold = 0.15) {
   mat <- as.matrix(dataset)
-  nlp_label_data <- mat[, nlp_label, drop = FALSE]
+  if (inherits(dataset, "data.frame")) {
+    nms <- names(dataset)
+  } else {
+    nms <- colnames(dataset)
+  }
+  nlp_label_indx <- which(grepl(nlp_label, nms))[1]
+  nlp_label_data <- mat[, nlp_label_indx, drop = FALSE]
   feature_data <- mat[, features, drop = FALSE]
   corrs <- apply(nlp_label_data, 2, function(x) {
     abs(cor(x, feature_data, method = "spearman"))

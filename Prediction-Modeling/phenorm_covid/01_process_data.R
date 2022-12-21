@@ -47,7 +47,7 @@ parser <- add_option(parser, "--train_on_gold", default = FALSE, action = "store
                      help = "Should we train on gold-labeled data too?")
 args <- parse_args(parser)
 source(here::here("phenorm_covid", "phenorm_covid_setup.R"))
-if (grepl("non_negative", args$analysis) & !args$use_nonneg) {
+if (grepl("non_negated", args$analysis) & !args$use_nonneg) {
   args$use_nonneg <- TRUE
 }
 if (!dir.exists(args$analysis_data_dir)) {
@@ -153,9 +153,24 @@ analysis_data <- list(
   "train" = log_train_screened, "test" = log_test_screened, "outcomes" = outcomes,
   "train_all" = log_train_all, "test_all" = log_test_all, "all" = log_all
 )
+# save analysis dataset and some data summary statistics -----------------------
 saveRDS(
   analysis_data, file = paste0(
     args$analysis_data_dir, args$analysis, "_", args$site, "_analysis_data.rds"
   )
+)
+summary_stats <- tibble::tibble(
+  `Summary Statistic` = c("Sample size (total)", "Sample size (completely-observed)",
+                          "Sample size (chart reviewed)", "Number of events",
+                          "Number of NLP features", "Number of NLP features after screen"),
+  `Value` = c(nrow(input_data), nrow(train_all_cc) + nrow(test_all_cc),
+              nrow(test_all_cc), sum(outcomes),
+              ncol(train_nlp) - (length(silver_labels) + 2), # need to account for study id, utilization
+              ncol(train_nlp_screened) - (length(silver_labels) + 2))
+)
+readr::write_csv(
+  summary_stats, file = paste0(
+    args$analysis_data_dir, args$analysis, "_", args$site, "_summary_statistics.csv"
+  ) 
 )
 print("Data processing complete.")
