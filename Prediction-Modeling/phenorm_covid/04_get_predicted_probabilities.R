@@ -23,6 +23,7 @@ parser <- add_option(parser, "--analysis",
                      default = "phase_1_enhanced_symptomatic_covid_all_mentions", help = "The name of the analysis")
 parser <- add_option(parser, "--data_site", default = "kpwa", help = "The site the data to evaluate on came from")
 parser <- add_option(parser, "--model_site", default = "kpwa", help = "The site the where the model was trained")                     
+parser <- add_option(parser, "--study_id", default = "Studyid", help = "The study id variable")
 args <- parse_args(parser)
 source(here::here("phenorm_covid", "phenorm_covid_setup.R"))
 
@@ -34,7 +35,7 @@ analysis_data <- readRDS(
   )
 )
 all_data <- analysis_data$all
-id_var <- which(grepl(studyid, names(all_data), ignore.case = TRUE))
+id_var <- which(grepl(args$study_id, names(all_data), ignore.case = TRUE))
 all_minus_id <- all_data[, -id_var]
 phenorm_analysis <- readRDS(
   file = paste0(

@@ -19,6 +19,6 @@ analysis="${analyses[$i]}"
     fi
     # get predictions on test data, plot results:
     echo "Obtaining external validation results for analysis ${analysis}"
-    Rscript phenorm_covid/03_get_results.R --data_dir "${analysis_data_dir}" --output_dir "${output_dir}" --analysis "$analysis" --data_site "${site}" --model_site "${external_site}" > "./${io_dir}/03_get_results_${analysis}_${site}_${external_site}.out" 2>&1
+    Rscript phenorm_covid/03_get_results.R --data_dir "${analysis_data_dir}" --output_dir "${output_dir}" --analysis "$analysis" --data_site "${site}" --model_site "${external_site}" --study_id ${study_id} > "./${io_dir}/03_get_results_${analysis}_${site}_${external_site}.out" 2>&1
     echo "External results for analysis ${analysis} complete"
 done

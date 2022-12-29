@@ -18,7 +18,7 @@ gold_label=("PTYPE_MODERATE_PLUS_POSITIVE" "PTYPE_MODERATE_PLUS_POSITIVE" \
 valid_label="Train_Eval_Set"
 study_id="Studyid"
 util_var="Utiliz"
-weight_var=""
+weight_var="weight"
 site="kpwa"
 external_site="vumc"
 # toggle dimension reduction on/off, defaults to TRUE
