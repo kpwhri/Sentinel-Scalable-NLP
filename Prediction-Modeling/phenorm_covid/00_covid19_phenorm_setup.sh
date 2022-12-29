@@ -8,10 +8,8 @@ io_dir="phenorm_covid_io_files"
 
 # set up analyses, dataset names, etc.
 # note that the analyses correspond to a specific dataset name
-# analyses=("phase_1_enhanced_symptomatic_covid" "phase_2_enhanced_symptomatic_covid" \
-#           "covid_severity")
-analyses=("phase_1_enhanced_moderateplus_covid_all_mentions" "phase_1_enhanced_moderateplus_covid_non_negated" \
-          "phase_1_enhanced_symptomatic_covid_all_mentions" "phase_1_enhanced_symptomatic_covid_non_negated")
+analyses=("phase_1_updated_moderateplus_covid_all_mentions" "phase_1_updated_moderateplus_covid_non_negated" \
+          "phase_1_updated_symptomatic_covid_all_mentions" "phase_1_updated_symptomatic_covid_non_negated")
 n_analyses=${#analyses[@]}
 data_names=("COVID_PheNorm_N8329_12DEC2022.csv")
 n_datasets=${#data_names[@]}
@@ -20,6 +18,7 @@ gold_label=("PTYPE_MODERATE_PLUS_POSITIVE" "PTYPE_MODERATE_PLUS_POSITIVE" \
 valid_label="Train_Eval_Set"
 study_id="Studyid"
 util_var="Utiliz"
+weight_var=""
 site="kpwa"
 external_site="vumc"
 # toggle dimension reduction on/off, defaults to TRUE
