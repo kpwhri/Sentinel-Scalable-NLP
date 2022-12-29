@@ -54,23 +54,30 @@ process_structured_data <- function(data, vars_to_process, values) {
 #'   that the observation was validated
 #' @param gold_label a string specifying the gold label variable name
 #' @param utilization_variable a string specifying the name of the utilization 
-#'   variable (if empty, a vector of 1s will be created [i.e., no normalization])
+#'   variable (if this variable name doesn't exist in the dataset, a vector of 1s will be created and used [i.e., no normalization])
+#' @param weight a string specifying the name of the inverse probability weights
+#'   (if this variable name doesn't exist in the dataset, a vector of 1s will be created [i.e., no weighting])
 #' @param train_on_gold_data should we train on gold data? defaults to FALSE (i.e., train/test split)
 #' @return a list, with nlp and structured data (both training and testing sets)
 process_data <- function(dataset = NULL, structured_data_names = "AGE",
                          nlp_data_names = "C", study_id = "STUDYID",
                          validation_name = "GOLD_STANDARD_VALIDATION",
                          gold_label = "AP_GOLD_LABEL",
-                         utilization_variable = "",
+                         utilization_variable = "Utiliz",
+                         weight = "weight",
                          train_on_gold_data = FALSE) {
   if (!any(grepl(utilization_variable, names(dataset)))) {
     dataset[[utilization_variable]] <- 1
   }
-  all_data <- dplyr::select(dataset, !!c(matches(study_id),
-                                         matches(validation_name),
-                                         matches(gold_label),
-                                         matches(paste0("^", structured_data_names, "$")), 
-                                         matches(nlp_data_names)))
+  if (!any(grepl(weight, names(dataset)))) {
+    dataset[[weight]] <- 1
+  }
+  all_data <- dplyr::select(
+    dataset, !!c(matches(study_id), matches(validation_name), 
+                 matches(gold_label), matches(weight),
+                 matches(paste0("^", structured_data_names, "$")), 
+                 matches(unique(c(nlp_data_names, utilization_variable))))
+  ) 
   outcome_indx <- which(grepl(gold_label, names(all_data), ignore.case = TRUE))
   valid_indx <- which(grepl(validation_name, names(all_data), ignore.case = TRUE))
   outcomes <- all_data[[outcome_indx]]
@@ -94,15 +101,8 @@ process_data <- function(dataset = NULL, structured_data_names = "AGE",
   test_cc <- test[complete.cases(test), ]
   outcome_indx <- which(grepl(gold_label, names(test_cc), ignore.case = TRUE))
   outcomes <- test_cc[[outcome_indx]]
-  train_structured <- dplyr::select(train_cc, !!c(matches(study_id), 
-                                                  matches(paste0("^", structured_data_names, "$"))))
-  test_structured <- dplyr::select(test_cc, !!c(matches(study_id), 
-                                                matches(paste0("^", structured_data_names, "$"))))
-  train_nlp <- dplyr::select(train_cc, !!c(matches(study_id), matches(nlp_data_names)))
-  test_nlp <- dplyr::select(test_cc, !!c(matches(study_id), matches(nlp_data_names)))
-  return(list("outcome" = outcomes, "train_structured" = train_structured,
-              "train_nlp" = train_nlp, "test_structured" = test_structured,
-              "test_nlp" = test_nlp, "all" = all_data))
+  return(list("outcome" = outcomes, "train" = train_cc, "test" = test_cc,
+              "all" = all_data))
 }
 
 # remove CUI variables based on flags ------------------------------------------
@@ -142,6 +142,7 @@ filter_cui_variables <- function(dataset = NULL, use_nonnegated = TRUE,
 # apply log transformation to structured, NLP variables ------------------------
 #' @param dataset the dataset
 #' @param varnames the variable names to log-transform
+#' @param utilization_var the utilization variable
 #' @return a dataset with the appropriate columns log-transformed
 apply_log_transformation <- function(dataset = NULL, varnames = NULL,
                                      utilization_var = NULL) {
@@ -164,18 +165,24 @@ apply_log_transformation <- function(dataset = NULL, varnames = NULL,
 #' @return train and test datasets screened by AFEP
 phenorm_afep <- function(train = NULL, test = NULL, study_id = "Studyid", cui_of_interest = "C",
                          utilization_variable = "Utiliz",
-                         cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train))],
+                         train_cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train))],
+                         test_cui_cols = (1:ncol(test))[grepl("C[0-9]", names(test))],
                          threshold = 0.15) {
-  cui_col_of_interest <- cui_cols[grepl(cui_of_interest, names(train[, cui_cols]))][1]
-  other_cui_cols <- cui_cols[!grepl(cui_of_interest[1], names(train[, cui_cols]))]
+  cui_col_of_interest <- train_cui_cols[grepl(cui_of_interest, names(train[, train_cui_cols]))][1]
+  test_cui_col_of_interest <- test_cui_cols[grepl(cui_of_interest, names(test[, test_cui_cols]))][1]
+  other_cui_cols <- train_cui_cols[!grepl(cui_of_interest[1], names(train[, train_cui_cols]))]
+  test_other_cui_cols <- test_cui_cols[!grepl(cui_of_interest[1], names(test[, test_cui_cols]))]
   train_selected <- afep(dataset = train %>% select(-!!study_id), nlp_label = cui_of_interest,
                          features = names(train[, other_cui_cols]),
                          threshold = threshold)
-  train_afep_plus <- rep(TRUE, ncol(train_nlp))
+  train_afep_plus <- rep(TRUE, ncol(train))
+  test_afep_plus <- rep(TRUE, ncol(test))
   train_afep_plus[other_cui_cols] <- train_selected
+  test_afep_plus[test_other_cui_cols] <- train_selected
   train_afep_plus[cui_col_of_interest] <- TRUE
+  test_afep_plus[test_cui_col_of_interest] <- TRUE
   train_screened <- train[, train_afep_plus]
-  test_screened <- test[, train_afep_plus]
+  test_screened <- test[, test_afep_plus]
   return(list("train" = train_screened, "test" = test_screened))
 }
 get_f_score <- function(precision, recall, beta) {

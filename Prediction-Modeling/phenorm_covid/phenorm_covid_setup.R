@@ -2,8 +2,8 @@
 # EDIT THIS FILE IF VARIABLE NAMES CHANGE ACROSS SITES
 
 # The number of analyses and analysis names
-all_analyses <- expand.grid(overall = c("phase_1_enhanced_moderateplus_covid",
-                                        "phase_1_enhanced_symptomatic_covid", 
+all_analyses <- expand.grid(overall = c("phase_1_updated_moderateplus_covid",
+                                        "phase_1_updated_symptomatic_covid", 
                                         "phase_2_enhanced_symptomatic_covid", 
                                         "symptomatic", "moderate"),
                             mentions = c("all_mentions", "non_negated"))
@@ -14,7 +14,7 @@ silver_labels <- c("Silver_Struct_1", "Silver_Struct_2",
                    "Silver_NLP_1_COVID19_Hits", 
                    "Silver_NLP_2_COVID19_CUI_Notes")
 # utilization variable, case-insensitive (if it doesn't exist, it will be created as a vector of all 1s)
-utilization_variable <- "Utiliz" 
+utilization_variable <- "Utiliz"
 # study id variable, case-insensitive
 studyid <- "Studyid"
 # structured data, case-insensitive
