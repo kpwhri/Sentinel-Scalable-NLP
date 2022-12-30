@@ -16,25 +16,27 @@ for (( i=0; i<${n_analyses}; i++)); do
         data_name="${data_names[0]}"
     fi
     args=(
-        --data_dir "${raw_data_dir}" --analysis_data_dir "${analysis_data_dir}" \
-        --data_name "${data_name}" --analysis "$analysis" \
-        --gold_label "${gold_label[$i]}" --valid_label "${valid_label}" \
-        --study_id ${study_id} --utilization "${util_var}" --site "${site}"
+        --data-dir "${raw_data_dir}" --analysis-data-dir "${analysis_data_dir}" \
+        --data-name "${data_name}" --analysis "$analysis" \
+        --gold-label "${gold_label[$i]}" --valid-label "${valid_label}" \
+        --study-id ${study_id} --utilization "${util_var}"  \
+        --weight ${weight_var} --site "${site}" --cui "${cui_of_interest}" \
+        --train-value ${train_value} --nonneg-label ${nonneg_label}
     )
     if [[ ${analysis} =~ "non_negated" ]]; then
-        args+=(--no_nonneg)
+        args+=(--no-nonneg)
     fi
     if [ ${no_dimension_reduction} -ge 1 ]; then
-        args+=(--no_afep)
+        args+=(--no-afep)
     fi
     if [ ${no_nonnormalized_data} -ge 1 ]; then
-        args+=(--no_nonnormalized)
+        args+=(--no-nonnormalized)
     fi
     if [ ${no_normalized_data} -ge 1 ]; then
-        args+=(--no_normalized)
+        args+=(--no-normalized)
     fi
     if [ ${train_on_gold_data} -ge 1 ]; then
-        args+=(--train_on_gold)
+        args+=(--train-on-gold)
     fi
     # process the dataset: 
     echo "Processing data for analysis ${analysis}"
