@@ -23,7 +23,7 @@ parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
 parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
-args <- parse_args(parser)
+args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 fit_output_dir <- paste0(args$output_dir, "fits/")
 results_output_dir <- paste0(args$output_dir, "plots_and_tables/")
