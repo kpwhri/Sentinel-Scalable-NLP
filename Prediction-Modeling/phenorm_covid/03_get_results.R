@@ -6,6 +6,8 @@
 library("optparse")
 library("tidyverse")
 library("PheNorm")
+library("ROCR")
+library("WeightedROC")
 library("here")
 
 here::i_am("phenorm_covid/README.md")
@@ -21,6 +23,8 @@ parser <- add_option(parser, "--output-dir",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
+parser <- add_option(parser, "--weight", default = "weight", 
+                     help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
 parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
 args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
@@ -90,6 +94,7 @@ if (args$model_site == args$data_site) {
 perf_names <- names(preds)
 perf_list <- lapply(as.list(1:ncol(preds)), function(k) {
   get_performance_metrics(predictions = preds[[k]], labels = outcomes,
+                          weights = analysis_data$test[[args$weight]],
                           identifier = perf_names[k])
 })
 perf <- map_dfr(perf_list, bind_rows)
