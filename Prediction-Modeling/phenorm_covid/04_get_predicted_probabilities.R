@@ -21,6 +21,8 @@ parser <- add_option(parser, "--output-dir",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic", help = "The name of the analysis")
+parser <- add_option(parser, "--weight", default = "weight", 
+                     help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
 parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
 parser <- add_option(parser, "--study-id", default = "Studyid", help = "The study id variable")
