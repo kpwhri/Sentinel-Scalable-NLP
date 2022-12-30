@@ -18,7 +18,7 @@ for (( i=0; i<${n_analyses}; i++)); do
     fi
     # run PheNorm on the training data:
     echo "Running PheNorm for analysis ${analysis}"
-    Rscript phenorm_covid/02_run_phenorm.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --silver-labels ${silver_labels} --seed $seed --utilization ${util_var} --weight ${weight_var} --corrupt-rate ${corrupt_rate} --train-size-multiplier ${train_size_mult} --site "${site}" > "./${io_dir}/02_run_phenorm_${analysis}.out" 2>&1
+    Rscript phenorm_covid/02_run_phenorm.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --seed $seed --utilization ${util_var} --weight ${weight_var} --corrupt-rate ${corrupt_rate} --train-size-multiplier ${train_size_mult} --site "${site}" > "./${io_dir}/02_run_phenorm_${analysis}.out" 2>&1
     # get predictions on test data, plot results:
     echo "Obtaining internal validation results for analysis ${analysis}"
     Rscript phenorm_covid/03_get_results.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --data-site "${site}" --model-site "${site}" > "./${io_dir}/03_get_results_${analysis}.out" 2>&1
