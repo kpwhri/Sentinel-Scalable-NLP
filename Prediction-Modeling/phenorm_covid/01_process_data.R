@@ -180,7 +180,8 @@ log_all <- apply_log_transformation(
 
 analysis_data <- list(
   "train" = log_train_screened, "test" = log_test_screened, "outcomes" = outcomes,
-  "train_all" = log_train_all, "test_all" = log_test_all, "all" = log_all
+  "train_all" = log_train_all, "test_all" = log_test_all, "all" = log_all,
+  "utilization_variable" = args$utilization, "silver_labels" = silver_labels
 )
 # save analysis dataset and some data summary statistics -----------------------
 saveRDS(

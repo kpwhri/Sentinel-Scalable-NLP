@@ -46,9 +46,7 @@ analysis_data <- readRDS(
     args$data_dir, args$analysis, "_", args$site, "_analysis_data.rds"
   )
 )
-# note that "silver" is required to be in the variable name for all silver labels
-data_names <- names(analysis_data$train)
-silver_labels <- data_names[grepl("silver", data_names, ignore.case = TRUE)]
+silver_labels <- analysis_data$silver_labels
 # run PheNorm on training data, predict on test data --------------------------
 phenorm_analysis <- run_phenorm(
   train = analysis_data$train, test = analysis_data$test,

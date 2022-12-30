@@ -33,6 +33,7 @@ analysis_data <- readRDS(
     args$data_dir, args$analysis, "_", args$data_site, "_analysis_data.rds"
   )
 )
+silver_labels <- analysis_data$silver_labelsoutcomes <- analysis_data$outcomes
 all_data <- analysis_data$all
 id_var <- which(grepl(args$study_id, names(all_data), ignore.case = TRUE))
 all_minus_id <- all_data[, -id_var]
@@ -46,12 +47,12 @@ fit <- phenorm_analysis$fit
 # make predictions on entire dataset -------------------------------------------
 # get features used to train PheNorm model
 model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
-model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels, utilization_variable))]
+model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels))]
 set.seed(1234)
 preds <- predict.PheNorm(
   phenorm_model = fit, newdata = all_minus_id, silver_labels = silver_labels,
   features = model_features,
-  utilization = utilization_variable, aggregate_labels = silver_labels
+  utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels
 )
 names(preds) <- paste0("pred_prob_", names(preds))
 pred_dataset <- cbind.data.frame(all_data[[id_var]], preds)

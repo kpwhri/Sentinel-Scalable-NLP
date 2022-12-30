@@ -58,7 +58,8 @@ analysis_data <- readRDS(
     args$data_dir, args$analysis, "_", args$data_site, "_analysis_data.rds"
   )
 )
-outcomes <- analysis_data$outcomes
+# note that "silver" is required to be in the variable name for all silver labels
+silver_labels <- analysis_data$silver_labelsoutcomes <- analysis_data$outcomes
 phenorm_analysis <- readRDS(
   file = paste0(
     fit_output_dir, args$analysis, "_", args$model_site, "_phenorm_output.rds"
@@ -66,7 +67,7 @@ phenorm_analysis <- readRDS(
 )
 fit <- phenorm_analysis$fit
 model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
-model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels, utilization_variable))]
+model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels))]
 if (args$model_site == args$data_site) {
   preds <- phenorm_analysis$preds
 } else {
@@ -75,7 +76,7 @@ if (args$model_site == args$data_site) {
   preds <- predict.PheNorm(
     phenorm_model = fit, newdata = analysis_data$test_all, silver_labels = silver_labels,
     features = model_features,
-    utilization = utilization_variable, aggregate_labels = silver_labels
+    utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels
   )
   saveRDS(
     preds, file = paste0(
