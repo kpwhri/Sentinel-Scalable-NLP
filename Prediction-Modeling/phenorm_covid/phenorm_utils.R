@@ -6,21 +6,21 @@
 #' @param silver_labels the silver labels to use  (a character vector)
 #' @param features the features (both structured and NLP) to use (a character vector)
 #' @param utilization the utilization variable (a string)
-#' @param seeds a vector with two random number seeds, one for the phenorm fit and one for the predictions
+#' @param seed a random number seed
 #' @param aggregate_labels a character vector of which labels to aggregate over
 #' @param ... other arguments to pass to PheNorm
 run_phenorm <- function(train = NULL, test = NULL, silver_labels = "", features = "",
-                        utilization = "", seeds = c(1, 2), aggregate_labels = silver_labels,
-                        ...) {
+                        utilization = "", weight = "", seed = 1234, 
+                        aggregate_labels = silver_labels, ...) {
   L <- list(...)
   corrupt_rate <- ifelse(is.null(L$corrupt.rate), .3, L$corrupt.rate)
   train_size <- ifelse(is.null(L$train.size), 10 * nrow(train), L$train.size)
-  set.seed(seeds[1])
+  set.seed(seed)
   phenorm_fit <- phenorm_prob(
-    nm.logS.ori = silver_labels, nm.utl = utilization, dat = train,
+    nm.logS.ori = silver_labels, nm.utl = utilization, nm.wt = weight, dat = train,
     nm.X = features, corrupt.rate = corrupt_rate, train.size = train_size
   )
-  set.seed(seeds[2])
+  set.seed(seed)
   phenorm_preds <- predict.PheNorm(
     phenorm_model = phenorm_fit, newdata = test, silver_labels = silver_labels,
     features = features, utilization = utilization, aggregate_labels = aggregate_labels
@@ -35,8 +35,11 @@ run_phenorm <- function(train = NULL, test = NULL, silver_labels = "", features 
 # @param vars_to_process a vector of variable names to process from strings to binary
 # @param values the value to use for each variable to define a 1
 process_structured_data <- function(data, vars_to_process, values) {
-  for (i in seq_len(length(vars_to_process))) {
-    var <- vars_to_process[i]
+  # is_chr <- 
+  is_chr_bin <- apply(data, 2, function(x) length(unique(x)) == 2 & !is.numeric(x))
+  bin_names <- names(data)[is_chr_bin]
+  for (i in seq_len(length(bin_names))) {
+    var <- bin_names[i]
     val <- values[i]
     indx <- which(grepl(var, names(data), ignore.case = TRUE))
     data[[indx]] <- ifelse(data[[indx]] == val, 1, 0)
@@ -362,6 +365,7 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
 #'
 #' @param nm.logS.ori name of the surrogates (log(ICD+1), log(NLP+1) and log(ICD+NLP+1))
 #' @param nm.utl name of healthcare utilization (e.g. note count, encounter_num etc)
+#' @param nm.wt name of the weighting variable
 #' @param dat all data columns need to be log-transformed and need column names
 #' @param nm.X additional features other than the main ICD and NLP
 #' @param corrupt.rate rate for random corruption denoising, between 0 and 1, default value=0.3
@@ -376,23 +380,34 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
 #' head(fit.phenorm$probs)
 #' }
 #' @export
-phenorm_prob <- function(nm.logS.ori, nm.utl, dat, nm.X = NULL, corrupt.rate = 0.3, train.size = 10 * nrow(dat)) {
+phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.rate = 0.3, train.size = 10 * nrow(dat)) {
   dat <- as.matrix(dat)
   S.ori <- dat[, nm.logS.ori, drop = FALSE]
-  utl <- dat[, nm.utl]
+  utl <- dat[, nm.utl, drop = FALSE]
+  wt <- dat[, nm.wt, drop = FALSE]
   a.hat <- apply(S.ori, 2, function(S) {PheNorm:::findMagicNumber(S, utl)$coef})
-  S.norm <- S.ori - PheNorm:::VTM(a.hat, nrow(dat)) * utl
+  S.norm <- S.ori - PheNorm:::VTM(a.hat, nrow(dat)) * as.vector(utl)
   if (!is.null(nm.X)) {
-    X <- as.matrix(dat[, nm.X])
-    SX.norm <- cbind(S.norm, X, utl)
+    X <- as.matrix(dat[, nm.X, drop = FALSE])
+    if (length(unique(utl)) == 1) {
+      SX.norm <- cbind(S.norm, X, wt)
+    } else {
+      SX.norm <- cbind(S.norm, X, utl, wt) 
+    }
     id <- sample(1:nrow(dat), train.size, replace = TRUE)
     SX.norm.corrupt <- apply(SX.norm[id, ], 2,
                              function(x) {ifelse(rbinom(length(id), 1, corrupt.rate), mean(x), x)}
     )
-    b.all <- apply(S.norm, 2, function(ss) {lm(ss[id] ~ SX.norm.corrupt - 1)$coef})
+    sx_norm_df <- as.data.frame(SX.norm.corrupt)
+    b.all <- apply(S.norm, 2, function(ss) {
+      lm(ss[id] ~ . - 1, data = sx_norm_df[, !(names(sx_norm_df) %in% nm.wt)], 
+         weights = sx_norm_df[[nm.wt]])$coef
+    })
     b.all[is.na(b.all)] <- 0
-    S.norm <- as.matrix(SX.norm) %*% b.all
-    b.all <- b.all[-dim(b.all)[1], ]
+    S.norm <- as.matrix(SX.norm[, !(colnames(SX.norm) %in% nm.wt)]) %*% b.all
+    if (length(unique(utl)) > 1) {
+      b.all <- b.all[-dim(b.all)[1], ] 
+    }
   } else {
     b.all <- NULL
   }
