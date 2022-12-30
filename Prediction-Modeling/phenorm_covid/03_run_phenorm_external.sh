@@ -11,7 +11,8 @@ source phenorm_covid/00_covid19_phenorm_setup.sh
 
 # for each analysis, do the following steps (external): ------------------------
 for (( i=0; i<${n_analyses}; i++)); do
-analysis="${analyses[$i]}"
+    analysis="${analyses[$i]}"
+    seed="${rng_seeds[$i]}"
     if [ $n_datasets -ge 2 ]; then
         data_name="${data_names[$i]}"
     else 
