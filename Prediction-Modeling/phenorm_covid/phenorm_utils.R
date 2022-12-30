@@ -193,40 +193,64 @@ get_f_score <- function(precision, recall, beta) {
 }
 
 # Compute performance metrics on gold-standard data ----------------------------
-get_performance_metrics <- function(predictions = NULL, labels = NULL, identifier = "model 1") {
-  pred_obj <- ROCR::prediction(
-    predictions = predictions, labels = labels
-  )
-  auc <- unlist(ROCR::performance(
-    prediction.obj = pred_obj, measure = "auc"
-  )@y.values)
-  sens_spec <- ROCR::performance(
-    prediction.obj = pred_obj, measure = "tpr", x.measure = "fpr"
-  )
-  prec_rec <- ROCR::performance(
-    prediction.obj = pred_obj, measure = "prec", x.measure = "rec"
-  )
-  # could also use ROCR, with alpha = 1 / (1 + beta ^ 2)
-  f1_score <- get_f_score(unlist(prec_rec@y.values), unlist(prec_rec@x.values), beta = 1)
-  f05_score <- get_f_score(unlist(prec_rec@y.values), unlist(prec_rec@x.values), beta = 0.5)
-  spec <- 1 - unlist(sens_spec@x.values)
-  sens <- unlist(sens_spec@y.values)
-  ppv <- unlist(ROCR::performance(
-    prediction.obj = pred_obj, measure = "ppv"
-  )@y.values)
-  npv <- unlist(ROCR::performance(
-    prediction.obj = pred_obj, measure = "npv"
-  )@y.values)
+# @param predictions the predictions on test data
+# @param labels the true outcome labels from test data
+# @param weights the inverse probability of sampling weights into the test data
+# @param identifier the silver label that we're computing performance for
+get_performance_metrics <- function(predictions = NULL, labels = NULL, 
+                                    weights = rep(1, length(predictions)), 
+                                    identifier = "model 1") {
+  if (all.equal(weights, rep(1, length(predictions)))) {
+    pred_obj <- ROCR::prediction(
+      predictions = predictions, labels = labels
+    )
+    auc <- unlist(ROCR::performance(
+      prediction.obj = pred_obj, measure = "auc"
+    )@y.values)
+    sens_spec <- ROCR::performance(
+      prediction.obj = pred_obj, measure = "tpr", x.measure = "fpr"
+    )
+    prec_rec <- ROCR::performance(
+      prediction.obj = pred_obj, measure = "prec", x.measure = "rec"
+    )
+    # could also use ROCR, with alpha = 1 / (1 + beta ^ 2)
+    f1_score <- get_f_score(unlist(prec_rec@y.values), unlist(prec_rec@x.values), beta = 1)
+    f05_score <- get_f_score(unlist(prec_rec@y.values), unlist(prec_rec@x.values), beta = 0.5)
+    spec <- 1 - unlist(sens_spec@x.values)
+    sens <- unlist(sens_spec@y.values)
+    ppv <- unlist(ROCR::performance(
+      prediction.obj = pred_obj, measure = "ppv"
+    )@y.values)
+    npv <- unlist(ROCR::performance(
+      prediction.obj = pred_obj, measure = "npv"
+    )@y.values)
+    cutoffs <- unlist(sens_spec@alpha.values)
+  } else {
+    pred_obj_init <- WeightedROC::WeightedROC(guess = predictions, label = labels,
+                                              weight = weights)
+    # flip around to match ROCR (decreasing cutoff)
+    pred_obj <- pred_obj_init[order(pred_obj_init$threshold, decreasing = TRUE), ] 
+    auc <- WeightedROC::WeightedAUC(tpr.fpr = pred_obj_init)
+    sens <- pred_obj$TPR
+    spec <- 1 - pred_obj$FPR
+    tp <- sum(labels) - pred_obj$FN
+    tn <- sum(labels == 0) - pred_obj$FP
+    ppv <- tp / (tp + pred_obj$FP)
+    npv <- tn / (tn + pred_obj$FN)
+    f1_score <- get_f_score(ppv, sens, beta = 1)
+    f05_score <- get_f_score(ppv, sens, beta = 0.5)
+    cutoffs <- pred_obj$threshold
+  }
   perf <- list("Sensitivity" = sens, "Specificity" = spec,
                "PPV" = ppv, "NPV" = npv, "F1" = f1_score, "F0.5" = f05_score)
   cutoff_dependent <- do.call(rbind.data.frame,
-    lapply(as.list(seq_len(length(perf))),
-    function(l) cbind.data.frame("measure" = names(perf)[l],
-                                 "perf" = perf[[l]],
-                                 "cutoff" = unlist(sens_spec@alpha.values)))
+                              lapply(as.list(seq_len(length(perf))),
+                                     function(l) cbind.data.frame("measure" = names(perf)[l],
+                                                                  "perf" = perf[[l]],
+                                                                  "cutoff" = cutoffs))
   )
   percentile_function <- ecdf(predictions)
-  cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff)
+  cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff) 
   output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, cutoff_dependent)
   return(output_tibble)
 }
