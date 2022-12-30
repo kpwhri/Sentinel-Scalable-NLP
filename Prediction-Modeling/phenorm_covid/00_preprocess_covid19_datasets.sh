@@ -8,9 +8,6 @@
 source phenorm_covid/00_covid19_phenorm_setup.sh
 
 # ensure that required packages are installed by first running install_packages.sh
-# redefine analyses, n_analyses (since we only need preprocessed data specific to the outcome, features of interest)
-analyses=("phase_1_updated_moderateplus_covid" "phase_1_updated_symptomatic_covid")
-n_analyses=${#analyses[@]}
 
 # for each analysis, do the following steps (internal): ------------------------
 for (( i=0; i<${n_analyses}; i++)); do
