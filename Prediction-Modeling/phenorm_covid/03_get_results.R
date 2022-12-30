@@ -59,7 +59,8 @@ analysis_data <- readRDS(
   )
 )
 # note that "silver" is required to be in the variable name for all silver labels
-silver_labels <- analysis_data$silver_labelsoutcomes <- analysis_data$outcomes
+silver_labels <- analysis_data$silver_labels
+outcomes <- analysis_data$outcomes
 phenorm_analysis <- readRDS(
   file = paste0(
     fit_output_dir, args$analysis, "_", args$model_site, "_phenorm_output.rds"
