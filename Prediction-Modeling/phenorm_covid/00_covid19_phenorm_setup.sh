@@ -1,24 +1,42 @@
 #!/bin/bash
 
 # Project-specific setup
+# This is the only file that should have to be edited!
 
-# set up i/o output directory
+# set up i/o output directory 
 mkdir -p ./phenorm_covid_io_files
 io_dir="phenorm_covid_io_files"
 
-# set up analyses, dataset names, etc.
-# note that the analyses correspond to a specific dataset name
+# set up analyses to run: note that the analyses correspond to a specific dataset name
 analyses=("phase_1_updated_moderateplus_covid_all_mentions" "phase_1_updated_moderateplus_covid_non_negated" \
           "phase_1_updated_symptomatic_covid_all_mentions" "phase_1_updated_symptomatic_covid_non_negated")
 n_analyses=${#analyses[@]}
-data_names=("COVID_PheNorm_N8329_12DEC2022.csv")
+# dataset name 
+raw_data_names=("COVID_PheNorm_N8329_12DEC2022.csv")
+data_names=("phase_1_updated_moderateplus_covid_kpwa_preprocessed.rds" \
+            "phase_1_updated_moderateplus_covid_kpwa_preprocessed.rds" \
+            "phase_1_updated_symptomatic_covid_kpwa_preprocessed.rds" \
+            "phase_1_updated_symptomatic_covid_kpwa_preprocessed.rds")
 n_datasets=${#data_names[@]}
+# gold labels: must be the same length as the analyses to run
 gold_label=("PTYPE_MODERATE_PLUS_POSITIVE" "PTYPE_MODERATE_PLUS_POSITIVE" \
             "PTYPE_SYMPTOMATIC_POSITIVE" "PTYPE_SYMPTOMATIC_POSITIVE")
+# random number seeds: must be the same length as the analyses to run
+# note that if this wasn't set, the same seed would be set for each analysis
+rng_seeds=(1234 5678 91011 121314)
+# arguments to pass to PheNorm, overrides defaults
+corrupt_rate=0.3
+train_size_mult=13
+# Variable names and helpful values
 valid_label="Train_Eval_Set"
+train_value="Training"
+nonneg_label="_nonneg"
 study_id="Studyid"
 util_var="Utiliz"
 weight_var="weight"
+# CUI of interest
+cui_of_interest="C5203670"
+# model development site and external validation site
 site="kpwa"
 external_site="vumc"
 # toggle dimension reduction on/off, defaults to TRUE
