@@ -43,7 +43,7 @@ args$analysis <- gsub("_non_negated", "", gsub("_all_mentions", "", args$analysi
 # read in the raw dataset
 input_data <- readr::read_csv(paste0(args$data_dir, args$data_name), na = c("NA", ".", ""))
 
-# pull only outcome, features of interest. EDIT IF NECESSARY
+# pull only outcome, silver labels, features of interest. EDIT IF NECESSARY
 if (grepl("phase_1_updated", args$analysis)) {
   structured_features <- c("Gender_F", "Age_Index_Yrs")
 }
@@ -53,7 +53,11 @@ filtered_data <- input_data %>%
   select(!!c(matches(args$study_id), matches(args$gold_label),
              matches(args$valid_label), matches("silver"), matches(args$utilization),
              matches(args$weight), matches(paste0("^", structured_features, "$")),
-             matches(cui_names)))
+             matches(cui_names))) 
+if (any(grepl("Silver_NLP_2_COVID19_CUI_Days", names(filtered_data), ignore.case = TRUE))) {
+  filtered_data <- filtered_data %>% 
+    select(-Silver_NLP_2_COVID19_CUI_Days)
+}
 
 # recode outcome, train/eval, gender, etc. (EDIT IF NECESSARY)
 recoded_data <- filtered_data %>% 
