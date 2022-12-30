@@ -13,18 +13,18 @@ here::i_am("phenorm_covid/README.md")
 source(here::here("phenorm_covid", "phenorm_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
-parser <- add_option(parser, "--data_dir",
+parser <- add_option(parser, "--data-dir",
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The input data directory")
-parser <- add_option(parser, "--output_dir",
+parser <- add_option(parser, "--output-dir",
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic", help = "The name of the analysis")
-parser <- add_option(parser, "--data_site", default = "kpwa", help = "The site the data to evaluate on came from")
-parser <- add_option(parser, "--model_site", default = "kpwa", help = "The site the where the model was trained")                     
-parser <- add_option(parser, "--study_id", default = "Studyid", help = "The study id variable")
-args <- parse_args(parser)
+parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
+parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
+parser <- add_option(parser, "--study-id", default = "Studyid", help = "The study id variable")
+args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 fit_output_dir <- paste0(args$output_dir, "fits/")
 # load in data and fitted PheNorm object ---------------------------------------

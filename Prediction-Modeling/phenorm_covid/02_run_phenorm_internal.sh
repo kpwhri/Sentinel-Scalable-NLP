@@ -24,6 +24,6 @@ for (( i=0; i<${n_analyses}; i++)); do
     Rscript phenorm_covid/03_get_results.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --data-site "${site}" --model-site "${site}" > "./${io_dir}/03_get_results_${analysis}.out" 2>&1
     # get predictions on entire dataset
     echo "Obtaining predicted probabilities on entire dataset for analysis ${analysis}"
-    Rscript phenorm_covid/04_get_predicted_probabilities.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --data-site "${site}" --model-site "${site}" > "./${io_dir}/04_get_predprobs_${analysis}.out" 2>&1
+    Rscript phenorm_covid/04_get_predicted_probabilities.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --data-site "${site}" --model-site "${site}" --study-id ${study_id} > "./${io_dir}/04_get_predprobs_${analysis}.out" 2>&1
     echo "Model training and internal results for analysis ${analysis} complete"
 done
