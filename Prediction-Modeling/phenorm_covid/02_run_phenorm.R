@@ -13,24 +13,27 @@ here::i_am("phenorm_covid/README.md")
 source(here::here("phenorm_covid", "phenorm_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
-parser <- add_option(parser, "--data_dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets/",
+parser <- add_option(parser, "--data-dir",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The input data directory")
-parser <- add_option(parser, "--output_dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results/",
+parser <- add_option(parser, "--output-dir",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
-                     default = "phase_1_enhanced_symptomatic_covid_all_mentions",
+                     default = "phase_1_updated_symptomatic_covid",
                      help = "The name of the analysis")
+parser <- add_option(parser, "--seed", type = "integer", default = 4747,
+                     help = "The random number seed to use")
+parser <- add_option(parser, "--utilization", default = "Utiliz", 
+                     help = "The utilization variable")
+parser <- add_option(parser, "--weight", default = "weight", 
+                     help = "Inverse probability of selection into gold-standard set")
+parser <- add_option(parser, "--corrupt-rate", type = "double", default = 0.3,
+                     help = "The 'corruption rate' for PheNorm 'denoising'")
+parser <- add_option(parser, "--train-size-multiplier", type = "integer", default = 13,
+                     help = "The multiplier to use for inflating training set size")
 parser <- add_option(parser, "--site", default = "kpwa", help = "The site at which the model is being developed")                     
-args <- parse_args(parser)
-source(here::here("phenorm_covid", "phenorm_covid_setup.R"))
-
-# generate all necessary random number seeds (2 * n_analyses)
-set.seed(4747)
-seeds <- round(runif(2 * n_analyses, 1e4, 1e5))
-bool <- args$analysis == analysis_names
-these_seeds <- seeds[c(which(bool), n_analyses + which(bool))]
+args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 fit_output_dir <- paste0(args$output_dir, "fits/")
 if (!dir.exists(fit_output_dir)) {
@@ -43,16 +46,16 @@ analysis_data <- readRDS(
     args$data_dir, args$analysis, "_", args$site, "_analysis_data.rds"
   )
 )
-
+silver_labels <- analysis_data$silver_labels
 # run PheNorm on training data, predict on test data --------------------------
 phenorm_analysis <- run_phenorm(
   train = analysis_data$train, test = analysis_data$test,
   silver_labels = silver_labels, aggregate_labels = silver_labels,
   features = names(analysis_data$train %>% 
-                    select(-!!c(silver_labels, utilization_variable))), 
-  utilization = utilization_variable, seeds = these_seeds, 
-  corrupt.rate = corrupt_rate, 
-  train.size = train_size_multiplier * nrow(analysis_data$train)
+                    select(-!!c(silver_labels, args$utilization, args$weight))), 
+  utilization = args$utilization, seed = args$seed, 
+  weight = args$weight, corrupt.rate = args$corrupt_rate, 
+  train.size = args$train_size_multiplier * nrow(analysis_data$train)
 )
 saveRDS(
   phenorm_analysis, file = paste0(

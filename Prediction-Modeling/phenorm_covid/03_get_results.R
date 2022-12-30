@@ -6,6 +6,8 @@
 library("optparse")
 library("tidyverse")
 library("PheNorm")
+library("ROCR")
+library("WeightedROC")
 library("here")
 
 here::i_am("phenorm_covid/README.md")
@@ -13,18 +15,19 @@ here::i_am("phenorm_covid/README.md")
 source(here::here("phenorm_covid", "phenorm_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
-parser <- add_option(parser, "--data_dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets/",
+parser <- add_option(parser, "--data-dir",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The input data directory")
-parser <- add_option(parser, "--output_dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results/",
+parser <- add_option(parser, "--output-dir",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
-                     default = "phase_1_enhanced_symptomatic_covid_all_mentions", help = "The name of the analysis")
-parser <- add_option(parser, "--data_site", default = "kpwa", help = "The site the data to evaluate on came from")
-parser <- add_option(parser, "--model_site", default = "kpwa", help = "The site the where the model was trained")                     
-args <- parse_args(parser)
-source(here::here("phenorm_covid", "phenorm_covid_setup.R"))
+                     default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
+parser <- add_option(parser, "--weight", default = "weight", 
+                     help = "Inverse probability of selection into gold-standard set")
+parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
+parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
+args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 fit_output_dir <- paste0(args$output_dir, "fits/")
 results_output_dir <- paste0(args$output_dir, "plots_and_tables/")
@@ -59,6 +62,8 @@ analysis_data <- readRDS(
     args$data_dir, args$analysis, "_", args$data_site, "_analysis_data.rds"
   )
 )
+# note that "silver" is required to be in the variable name for all silver labels
+silver_labels <- analysis_data$silver_labels
 outcomes <- analysis_data$outcomes
 phenorm_analysis <- readRDS(
   file = paste0(
@@ -67,7 +72,7 @@ phenorm_analysis <- readRDS(
 )
 fit <- phenorm_analysis$fit
 model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
-model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels, utilization_variable))]
+model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels))]
 if (args$model_site == args$data_site) {
   preds <- phenorm_analysis$preds
 } else {
@@ -76,7 +81,7 @@ if (args$model_site == args$data_site) {
   preds <- predict.PheNorm(
     phenorm_model = fit, newdata = analysis_data$test_all, silver_labels = silver_labels,
     features = model_features,
-    utilization = utilization_variable, aggregate_labels = silver_labels
+    utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels
   )
   saveRDS(
     preds, file = paste0(
@@ -89,6 +94,7 @@ if (args$model_site == args$data_site) {
 perf_names <- names(preds)
 perf_list <- lapply(as.list(1:ncol(preds)), function(k) {
   get_performance_metrics(predictions = preds[[k]], labels = outcomes,
+                          weights = analysis_data$test[[args$weight]],
                           identifier = perf_names[k])
 })
 perf <- map_dfr(perf_list, bind_rows)

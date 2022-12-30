@@ -6,21 +6,21 @@
 #' @param silver_labels the silver labels to use  (a character vector)
 #' @param features the features (both structured and NLP) to use (a character vector)
 #' @param utilization the utilization variable (a string)
-#' @param seeds a vector with two random number seeds, one for the phenorm fit and one for the predictions
+#' @param seed a random number seed
 #' @param aggregate_labels a character vector of which labels to aggregate over
 #' @param ... other arguments to pass to PheNorm
 run_phenorm <- function(train = NULL, test = NULL, silver_labels = "", features = "",
-                        utilization = "", seeds = c(1, 2), aggregate_labels = silver_labels,
-                        ...) {
+                        utilization = "", weight = "", seed = 1234, 
+                        aggregate_labels = silver_labels, ...) {
   L <- list(...)
   corrupt_rate <- ifelse(is.null(L$corrupt.rate), .3, L$corrupt.rate)
   train_size <- ifelse(is.null(L$train.size), 10 * nrow(train), L$train.size)
-  set.seed(seeds[1])
+  set.seed(seed)
   phenorm_fit <- phenorm_prob(
-    nm.logS.ori = silver_labels, nm.utl = utilization, dat = train,
+    nm.logS.ori = silver_labels, nm.utl = utilization, nm.wt = weight, dat = train,
     nm.X = features, corrupt.rate = corrupt_rate, train.size = train_size
   )
-  set.seed(seeds[2])
+  set.seed(seed)
   phenorm_preds <- predict.PheNorm(
     phenorm_model = phenorm_fit, newdata = test, silver_labels = silver_labels,
     features = features, utilization = utilization, aggregate_labels = aggregate_labels
@@ -35,8 +35,11 @@ run_phenorm <- function(train = NULL, test = NULL, silver_labels = "", features 
 # @param vars_to_process a vector of variable names to process from strings to binary
 # @param values the value to use for each variable to define a 1
 process_structured_data <- function(data, vars_to_process, values) {
-  for (i in seq_len(length(vars_to_process))) {
-    var <- vars_to_process[i]
+  # is_chr <- 
+  is_chr_bin <- apply(data, 2, function(x) length(unique(x)) == 2 & !is.numeric(x))
+  bin_names <- names(data)[is_chr_bin]
+  for (i in seq_len(length(bin_names))) {
+    var <- bin_names[i]
     val <- values[i]
     indx <- which(grepl(var, names(data), ignore.case = TRUE))
     data[[indx]] <- ifelse(data[[indx]] == val, 1, 0)
@@ -54,23 +57,30 @@ process_structured_data <- function(data, vars_to_process, values) {
 #'   that the observation was validated
 #' @param gold_label a string specifying the gold label variable name
 #' @param utilization_variable a string specifying the name of the utilization 
-#'   variable (if empty, a vector of 1s will be created [i.e., no normalization])
+#'   variable (if this variable name doesn't exist in the dataset, a vector of 1s will be created and used [i.e., no normalization])
+#' @param weight a string specifying the name of the inverse probability weights
+#'   (if this variable name doesn't exist in the dataset, a vector of 1s will be created [i.e., no weighting])
 #' @param train_on_gold_data should we train on gold data? defaults to FALSE (i.e., train/test split)
 #' @return a list, with nlp and structured data (both training and testing sets)
 process_data <- function(dataset = NULL, structured_data_names = "AGE",
                          nlp_data_names = "C", study_id = "STUDYID",
                          validation_name = "GOLD_STANDARD_VALIDATION",
                          gold_label = "AP_GOLD_LABEL",
-                         utilization_variable = "",
+                         utilization_variable = "Utiliz",
+                         weight = "weight",
                          train_on_gold_data = FALSE) {
   if (!any(grepl(utilization_variable, names(dataset)))) {
     dataset[[utilization_variable]] <- 1
   }
-  all_data <- dplyr::select(dataset, !!c(matches(study_id),
-                                         matches(validation_name),
-                                         matches(gold_label),
-                                         matches(paste0("^", structured_data_names, "$")), 
-                                         matches(nlp_data_names)))
+  if (!any(grepl(weight, names(dataset)))) {
+    dataset[[weight]] <- 1
+  }
+  all_data <- dplyr::select(
+    dataset, !!c(matches(study_id), matches(validation_name), 
+                 matches(gold_label), matches(weight),
+                 matches(paste0("^", structured_data_names, "$")), 
+                 matches(unique(c(nlp_data_names, utilization_variable))))
+  ) 
   outcome_indx <- which(grepl(gold_label, names(all_data), ignore.case = TRUE))
   valid_indx <- which(grepl(validation_name, names(all_data), ignore.case = TRUE))
   outcomes <- all_data[[outcome_indx]]
@@ -94,15 +104,8 @@ process_data <- function(dataset = NULL, structured_data_names = "AGE",
   test_cc <- test[complete.cases(test), ]
   outcome_indx <- which(grepl(gold_label, names(test_cc), ignore.case = TRUE))
   outcomes <- test_cc[[outcome_indx]]
-  train_structured <- dplyr::select(train_cc, !!c(matches(study_id), 
-                                                  matches(paste0("^", structured_data_names, "$"))))
-  test_structured <- dplyr::select(test_cc, !!c(matches(study_id), 
-                                                matches(paste0("^", structured_data_names, "$"))))
-  train_nlp <- dplyr::select(train_cc, !!c(matches(study_id), matches(nlp_data_names)))
-  test_nlp <- dplyr::select(test_cc, !!c(matches(study_id), matches(nlp_data_names)))
-  return(list("outcome" = outcomes, "train_structured" = train_structured,
-              "train_nlp" = train_nlp, "test_structured" = test_structured,
-              "test_nlp" = test_nlp, "all" = all_data))
+  return(list("outcome" = outcomes, "train" = train_cc, "test" = test_cc,
+              "all" = all_data))
 }
 
 # remove CUI variables based on flags ------------------------------------------
@@ -142,6 +145,7 @@ filter_cui_variables <- function(dataset = NULL, use_nonnegated = TRUE,
 # apply log transformation to structured, NLP variables ------------------------
 #' @param dataset the dataset
 #' @param varnames the variable names to log-transform
+#' @param utilization_var the utilization variable
 #' @return a dataset with the appropriate columns log-transformed
 apply_log_transformation <- function(dataset = NULL, varnames = NULL,
                                      utilization_var = NULL) {
@@ -164,18 +168,24 @@ apply_log_transformation <- function(dataset = NULL, varnames = NULL,
 #' @return train and test datasets screened by AFEP
 phenorm_afep <- function(train = NULL, test = NULL, study_id = "Studyid", cui_of_interest = "C",
                          utilization_variable = "Utiliz",
-                         cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train))],
+                         train_cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train))],
+                         test_cui_cols = (1:ncol(test))[grepl("C[0-9]", names(test))],
                          threshold = 0.15) {
-  cui_col_of_interest <- cui_cols[grepl(cui_of_interest, names(train[, cui_cols]))][1]
-  other_cui_cols <- cui_cols[!grepl(cui_of_interest[1], names(train[, cui_cols]))]
+  cui_col_of_interest <- train_cui_cols[grepl(cui_of_interest, names(train[, train_cui_cols]))][1]
+  test_cui_col_of_interest <- test_cui_cols[grepl(cui_of_interest, names(test[, test_cui_cols]))][1]
+  other_cui_cols <- train_cui_cols[!grepl(cui_of_interest[1], names(train[, train_cui_cols]))]
+  test_other_cui_cols <- test_cui_cols[!grepl(cui_of_interest[1], names(test[, test_cui_cols]))]
   train_selected <- afep(dataset = train %>% select(-!!study_id), nlp_label = cui_of_interest,
                          features = names(train[, other_cui_cols]),
                          threshold = threshold)
-  train_afep_plus <- rep(TRUE, ncol(train_nlp))
+  train_afep_plus <- rep(TRUE, ncol(train))
+  test_afep_plus <- rep(TRUE, ncol(test))
   train_afep_plus[other_cui_cols] <- train_selected
+  test_afep_plus[test_other_cui_cols] <- train_selected
   train_afep_plus[cui_col_of_interest] <- TRUE
+  test_afep_plus[test_cui_col_of_interest] <- TRUE
   train_screened <- train[, train_afep_plus]
-  test_screened <- test[, train_afep_plus]
+  test_screened <- test[, test_afep_plus]
   return(list("train" = train_screened, "test" = test_screened))
 }
 get_f_score <- function(precision, recall, beta) {
@@ -183,40 +193,64 @@ get_f_score <- function(precision, recall, beta) {
 }
 
 # Compute performance metrics on gold-standard data ----------------------------
-get_performance_metrics <- function(predictions = NULL, labels = NULL, identifier = "model 1") {
-  pred_obj <- ROCR::prediction(
-    predictions = predictions, labels = labels
-  )
-  auc <- unlist(ROCR::performance(
-    prediction.obj = pred_obj, measure = "auc"
-  )@y.values)
-  sens_spec <- ROCR::performance(
-    prediction.obj = pred_obj, measure = "tpr", x.measure = "fpr"
-  )
-  prec_rec <- ROCR::performance(
-    prediction.obj = pred_obj, measure = "prec", x.measure = "rec"
-  )
-  # could also use ROCR, with alpha = 1 / (1 + beta ^ 2)
-  f1_score <- get_f_score(unlist(prec_rec@y.values), unlist(prec_rec@x.values), beta = 1)
-  f05_score <- get_f_score(unlist(prec_rec@y.values), unlist(prec_rec@x.values), beta = 0.5)
-  spec <- 1 - unlist(sens_spec@x.values)
-  sens <- unlist(sens_spec@y.values)
-  ppv <- unlist(ROCR::performance(
-    prediction.obj = pred_obj, measure = "ppv"
-  )@y.values)
-  npv <- unlist(ROCR::performance(
-    prediction.obj = pred_obj, measure = "npv"
-  )@y.values)
+# @param predictions the predictions on test data
+# @param labels the true outcome labels from test data
+# @param weights the inverse probability of sampling weights into the test data
+# @param identifier the silver label that we're computing performance for
+get_performance_metrics <- function(predictions = NULL, labels = NULL, 
+                                    weights = rep(1, length(predictions)), 
+                                    identifier = "model 1") {
+  if (all.equal(weights, rep(1, length(predictions)))) {
+    pred_obj <- ROCR::prediction(
+      predictions = predictions, labels = labels
+    )
+    auc <- unlist(ROCR::performance(
+      prediction.obj = pred_obj, measure = "auc"
+    )@y.values)
+    sens_spec <- ROCR::performance(
+      prediction.obj = pred_obj, measure = "tpr", x.measure = "fpr"
+    )
+    prec_rec <- ROCR::performance(
+      prediction.obj = pred_obj, measure = "prec", x.measure = "rec"
+    )
+    # could also use ROCR, with alpha = 1 / (1 + beta ^ 2)
+    f1_score <- get_f_score(unlist(prec_rec@y.values), unlist(prec_rec@x.values), beta = 1)
+    f05_score <- get_f_score(unlist(prec_rec@y.values), unlist(prec_rec@x.values), beta = 0.5)
+    spec <- 1 - unlist(sens_spec@x.values)
+    sens <- unlist(sens_spec@y.values)
+    ppv <- unlist(ROCR::performance(
+      prediction.obj = pred_obj, measure = "ppv"
+    )@y.values)
+    npv <- unlist(ROCR::performance(
+      prediction.obj = pred_obj, measure = "npv"
+    )@y.values)
+    cutoffs <- unlist(sens_spec@alpha.values)
+  } else {
+    pred_obj_init <- WeightedROC::WeightedROC(guess = predictions, label = labels,
+                                              weight = weights)
+    # flip around to match ROCR (decreasing cutoff)
+    pred_obj <- pred_obj_init[order(pred_obj_init$threshold, decreasing = TRUE), ] 
+    auc <- WeightedROC::WeightedAUC(tpr.fpr = pred_obj_init)
+    sens <- pred_obj$TPR
+    spec <- 1 - pred_obj$FPR
+    tp <- sum(labels) - pred_obj$FN
+    tn <- sum(labels == 0) - pred_obj$FP
+    ppv <- tp / (tp + pred_obj$FP)
+    npv <- tn / (tn + pred_obj$FN)
+    f1_score <- get_f_score(ppv, sens, beta = 1)
+    f05_score <- get_f_score(ppv, sens, beta = 0.5)
+    cutoffs <- pred_obj$threshold
+  }
   perf <- list("Sensitivity" = sens, "Specificity" = spec,
                "PPV" = ppv, "NPV" = npv, "F1" = f1_score, "F0.5" = f05_score)
   cutoff_dependent <- do.call(rbind.data.frame,
-    lapply(as.list(seq_len(length(perf))),
-    function(l) cbind.data.frame("measure" = names(perf)[l],
-                                 "perf" = perf[[l]],
-                                 "cutoff" = unlist(sens_spec@alpha.values)))
+                              lapply(as.list(seq_len(length(perf))),
+                                     function(l) cbind.data.frame("measure" = names(perf)[l],
+                                                                  "perf" = perf[[l]],
+                                                                  "cutoff" = cutoffs))
   )
   percentile_function <- ecdf(predictions)
-  cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff)
+  cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff) 
   output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, cutoff_dependent)
   return(output_tibble)
 }
@@ -355,6 +389,7 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
 #'
 #' @param nm.logS.ori name of the surrogates (log(ICD+1), log(NLP+1) and log(ICD+NLP+1))
 #' @param nm.utl name of healthcare utilization (e.g. note count, encounter_num etc)
+#' @param nm.wt name of the weighting variable
 #' @param dat all data columns need to be log-transformed and need column names
 #' @param nm.X additional features other than the main ICD and NLP
 #' @param corrupt.rate rate for random corruption denoising, between 0 and 1, default value=0.3
@@ -369,23 +404,34 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
 #' head(fit.phenorm$probs)
 #' }
 #' @export
-phenorm_prob <- function(nm.logS.ori, nm.utl, dat, nm.X = NULL, corrupt.rate = 0.3, train.size = 10 * nrow(dat)) {
+phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.rate = 0.3, train.size = 10 * nrow(dat)) {
   dat <- as.matrix(dat)
   S.ori <- dat[, nm.logS.ori, drop = FALSE]
-  utl <- dat[, nm.utl]
+  utl <- dat[, nm.utl, drop = FALSE]
+  wt <- dat[, nm.wt, drop = FALSE]
   a.hat <- apply(S.ori, 2, function(S) {PheNorm:::findMagicNumber(S, utl)$coef})
-  S.norm <- S.ori - PheNorm:::VTM(a.hat, nrow(dat)) * utl
+  S.norm <- S.ori - PheNorm:::VTM(a.hat, nrow(dat)) * as.vector(utl)
   if (!is.null(nm.X)) {
-    X <- as.matrix(dat[, nm.X])
-    SX.norm <- cbind(S.norm, X, utl)
+    X <- as.matrix(dat[, nm.X, drop = FALSE])
+    if (length(unique(utl)) == 1) {
+      SX.norm <- cbind(S.norm, X, wt)
+    } else {
+      SX.norm <- cbind(S.norm, X, utl, wt) 
+    }
     id <- sample(1:nrow(dat), train.size, replace = TRUE)
     SX.norm.corrupt <- apply(SX.norm[id, ], 2,
                              function(x) {ifelse(rbinom(length(id), 1, corrupt.rate), mean(x), x)}
     )
-    b.all <- apply(S.norm, 2, function(ss) {lm(ss[id] ~ SX.norm.corrupt - 1)$coef})
+    sx_norm_df <- as.data.frame(SX.norm.corrupt)
+    b.all <- apply(S.norm, 2, function(ss) {
+      lm(ss[id] ~ . - 1, data = sx_norm_df[, !(names(sx_norm_df) %in% nm.wt)], 
+         weights = sx_norm_df[[nm.wt]])$coef
+    })
     b.all[is.na(b.all)] <- 0
-    S.norm <- as.matrix(SX.norm) %*% b.all
-    b.all <- b.all[-dim(b.all)[1], ]
+    S.norm <- as.matrix(SX.norm[, !(colnames(SX.norm) %in% nm.wt)]) %*% b.all
+    if (length(unique(utl)) > 1) {
+      b.all <- b.all[-dim(b.all)[1], ] 
+    }
   } else {
     b.all <- NULL
   }
