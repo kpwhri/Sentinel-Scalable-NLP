@@ -19,7 +19,7 @@ parser <- add_option(parser, "--analysis-data-dir",
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets/",
                      help = "The analysis data directory")                     
 parser <- add_option(parser, "--data-name",
-                     default = "COVID_PheNorm_N8329_12DEC2022.csv", 
+                     default = "phase_1_updated_symptomatic_covid_kpwa_preprocessed_data.rds", 
                      help = "The name of the dataset")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid_all_mentions", 

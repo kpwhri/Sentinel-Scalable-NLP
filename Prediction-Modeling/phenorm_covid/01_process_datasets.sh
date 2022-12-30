@@ -23,16 +23,16 @@ for (( i=0; i<${n_analyses}; i++)); do
         --weight ${weight_var} --site "${site}" --cui "${cui_of_interest}" \
         --train-value ${train_value} --nonneg-label ${nonneg_label}
     )
-    if [[ ${analysis} =~ "non_negated" ]]; then
-        args+=(--no-nonneg)
+    if [[ ${use_negation} -ge 1 ]]; then
+        args+=(--use-nonneg)
     fi
-    if [ ${no_dimension_reduction} -ge 1 ]; then
+    if [ ${use_dimension_reduction} -le 0 ]; then
         args+=(--no-afep)
     fi
-    if [ ${no_nonnormalized_data} -ge 1 ]; then
+    if [ ${use_nonnormalized_data} -le 0 ]; then
         args+=(--no-nonnormalized)
     fi
-    if [ ${no_normalized_data} -ge 1 ]; then
+    if [ ${use_normalized_data} -le 0 ]; then
         args+=(--no-normalized)
     fi
     if [ ${train_on_gold_data} -ge 1 ]; then
