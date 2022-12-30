@@ -56,8 +56,7 @@ output_dir="${dir}/PheNorm/results_negation_${use_negation}_normalization_${use_
 
 # mount the G: drive (in /mnt/g); modify this line if you are using a different system (or if you don't have to mount drives)
 sudo mount -t drvfs G: /mnt/g
-mkdir -p $analysis_data_dir
-mkdir -p $output_dir
+mkdir -p "${dir}/PheNorm"
 # set up i/o output directory 
 io_dir="phenorm_covid_io_files_negation_${use_negation}_normalization_${use_normalized_data}_dimension-reduction_${use_dimension_reduction}_train-on-gold_${train_on_gold_data}"
 mkdir -p ${io_dir}
