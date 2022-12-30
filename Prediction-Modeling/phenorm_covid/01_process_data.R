@@ -16,7 +16,7 @@ parser <- add_option(parser, "--data-dir",
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PROGRAMMING/SAS Datasets/Replicate VUMC Analysis/Sampling for Chart Review/Phenorm Symptomatic Covid-19 update/",
                      help = "The input data directory")
 parser <- add_option(parser, "--analysis-data-dir", 
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The analysis data directory")                     
 parser <- add_option(parser, "--data-name",
                      default = "phase_1_updated_symptomatic_covid_kpwa_preprocessed_data.rds", 
@@ -28,12 +28,12 @@ parser <- add_option(parser, "--cui", default = "C5203670",
                      help = "The CUI of interest (for the outcome of interest)")
 parser <- add_option(parser, "--train-value", default = "Training",
                      help = "The value of the validation variable that designates the training set")
-parser <- add_option(parser, "--use-afep", default = TRUE, action = "store_true",
+parser <- add_option(parser, "--use-afep", default = FALSE, action = "store_true",
                      help = "Should we use AFEP screening for NLP variables?")
 parser <- add_option(parser, "--no-afep", action = "store_false",
                      dest = "use_afep")
 parser <- add_option(parser, "--use-nonneg", default = FALSE, action = "store_true",
-                     help = "Should we use the non-negated mentions (FALSE) or all mentions (TRUE)?")
+                     help = "Should we use the non-negated mentions (TRUE) or all mentions (FALSE)?")
 parser <- add_option(parser, "--no-nonneg", action = "store_false",
                      dest = "use-nonneg")
 parser <- add_option(parser, "--nonneg-label", default = "_nonneg",
@@ -54,7 +54,7 @@ parser <- add_option(parser, "--use-nonnormalized", default = TRUE, action = "st
                      help = "Should we use nonnormalized features?")
 parser <- add_option(parser, "--no-nonnormalized", action = "store_false",
                      dest = "use_nonnormalized")
-parser <- add_option(parser, "--use-normalized", default = TRUE, action = "store_true",
+parser <- add_option(parser, "--use-normalized", default = FALSE, action = "store_true",
                      help = "Should we use normalized features?")
 parser <- add_option(parser, "--no-normalized", action = "store_false",
                      dest = "use-normalized")
@@ -99,7 +99,10 @@ cui_names <- data_names[grepl("C[0-9]", data_names)]
 silver_labels <- data_names[grepl("silver", data_names, ignore.case = TRUE)]
 nlp_names <- c(silver_labels, args$utilization, cui_names)
 # structured data: *not* silver labels, utilization, CUIs, or weights!
-structured_data_names <- data_names[!(data_names %in% c(nlp_names, args$weight))]
+structured_data_names <- data_names[!(data_names %in% c(args$study_id,
+                                                        args$gold_label,
+                                                        args$valid_label,
+                                                        nlp_names, args$weight))]
 
 # if requested to train on gold-labeled data (as well as non-gold-labeled data),
 # change training/testing split
@@ -128,8 +131,8 @@ if (args$use_afep) {
   train_screened <- afep_screened_data$train
   test_screened <- afep_screened_data$test
 } else {
-  train_screened <- train_nlp
-  test_screened <- test_nlp
+  train_screened <- train
+  test_screened <- test
 }
 
 # combine and log-transform ---------------------------------------------------
