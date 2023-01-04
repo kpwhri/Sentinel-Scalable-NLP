@@ -22,7 +22,7 @@ parser <- add_option(parser, "--data-name",
                      default = "phase_1_updated_symptomatic_covid_kpwa_preprocessed_data.rds", 
                      help = "The name of the dataset")
 parser <- add_option(parser, "--analysis",
-                     default = "phase_1_updated_symptomatic_covid_all_mentions", 
+                     default = "phase_1_updated_symptomatic_covid", 
                      help = "The name of the analysis")
 parser <- add_option(parser, "--cui", default = "C5203670", 
                      help = "The CUI of interest (for the outcome of interest)")
@@ -53,7 +53,7 @@ parser <- add_option(parser, "--site", default = "kpwa",
 parser <- add_option(parser, "--use-nonnormalized", default = TRUE, action = "store_true",
                      help = "Should we use nonnormalized features?")
 parser <- add_option(parser, "--no-nonnormalized", action = "store_false",
-                     dest = "use_nonnormalized")
+                     dest = "use-nonnormalized")
 parser <- add_option(parser, "--use-normalized", default = FALSE, action = "store_true",
                      help = "Should we use normalized features?")
 parser <- add_option(parser, "--no-normalized", action = "store_false",
@@ -62,12 +62,6 @@ parser <- add_option(parser, "--train-on-gold", default = FALSE, action = "store
                      help = "Should we train on gold-labeled data too?")
 args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
-if (grepl("non_negated", args$analysis) & !args$use_nonneg) {
-  args$use_nonneg <- TRUE
-}
-if (grepl("all_mentions", args$analysis)) {
-  args$use_nonneg <- FALSE
-}
 if (!dir.exists(args$analysis_data_dir)) {
   dir.create(args$analysis_data_dir, recursive = TRUE)
   txt_for_readme <- "# Analysis datasets\n\nThis folder contains analysis-ready datasets, resulting from processing raw data into PheNorm-ready form."
