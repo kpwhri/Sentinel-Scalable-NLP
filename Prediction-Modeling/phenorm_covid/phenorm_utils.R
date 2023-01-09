@@ -200,7 +200,7 @@ get_f_score <- function(precision, recall, beta) {
 get_performance_metrics <- function(predictions = NULL, labels = NULL, 
                                     weights = rep(1, length(predictions)), 
                                     identifier = "model 1") {
-  if (all.equal(weights, rep(1, length(predictions)))) {
+  if (isTRUE(all.equal(weights, rep(1, length(predictions))))) {
     pred_obj <- ROCR::prediction(
       predictions = predictions, labels = labels
     )
@@ -408,7 +408,11 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.r
   dat <- as.matrix(dat)
   S.ori <- dat[, nm.logS.ori, drop = FALSE]
   utl <- dat[, nm.utl, drop = FALSE]
-  wt <- dat[, nm.wt, drop = FALSE]
+  if (nm.wt == "") {
+    wt <- NULL
+  } else {
+    wt <- dat[, nm.wt, drop = FALSE]  
+  }
   a.hat <- apply(S.ori, 2, function(S) {PheNorm:::findMagicNumber(S, utl)$coef})
   S.norm <- S.ori - PheNorm:::VTM(a.hat, nrow(dat)) * as.vector(utl)
   if (!is.null(nm.X)) {
@@ -423,9 +427,14 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.r
                              function(x) {ifelse(rbinom(length(id), 1, corrupt.rate), mean(x), x)}
     )
     sx_norm_df <- as.data.frame(SX.norm.corrupt)
+    if (nm.wt == "") {
+      weights <- rep(1, nrow(sx_norm_df))
+    } else {
+      weights <- sx_norm_df[[nm.wt]]
+    }
     b.all <- apply(S.norm, 2, function(ss) {
       lm(ss[id] ~ . - 1, data = sx_norm_df[, !(names(sx_norm_df) %in% nm.wt)], 
-         weights = sx_norm_df[[nm.wt]])$coef
+         weights = weights)$coef
     })
     b.all[is.na(b.all)] <- 0
     S.norm <- as.matrix(SX.norm[, !(colnames(SX.norm) %in% nm.wt)]) %*% b.all

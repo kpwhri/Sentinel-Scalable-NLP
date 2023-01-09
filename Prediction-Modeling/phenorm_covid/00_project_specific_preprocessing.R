@@ -23,7 +23,7 @@ parser <- add_option(parser, "--data-name",
                      default = "SevSpecSlvStdSur_N8329_05JAN2023.csv", 
                      help = "The name of the dataset")
 parser <- add_option(parser, "--analysis",
-                     default = "phase_1_updated_symptomatic_covid_all_mentions", 
+                     default = "phase_1_updated_symptomatic_covid", 
                      help = "The name of the analysis")
 parser <- add_option(parser, "--gold-label", default = "PTYPE_SYMPTOMATIC_POSITIVE", 
                      help = "The name of the gold label")
@@ -46,12 +46,15 @@ input_data <- readr::read_csv(paste0(args$data_dir, args$data_name), na = c("NA"
 # pull only outcome, silver labels, features of interest. EDIT IF NECESSARY
 structured_demographic_features <- c("Gender_F", "Age_Index_Yrs")
 if (grepl("phase_2_enhanced", args$analysis)) {
-  other_structured_features <- c("trad", "hsfdx", "hsfpx", "hslpl", "hslrx")
+  other_structured_feature_prefix <- c("trad", "hsfdx", "hsfpx", "hslpl", "hslrx")
+  other_structured_features <- names(input_data %>% 
+    select(!!matches(other_structured_feature_prefix)))
 } else if (grepl("phase_2_severity-specific", args$analysis)) {
   other_structured_features <- NULL
 } else {
   other_structured_features <- NULL
 }
+structured_features <- c(structured_demographic_features, other_structured_features)
 if (grepl("severity-specific", args$analysis)) {
   silver_label_string <- "severity_specific_silver"
 } else {
@@ -79,11 +82,15 @@ filtered_data <- input_data %>%
   select(!!c(matches(args$study_id), matches(args$gold_label),
              matches(args$valid_label), matches(silver_label_string), matches(args$utilization),
              matches(paste0("^", args$weight, "$")), 
-             matches(paste0("^", structured_demographic_features, "$")),
-             matches(other_structured_features), matches(cui_names))) 
+             matches(paste0("^", structured_features, "$")),
+             matches(cui_names))) 
 if (any(grepl("Silver_NLP_2_COVID19_CUI_Days", names(filtered_data), ignore.case = TRUE))) {
   filtered_data <- filtered_data %>% 
     select(-Silver_NLP_2_COVID19_CUI_Days)
+}
+if (any(grepl("severity", names(filtered_data), ignore.case = TRUE)) & !grepl("severity", args$analysis)) {
+  filtered_data <- filtered_data %>% 
+    select(-starts_with("severity"))
 }
 
 # recode outcome, train/eval, gender, etc. (EDIT IF NECESSARY)

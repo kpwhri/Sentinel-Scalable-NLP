@@ -13,7 +13,7 @@ source(here::here("phenorm_covid", "phenorm_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
 parser <- add_option(parser, "--data-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PROGRAMMING/SAS Datasets/Replicate VUMC Analysis/Sampling for Chart Review/Phenorm Symptomatic Covid-19 update/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PROGRAMMING/SAS Datasets/Replicate VUMC Analysis/Sampling for Chart Review/Severity-specific silver-standard surrogates/",
                      help = "The input data directory")
 parser <- add_option(parser, "--analysis-data-dir", 
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
@@ -46,7 +46,7 @@ parser <- add_option(parser, "--study-id", default = "Studyid",
                      help = "The study id variable")
 parser <- add_option(parser, "--utilization", default = "Utiliz", 
                      help = "The utilization variable")
-parser <- add_option(parser, "--weight", default = "weight", 
+parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--site", default = "kpwa", 
                      help = "The site from which the data come from")

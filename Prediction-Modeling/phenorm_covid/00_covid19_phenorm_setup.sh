@@ -14,10 +14,12 @@ use_normalized_data=0
 # should we train on gold-labeled data as well? defaults to FALSE
 train_on_gold_data=0
 # specify the outcome/feature sets, note that each corresponds to a specific dataset name below
+# analyses=("phase_1_updated_moderateplus_covid" \
+#           "phase_1_updated_symptomatic_covid" \
+#           "phase_2_enhanced_symptomatic_covid" \
+#           "phase_2_severity-specific_covid")
 analyses=("phase_1_updated_moderateplus_covid" \
-          "phase_1_updated_symptomatic_covid" \
-          "phase_2_enhanced_symptomatic_covid" \
-          "phase_2_severity-specific_covid")
+          "phase_1_updated_symptomatic_covid")
 n_analyses=${#analyses[@]}
 # dataset name; only include raw_data_name if you need to do project-specific preprocessing 
 raw_data_name=("SevSpecSlvStdSur_N8329_05JAN2023.csv")
