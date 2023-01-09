@@ -14,13 +14,13 @@ here::i_am("phenorm_covid/README.md")
 source(here::here("phenorm_covid", "phenorm_utils.R"))
 parser <- OptionParser()
 parser <- add_option(parser, "--data-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PROGRAMMING/SAS Datasets/Replicate VUMC Analysis/Sampling for Chart Review/Phenorm Symptomatic Covid-19 update/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PROGRAMMING/SAS Datasets/Replicate VUMC Analysis/Sampling for Chart Review/Severity-specific silver-standard surrogates/",
                      help = "The input data directory")
 parser <- add_option(parser, "--analysis-data-dir", 
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets/",
                      help = "The analysis data directory")                     
 parser <- add_option(parser, "--data-name",
-                     default = "COVID_PheNorm_N8329_12DEC2022.csv", 
+                     default = "SevSpecSlvStdSur_N8329_05JAN2023.csv", 
                      help = "The name of the dataset")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid_all_mentions", 
@@ -33,7 +33,7 @@ parser <- add_option(parser, "--study-id", default = "Studyid",
                      help = "The study id variable")
 parser <- add_option(parser, "--utilization", default = "Utiliz", 
                      help = "The utilization variable")
-parser <- add_option(parser, "--weight", default = "weight", 
+parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--site", default = "kpwa", 
                      help = "The site from which the data come from")
@@ -44,16 +44,43 @@ args$analysis <- gsub("_non_negated", "", gsub("_all_mentions", "", args$analysi
 input_data <- readr::read_csv(paste0(args$data_dir, args$data_name), na = c("NA", ".", ""))
 
 # pull only outcome, silver labels, features of interest. EDIT IF NECESSARY
-if (grepl("phase_1_updated", args$analysis)) {
-  structured_features <- c("Gender_F", "Age_Index_Yrs")
+structured_demographic_features <- c("Gender_F", "Age_Index_Yrs")
+if (grepl("phase_2_enhanced", args$analysis)) {
+  other_structured_features <- c("trad", "hsfdx", "hsfpx", "hslpl", "hslrx")
+} else if (grepl("phase_2_severity-specific", args$analysis)) {
+  other_structured_features <- NULL
+} else {
+  other_structured_features <- NULL
+}
+if (grepl("severity-specific", args$analysis)) {
+  silver_label_string <- "severity_specific_silver"
+} else {
+  silver_label_string <- "silver"
 }
 dataset_names <- names(input_data)
 cui_names <- dataset_names[grepl("C[0-9]", dataset_names)]
+if (grepl("severity-specific", args$analysis)) {
+  # filter the CUI variables
+  severity_specific_cuis <- c(
+    "C0010340", "C1306577", "C0042491", "C0015357", "C0018801", "C0700292",
+    "C0242184", "C0199470", "C0042497", "C0026766", "C1997883", "C0184633",
+    "C0701159", "C0476273", "C1145670", "C0036983", "C0205082", "C1175175",
+    "C4740692", "C4534306", "C0001617", "C4044947", "C1535502", "C0878544",
+    "C0202823", "C0009566", "C1705232", "C1551396", "C0011777", "C0015879",
+    "C0060323", "C0017710", "C0020268", "C0021747", "C0021760", "C0022917",
+    "C0024312", "C0025815", "C0027059", "C0029216", "C4521445", "C0032285",
+    "C0032310", "C4726677", "C0035222", "C0036974", "C0038317", "C0436345", 
+    "C0010957", "C1609165", "C5244048"
+  )
+  cui_names_stripped <- gsub("_Count", "", gsub("_nonneg", "", gsub("_normalized", "", cui_names)))
+  cui_names <- cui_names[cui_names_stripped %in% severity_specific_cuis]
+}
 filtered_data <- input_data %>% 
   select(!!c(matches(args$study_id), matches(args$gold_label),
-             matches(args$valid_label), matches("silver"), matches(args$utilization),
-             matches(args$weight), matches(paste0("^", structured_features, "$")),
-             matches(cui_names))) 
+             matches(args$valid_label), matches(silver_label_string), matches(args$utilization),
+             matches(paste0("^", args$weight, "$")), 
+             matches(paste0("^", structured_demographic_features, "$")),
+             matches(other_structured_features), matches(cui_names))) 
 if (any(grepl("Silver_NLP_2_COVID19_CUI_Days", names(filtered_data), ignore.case = TRUE))) {
   filtered_data <- filtered_data %>% 
     select(-Silver_NLP_2_COVID19_CUI_Days)
