@@ -20,8 +20,8 @@ parser <- add_option(parser, "--output-dir",
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
-                     default = "phase_1_updated_symptomatic", help = "The name of the analysis")
-parser <- add_option(parser, "--weight", default = "weight", 
+                     default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
+parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
 parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
@@ -35,7 +35,8 @@ analysis_data <- readRDS(
     args$data_dir, args$analysis, "_", args$data_site, "_analysis_data.rds"
   )
 )
-silver_labels <- analysis_data$silver_labelsoutcomes <- analysis_data$outcomes
+silver_labels <- analysis_data$silver_labels
+outcomes <- analysis_data$outcomes
 all_data <- analysis_data$all
 id_var <- which(grepl(args$study_id, names(all_data), ignore.case = TRUE))
 all_minus_id <- all_data[, -id_var]
@@ -49,7 +50,7 @@ fit <- phenorm_analysis$fit
 # make predictions on entire dataset -------------------------------------------
 # get features used to train PheNorm model
 model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
-model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels))]
+model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels, args$weight))]
 set.seed(1234)
 preds <- predict.PheNorm(
   phenorm_model = fit, newdata = all_minus_id, silver_labels = silver_labels,
