@@ -28,17 +28,6 @@ analyses=("phase_1_updated_moderateplus_covid" \
 n_analyses=${#analyses[@]}
 # dataset name; only include raw_data_name if you need to do project-specific preprocessing 
 raw_data_name=("SevSpecSlvStdSur_N8329_05JAN2023.csv")
-data_names=("phase_1_updated_moderateplus_covid_kpwa_preprocessed_data.rds" \
-            "phase_1_updated_symptomatic_covid_kpwa_preprocessed_data.rds" \
-            "phase_2_enhanced_symptomatic_covid_kpwa_preprocessed_data.rds" \
-            "phase_2_severity-specific_covid_kpwa_preprocessed_data.rds")
-n_datasets=${#data_names[@]}
-# gold labels: must be the same length as the analyses to run
-gold_label=("PTYPE_MODERATE_PLUS_POSITIVE" "PTYPE_SYMPTOMATIC_POSITIVE" \
-            "PTYPE_SYMPTOMATIC_POSITIVE" "PTYPE_SEVERE_PLUS")
-# random number seeds: must be the same length as the analyses to run
-# note that if this wasn't set, the same seed would be set for each analysis
-rng_seeds=(1234 5678 91011 121314)
 # arguments to pass to PheNorm, overrides defaults
 corrupt_rate=0.3
 train_size_mult=13
@@ -54,6 +43,12 @@ cui_of_interest="C5203670"
 # model development site and external validation site
 site="kpwa"
 external_site="vumc"
+# gold labels: must be the same length as the analyses to run
+gold_label=("PTYPE_MODERATE_PLUS_POSITIVE" "PTYPE_SYMPTOMATIC_POSITIVE" \
+            "PTYPE_SYMPTOMATIC_POSITIVE" "PTYPE_SEVERE_PLUS")
+# random number seeds: must be the same length as the analyses to run
+# note that if this wasn't set, the same seed would be set for each analysis
+rng_seeds=(1234 5678 91011 121314)
 # edit the following directories to correspond to the filesystem on *your* computer
 # dir_prefix: the main directory (at KPWHRI, a network drive called "G:")
 # dir: the main directory for the scalable NLP project (where data, etc. live)
@@ -64,8 +59,16 @@ dir_prefix="/mnt/g"
 dir="${dir_prefix}/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell"
 # raw_data_dir="${dir}"/PROGRAMMING/SAS\ Datasets/Replicate\ VUMC\ analysis/Sampling\ for\ Chart\ Review/Phenorm\ Symptomatic\ Covid-19\ update/
 raw_data_dir="${dir}"/PROGRAMMING/SAS\ Datasets/Replicate\ VUMC\ analysis/Sampling\ for\ Chart\ Review/Severity-specific\ silver-standard\ surrogates/
+
+# these directories are specified by the directories above
 analysis_data_dir="${dir}/PheNorm/analysis_datasets_negation_${use_negation}_normalization_${use_normalized_data}_dimension-reduction_${use_dimension_reduction}_train-on-gold_${train_on_gold_data}/"
 output_dir="${dir}/PheNorm/results_negation_${use_negation}_normalization_${use_normalized_data}_dimension-reduction_${use_dimension_reduction}_train-on-gold_${train_on_gold_data}/"
+# processed dataset names are specified by the arguments above
+data_names=("phase_1_updated_moderateplus_covid_${site}_preprocessed_data.rds" \
+            "phase_1_updated_symptomatic_covid_${site}_preprocessed_data.rds" \
+            "phase_2_enhanced_symptomatic_covid_${site}_preprocessed_data.rds" \
+            "phase_2_severity-specific_covid_${site}_preprocessed_data.rds")
+n_datasets=${#data_names[@]}
 
 # mount the G: drive (in /mnt/g); modify this line if you are using a different system (or if you don't have to mount drives)
 sudo mount -t drvfs G: /mnt/g
