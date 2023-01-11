@@ -26,7 +26,7 @@ parser <- add_option(parser, "--seed", type = "integer", default = 4747,
                      help = "The random number seed to use")
 parser <- add_option(parser, "--utilization", default = "Utiliz", 
                      help = "The utilization variable")
-parser <- add_option(parser, "--weight", default = "weight", 
+parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--corrupt-rate", type = "double", default = 0.3,
                      help = "The 'corruption rate' for PheNorm 'denoising'")

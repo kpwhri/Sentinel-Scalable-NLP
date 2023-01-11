@@ -10,6 +10,8 @@ source phenorm_covid/00_install_packages.sh
 # only have to run this code one time per combination of (outcome, silver labels, all possible structured data features, NLP features)
 source phenorm_covid/00_preprocess_covid19_datasets.sh
 
+# Re-run these when you make changes in 00_covid19_phenorm_setup.sh
+
 # process datasets
 source phenorm_covid/01_process_datasets.sh
 
