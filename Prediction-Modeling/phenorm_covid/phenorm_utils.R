@@ -233,10 +233,18 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
     auc <- WeightedROC::WeightedAUC(tpr.fpr = pred_obj_init)
     sens <- pred_obj$TPR
     spec <- 1 - pred_obj$FPR
-    tp <- sum(labels) - pred_obj$FN
-    tn <- sum(labels == 0) - pred_obj$FP
-    ppv <- tp / (tp + pred_obj$FP)
-    npv <- tn / (tn + pred_obj$FN)
+    tp <- apply(as.matrix(pred_obj$threshold), 1, 
+                function(x) sum(weights * ((labels == 1) * (predictions >= x))))
+    # tp <- sum(labels) - pred_obj$FN
+    fp <- apply(as.matrix(pred_obj$threshold), 1, 
+                function(x) sum(weights * ((labels == 0) * (predictions >= x))))
+    tn <- apply(as.matrix(pred_obj$threshold), 1, 
+                function(x) sum(weights * ((labels == 0) * (predictions < x))))
+    fn <- apply(as.matrix(pred_obj$threshold), 1, 
+                function(x) sum(weights * ((labels == 1) * (predictions < x))))
+    # tn <- sum(labels == 0) - pred_obj$FP
+    ppv <- tp / (tp + fp)
+    npv <- tn / (tn + fn)
     f1_score <- get_f_score(ppv, sens, beta = 1)
     f05_score <- get_f_score(ppv, sens, beta = 0.5)
     cutoffs <- pred_obj$threshold
