@@ -17,10 +17,10 @@ parser <- add_option(parser, "--data-dir",
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PROGRAMMING/SAS Datasets/Replicate VUMC Analysis/Sampling for Chart Review/Severity-specific silver-standard surrogates/",
                      help = "The input data directory")
 parser <- add_option(parser, "--analysis-data-dir", 
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PROGRAMMING/SAS Datasets/Replicate VUMC Analysis/Sampling for Chart Review/Severity-specific silver-standard surrogates/",
                      help = "The analysis data directory")                     
 parser <- add_option(parser, "--data-name",
-                     default = "SevSpecSlvStdSur_N8329_05JAN2023.csv", 
+                     default = "full_analysis_dataset_n8329.csv", 
                      help = "The name of the dataset")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid", 
@@ -45,14 +45,36 @@ input_data <- readr::read_csv(paste0(args$data_dir, args$data_name), na = c("NA"
 
 # pull only outcome, silver labels, features of interest. EDIT IF NECESSARY
 structured_demographic_features <- c("Gender_F", "Age_Index_Yrs")
+# if doing an "enhanced" analysis, use a different set of structured predictors
+# note that these need to match the names of the enhanced feature list *exactly* (minus case)
 if (grepl("phase_2_enhanced", args$analysis)) {
-  other_structured_feature_prefix <- c("trad", "hsfdx", "hsfpx", "hslpl", "hslrx")
-  other_structured_features <- names(input_data %>% 
-    select(!!matches(other_structured_feature_prefix)))
+  # aggregate HSF features
+  other_structured_features <- c("hsfdx", "hsfpx", "hsfpl", "hsfrx")
+  # VUMC-only features (inpatient)
+  if (grepl("vumc", args$site)) {
+    other_structured_features <- c(other_structured_features, "respiratory_support",
+                                   paste0("rs_days_", c("vent", "hfnc", "o2", "nicpap", "bcpap")), 
+                                   paste0("rx_", c("bivalirudin", "tocilizumab", "baricitinib",
+                                                   "remdesivir")),
+                                   paste0("sp02_", c("recorded", "lt_94_ever", "min")),
+                                   paste0("pa02_", c("recorded", "lt_300_ever", "min")),
+                                   paste0("resp_freq_", c("recorded", "lt_30_ever", "min")))
+  }
+  # other_structured_features <- names(input_data %>% 
+  #   select(!!matches(other_structured_feature_prefix)))
+  # manual NLP variables (at KPWA, located in a different folder/file)
+  manual_nlp_features <- paste0(
+    "n_ments_nn_", c(
+      "fever", "cough", "sore_throat", "headache", "muscle_pain",
+      "nausea", "losstastesmell", "diarrhea", "dyspnea_sob", "vomiting"
+    ), "_nlp"
+  )
 } else if (grepl("phase_2_severity-specific", args$analysis)) {
   other_structured_features <- NULL
+  manual_nlp_features <- NULL
 } else {
   other_structured_features <- NULL
+  manual_nlp_features <- NULL
 }
 structured_features <- c(structured_demographic_features, other_structured_features)
 if (grepl("severity-specific", args$analysis)) {
@@ -62,6 +84,7 @@ if (grepl("severity-specific", args$analysis)) {
 }
 dataset_names <- names(input_data)
 cui_names <- dataset_names[grepl("C[0-9]", dataset_names)]
+# if doing a severity-specific analysis, use only a subset of CUIs that have been reviewed for being severity-specific
 if (grepl("severity-specific", args$analysis)) {
   # filter the CUI variables
   severity_specific_cuis <- c(
@@ -76,13 +99,15 @@ if (grepl("severity-specific", args$analysis)) {
     "C0010957", "C1609165", "C5244048"
   )
   cui_names_stripped <- gsub("_Count", "", gsub("_nonneg", "", gsub("_normalized", "", cui_names)))
-  cui_names <- cui_names[cui_names_stripped %in% severity_specific_cuis]
+  # need to keep C5203670 for dimension reduction
+  cui_names <- cui_names[cui_names_stripped %in% severity_specific_cuis | cui_names_stripped == "C5203670"]
 }
 filtered_data <- input_data %>% 
   select(!!c(matches(args$study_id), matches(args$gold_label),
              matches(args$valid_label), matches(silver_label_string), matches(args$utilization),
              matches(paste0("^", args$weight, "$")), 
              matches(paste0("^", structured_features, "$")),
+             matches(paste0("^", manual_nlp_features, "$")),
              matches(cui_names))) 
 if (any(grepl("Silver_NLP_2_COVID19_CUI_Days", names(filtered_data), ignore.case = TRUE))) {
   filtered_data <- filtered_data %>% 
