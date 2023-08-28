@@ -38,6 +38,8 @@ There is one folder for each project documented here.  Currently there is one pr
 
 1. High Sensitivity Filter
    * [Instructions](High-Sensitivity-Filter/README.md)
+2. Prediction-Modeling: R code for running PheNorm
+3. Anaphylaxis: Applying to Anaphylaxis
 
 ### Prerequisites
 
