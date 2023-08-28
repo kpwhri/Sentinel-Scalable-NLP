@@ -373,8 +373,9 @@ phenorm_roc <- function(performance_object = NULL, analysis_name = "Primary 1",
 phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary 1",
                              title_length = 80) {
   the_title <- paste0("Performance metrics at different cutpoints: ", analysis_name)
+  all_measures <- c("Sensitivity", "Specificity", "PPV", "NPV", "F1", "F0.5")
   combined_plot <- performance_object %>%
-    ggplot(aes(x = quantile, y = perf, color = measure)) +
+    ggplot(aes(x = quantile, y = perf, color = factor(measure, levels = all_measures))) +
     geom_line(size = 1) +
     labs(x = "Percentile Cutpoint", y = "Percent", color = "Performance metric") +
     ggtitle(stringr::str_wrap(the_title, title_length)) +

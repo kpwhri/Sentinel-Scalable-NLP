@@ -10,16 +10,16 @@
 # Model set 4: use_negation=0, use_dimension_reduction=1, use_nonnormalized_data=1, use_normalized_data=0, train_on_gold_data=0
 # Model set 5: use_negation=1, use_dimension_reduction=1, use_nonnormalized_data=0, use_normalized_data=1, train_on_gold_data=0
 # toggle negation on/off, defaults to FALSE
-use_negation=0
+use_negation=1
 # toggle dimension reduction on/off, defaults to TRUE
-use_dimension_reduction=0
+use_dimension_reduction=1
 # should we use non-normalized, normalized NLP variables? both default to TRUE
-use_nonnormalized_data=1
-use_normalized_data=0
+use_nonnormalized_data=0
+use_normalized_data=1
 # should we train on gold-labeled data as well? defaults to FALSE
 train_on_gold_data=0
 # run phase 1 analyses
-run_phase_1=0
+run_phase_1=1
 # run phase 2 analyses
 run_phase_2=1
 # specify the outcome/feature sets, note that each corresponds to a specific dataset name below

@@ -64,7 +64,7 @@ The main code to run the analysis is in the following files:
 To run the analyses, you should run `R` one level higher than the folder `phenorm_covid`. The analysis consists of three steps:
 1. Processing analytic datasets (splitting into testing and training, extracting outcomes and other relevant variables).
 2. Internal model training and evaluation: train the PheNorm model on site-specific data (e.g., data from KPWA), and evaluate this PheNorm model on data from the same site.
-3. External model evaluation: predict on data from the site (e.g., from KPWA) using the model trained in step 1 at another site (e.g., from VUMC).
+3. External model evaluation: predict on data from the site (e.g., from KPWA) using the model trained in step 2 at another site (e.g., from VUMC).
 
 The file `run_all_covid19_phenorm.sh` contains bash code that will run all of the COVID-19 PheNorm analyses from the command line. This file also serves as a reference for interactive `R` sessions -- it specifies the values that you will need to change defaults to, as I outline below. You can also run each of the consituent bash scripts referenced above in order.
 
