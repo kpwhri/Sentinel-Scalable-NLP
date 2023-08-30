@@ -1,0 +1,810 @@
+Anaphylaxis
+Updated: May 16, 2018
+Author: S Shahzad Mustafa, MD; Chief Editor: Michael A Kaliner, MD 
+Overview
+Practice Essentials
+Anaphylaxis is an acute, potentially fatal, multiorgan system reaction caused by the release of chemical mediators from mast cells and basophils.[1, 2] The classic form involves prior sensitization to an allergen with later reexposure, producing symptoms via an immunologic mechanism.
+
+Signs and symptoms
+Anaphylaxis most commonly affects the cutaneous, respiratory, cardiovascular, and gastrointestinal systems. The skin or mucous membranes are involved in 80-90% of cases. A majority of adult patients have some combination of urticaria, erythema, pruritus, or angioedema. However, for poorly understood reasons, children may present more commonly with respiratory symptoms followed by cutaneous symptoms.[3]  It is also important to note that some of the most severe cases of anaphylaxis present in the absence of skin findings.
+
+Initially, patients often experience pruritus and flushing. Other symptoms can evolve rapidly, such as the following:
+
+Dermatologic/ocular: Flushing, urticaria, angioedema, cutaneous and/or conjunctival injection or pruritus, warmth, and swelling
+
+Respiratory: Nasal congestion, coryza, rhinorrhea, sneezing, throat tightness, wheezing, shortness of breath, cough, hoarseness, dyspnea
+
+Cardiovascular: Dizziness, weakness, syncope, chest pain, palpitations
+
+Gastrointestinal: Dysphagia, nausea, vomiting, diarrhea, bloating, cramps
+
+Neurologic: Headache, dizziness, blurred vision, and seizure (very rare and often associated with hypotension)
+
+Other: Metallic taste, feeling of impending doom
+
+See Clinical Presentation for more detail.
+
+Diagnosis
+Anaphylaxis is primarily a clinical diagnosis. The first priority in the physical examination should be to assess the patients airway, breathing, circulation, and adequacy of mentation (eg, alertness, orientation, coherence of thought).
+
+Examination may reveal the following findings:
+
+General appearance and vital signs: Vary according to the severity of the anaphylactic episode and the organ system(s) affected; patients are commonly restless and anxious
+
+Respiratory findings: Severe angioedema of the tongue and lips; tachypnea; stridor or severe air hunger; loss of voice, hoarseness, and/or dysphonia; wheezing
+
+Cardiovascular: Tachycardia, hypotension; cardiovascular collapse and shock can occur immediately, without any other findings
+
+Neurologic: Altered mentation; depressed level of consciousness or may be agitated and/or combative
+
+Dermatologic: Classic skin manifestation is urticaria (ie, hives) anywhere on the body; angioedema (soft-tissue swelling); generalized (whole-body) erythema (or flushing) without urticaria or angioedema
+
+Gastrointestinal: Vomiting, diarrhea, and abdominal distention
+
+Testing
+
+Laboratory studies are not usually required and are rarely helpful. However, if the diagnosis is unclear, especially with a recurrent syndrome, or if other diseases need to be excluded, the following laboratory studies may be ordered in specific situations:
+
+Serum tryptase may help confirm the diagnosis of anaphylaxis[2] .
+
+Urinary 24-hour histamine may help in the diagnosis of recurrent anaphylaxis
+
+Urinary 24-hour 5-hydroxyindoleacetic acid levels: If carcinoid syndrome is a consideration
+
+Skin testing, in vitro immunoglobulin E (IgE) tests, or both may be used to determine the stimulus causing the anaphylactic reaction. Such studies may include the following:
+
+Testing for food allergy(ies)
+
+Testing for medication allergy(ies)
+
+Testing for causes of IgE-independent reactions
+
+See Workup for more detail.
+
+Management
+Anaphylaxis is a medical emergency that requires immediate recognition and intervention. Patient management and disposition are dependent on the severity of the initial reaction and the treatment response. Measures beyond basic life support are not necessary for patients with purely local reactions. Patients with refractory or very severe anaphylaxis (with cardiovascular and/or severe respiratory symptoms) should be admitted or treated and observed for a longer period in the emergency department or an observation area.
+
+Nonpharmacotherapy
+
+Supportive care for patients with suspected anaphylaxis includes the following:
+
+Airway management (eg, ventilator support with bag/valve/mask, endotracheal intubation)
+
+High-flow oxygen
+
+Cardiac monitoring and/or pulse oximetry
+
+Intravenous access (large bore)
+
+Fluid resuscitation with isotonic crystalloid solution
+
+Supine position (or position of comfort if dyspneic or vomiting) with legs elevated
+
+Pharmacotherapy
+
+The primary drug treatments for acute anaphylactic reactions are epinephrine and H1 antihistamines. Medications used in patients with anaphylaxis include the following:
+
+Adrenergic agonists (eg, epinephrine)
+
+Antihistamines (eg, diphenhydramine, hydroxyzine)
+
+H2 receptor antagonists (eg, cimetidine, ranitidine, famotidine)
+
+Bronchodilators (eg, albuterol)
+
+Corticosteroids (eg, methylprednisolone, prednisone)
+
+Positive inotropic agents (eg, glucagon)
+
+Vasopressors (eg, dopamine)
+
+Surgical option
+
+In extreme circumstances, cricothyrotomy or catheter jet ventilation may be lifesaving when orotracheal intubation or bag/valve/mask ventilation is not effective. Cricothyrotomy is easier to perform than emergency tracheostomy.
+
+See Treatment and Medication for more detail.
+
+eMedicine Logo
+Background
+Portier and Richet first coined the term anaphylaxis in 1902 when a second vaccinating dose of sea anemone toxin caused a dogs death. The term is derived from the Greek words ana - (up, back, again) and phylaxis (guarding, protection, immunity).
+
+Anaphylaxis is an acute, potentially fatal, multiorgan system reaction caused by the release of chemical mediators from mast cells and basophils.[1, 2] The classic form involves prior sensitization to an allergen with later re-exposure, producing symptoms via an immunologic mechanism. (See Pathophysiology and Etiology.)
+
+The most common organ systems involved include the cutaneous, respiratory, cardiovascular, and gastrointestinal systems. The full-blown syndrome includes urticaria (hives) and/or angioedema with hypotension and bronchospasm. (See Clinical Presentation.)
+
+Anaphylaxis has no universally accepted clinical definition. It is a clinical diagnosis based on typical systemic manifestations, often with a history of acute exposure to a causative agent. (See Diagnosis.)
+
+Because anaphylaxis is primarily a clinical diagnosis, laboratory studies are not usually required and are rarely helpful. However, if the diagnosis is unclear, especially with a recurrent syndrome, or if other diseases need to be excluded, some limited laboratory studies are indicated. Skin testing and in vitro IgE tests may be helpful. (See Workup.)
+
+Anaphylaxis is a medical emergency that requires immediate recognition and intervention. Disposition of patients with anaphylaxis depends on the severity of the initial reaction and the response to treatment.
+
+Go to Pediatric Anaphylaxis and Pediatric Exercise-Induced Anaphylaxis for complete information on these topics.
+
+eMedicine Logo
+Pathophysiology
+The traditional nomenclature for anaphylaxis reserves the term anaphylactic for reactions mediated by immunoglobulin E (IgE) and the term anaphylactoid for non-IgE-mediated reactions, which can be clinically indistinguishable. The World Allergy Organization has recommended replacing this terminology with immunologic (IgE-mediated and nonIgE-mediated [eg, IgG and immune complex complementmediated]) and nonimmunologic anaphylaxis (events resulting in sudden mast cell and basophil degranulation in the absence of immunoglobulins).[4]
+
+The physiologic responses to the release of anaphylaxis mediators include smooth muscle spasm in the respiratory and gastrointestinal (GI) tracts, vasodilation, increased vascular permeability, and stimulation of sensory nerve endings. Increased mucous secretion and increased bronchial smooth muscle tone, as well as airway edema, contribute to the respiratory symptoms observed in anaphylaxis.
+
+Cardiovascular effects result from decreased vascular tone and capillary leakage. Hypotension, cardiac arrhythmias, syncope, and shock can result from intravascular volume loss, vasodilation, and myocardial dysfunction. Increased vascular permeability can produce a shift of 35% of vascular volume to the extravascular space within 10 minutes.
+
+These physiologic events lead to some or all of the classic symptoms of anaphylaxis: flushing; urticaria/angioedema; pruritus; bronchospasm; laryngeal edema; abdominal cramping with nausea, vomiting, and diarrhea; and feeling of impending doom. Concomitant signs and symptoms can include rhinorrhea, dysphonia, metallic taste, uterine cramps, light-headedness, and headache.
+
+Additional mediators activate other pathways of inflammation: the neutral proteases, tryptase and chymase; proteoglycans such as heparin and chondroitin sulfate; and chemokines and cytokines. These mediators can activate the kallikrein-kinin contact system, the complement cascade, and coagulation pathways. The development and severity of anaphylaxis also depend on the responsiveness of cells targeted by these mediators.
+
+Interleukin (IL)4 and IL-13 are cytokines important in the initial generation of antibody and inflammatory cell responses to anaphylaxis. No comparable studies have been conducted in humans, but anaphylactic effects in mice depend on IL-4R-dependent IL-4/IL-13 activation of the transcription factor, STAT-6 (signal transducer and activator of transcription 6).[5] Eosinophils may be inflammatory (release cytotoxic granule-associated proteins, for example) or anti-inflammatory (metabolize vasoactive mediators, for example).
+
+Additional mediators include newly generated lipid-derived mediators such as prostaglandin D2, leukotriene B4, and platelet-activating factor (PAF), as well as the cysteinyl leukotrienes, such as LTC4, LTD4, and LTE4. These mediators further contribute to the proinflammatory cascade seen in anaphylaxis.
+
+Under rigid experimental conditions, histamine infusion alone is sufficient to produce most of the symptoms of anaphylaxis. Histamine mediates its effects through activation of histamine 1 (H1) and histamine 2 (H2) receptors.
+
+Vasodilation, hypotension, and flushing are mediated by both H1 receptors and H1 receptors. H1 receptors alone mediate coronary artery vasoconstriction, tachycardia, vascular permeability, pruritus, bronchospasm, and rhinorrhea. H2 receptors increase atrial and ventricular contractility, atrial chronotropy, and coronary artery vasodilation. H3 receptors in experimental models of canine anaphylaxis appear to influence cardiovascular responses to norepinephrine. The importance of H3 receptors in humans is unknown.
+
+Processes inducing cardiovascular changes
+Anaphylaxis has been associated clinically with myocardial ischemia, atrial and ventricular arrhythmias, conduction defects, and T-wave abnormalities. Whether such changes are related to direct mediator effects on the myocardium, to exacerbation of preexisting myocardial insufficiency by the adverse hemodynamic effects of anaphylaxis, to epinephrine released endogenously by the adrenals in response to stress, or to therapeutically injected epinephrine is unclear.
+
+Since mast cells accumulate at sites of coronary atherosclerotic plaques, and immunoglobulins bound to mast cells can trigger mast cell degranulation, some investigators have suggested that anaphylaxis may promote plaque rupture, thus risking myocardial ischemia. Stimulation of the H1 histamine receptor may also produce coronary artery vasospasm. PAF also delays atrioventricular conduction, decreases coronary artery blood flow, and has negative inotropic effects.
+
+Calcitonin gene-related peptide (CGRP), a sensory neurotransmitter that is widely distributed in cardiovascular tissues, may help to counteract coronary artery vasoconstriction during anaphylaxis. CGRP relaxes vascular smooth muscle and has cardioprotective effects in animal models of anaphylaxis.
+
+Two distinct physiologic responses occur in mammals experiencing hypovolemia.[6] The initial response to hypovolemia is a baroreceptor-mediated increase in overall cardiac sympathetic drive and a concomitant withdrawal of resting vagal drive, which together produce peripheral vasoconstriction and tachycardia.
+
+When effective blood volume decreases by 20-30%, a second phase follows, which is characterized by withdrawal of vasoconstrictor drive, relative or absolute bradycardia, increased vasopressin, further catecholamine release as the adrenals become more active, and hypotension. Hypotension in this hypovolemic setting is independent of the bradycardia, since it persists when the bradycardia reverses with atropine administration.
+
+Conduction defects and sympatholytic medications may also produce bradycardia. Excessive venous pooling with decreased venous return (also seen in vasodepressor reactions) may activate tension-sensitive sensory receptors in the inferoposterior portions of the left ventricle, thus resulting in a cardio-inhibitory (Bezold-Jarisch) reflex that stimulates the vagus nerve and causes bradycardia.
+
+The implications of relative or absolute bradycardia in human anaphylaxis and hypovolemic shock have not been studied.
+
+However, one retrospective review of approximately 11,000 trauma patients found that mortality was lower with the 29 percent of hypotensive patients who were bradycardic when they were compared to the group of hypotensive individuals who were tachycardic, after adjustment for other mortality factors.[7] Thus, bradycardia may have a specific compensatory role in these settings.
+
+eMedicine Logo
+Etiology
+IgE-mediated anaphylaxis is the classic form of anaphylaxis, whereby a sensitizing antigen elicits an IgE antibody response in a susceptible individual. The antigen-specific IgE antibodies then bind to mast cells and basophils. Subsequent exposure to the sensitizing antigen causes cross-linking of cell-bound IgE, resulting in mast cell (and/or basophil) degranulation.
+
+Other types of immunologic anaphylaxis do not involve IgE. For example, anaphylaxis resulting from administration of blood products, including intravenous immunoglobulin, or animal antiserum is due, at least in part, to complement activation. Immune complexes formed in vivo or in vitro can activate the complement cascade. Certain byproducts of the cascadeplasma-activated complement 3 (C3a), plasma-activated complement 4 (C4a), and plasma-activated complement 5 (C5a)are called anaphylatoxins and can cause mast cell/basophil degranulation.
+
+When mast cells and basophils degranulate, whether by IgE- or nonIgE-mediated mechanisms, preformed histamine and newly generated leukotrienes, prostaglandins, and platelet-activating factor (PAF) are released. In the classic form, mediator release occurs when the antigen (allergen) binds to antigen-specific IgE attached to previously sensitized basophils and mast cells. The mediators are released almost immediately when the antigen binds.
+
+Certain agents are thought to cause direct nonimmunologic release of mediators from mast cells, a process not mediated by IgE. These include opioids, dextrans, protamine, and vancomycin. Mechanisms underlying these reactions are poorly understood but may involve specific receptors (eg, opioids) or nonreceptor-mediated mast cell activation (eg, hyperosmolarity).
+
+Inciting agents
+The most common inciting agents in anaphylaxis are foods, Hymenoptera stings, and intravenous (IV) contrast materials. Anaphylaxis may also be idiopathic.
+
+Immunologic IgE-mediated reactions
+Typical examples of IgE-mediated anaphylaxis include the reactions to many foods, drugs, and insect stings.
+
+Hypersensitivity to foods is a problem encountered throughout the industrialized world.[8] In the United States, an estimated 4 million Americans have well-substantiated food allergies. A study from Australia showed that more than 10% of 12-month-old children had challenge-proven IgE-mediated food allergies.[9] In Montreal, 1.5% of early elementary school students were found to be sensitized to peanuts. Reactions to foods are thought to be the most common prehospital (outpatient) cause of anaphylaxis.
+
+Certain foods are more likely than others to elicit an IgE antibody response and lead to anaphylaxis. Foods likely to elicit an IgE antibody response in all age groups include peanuts, tree nuts, fish, and shellfish. Those likely to elicit an IgE antibody response in children also include cows milk, eggs, wheat, and soy.
+
+An analysis of 32 fatalities thought to be due to food-induced anaphylaxis revealed that peanuts likely were the responsible food in 62% of the cases. In placebo-controlled food challenges, peanut-sensitive patients can react to as little as 100 µg of peanut protein.[10] The Rochester Epidemiology Project, in agreement with earlier studies, found that food ingestion was the leading cause of anaphylaxis, accounting for as many as one third of all cases.[11]
+
+In the past, a history of IgE-mediated egg allergy has been a contraindication to receiving the annual influenza vaccination. A few years ago, egg-allergic individuals received influenza vaccination, but typically with a graded multi-dose protocol or based on skin prick testing to the vaccine itself. Given a dearth of recent evidence that egg-allergic individuals can safely receive the influenza vaccine with no increased risk of systemic reaction as compared to the general population, the most recent guidelines now recommend that all egg-allergic individuals should be vaccinated with a single dose of influenza vaccine. Furthermore, skin testing has no role because no evidence suggests this reliably identifies individuals at risk of a systemic reaction.[12, 13]
+
+Scombroid fish poisoning can occasionally mimic food-induced anaphylaxis. Bacteria in spoiled fish produce enzymes capable of decarboxylating histidine to produce biogenic amines, including histamine and cis-urocanic acid, which is also capable of mast cell degranulation.
+
+Most cases of IgE-mediated drug anaphylaxis in the United States are due to penicillin and other beta-lactam antibiotics. Approximately 1 in 5000 exposures to a parenteral dose of a penicillin or cephalosporin antibiotic causes anaphylaxis.
+
+Penicillin is metabolized to a major determinant, benzylpenicilloyl, and multiple minor determinants. Penicillin and its metabolites are haptens, small molecules that only elicit an immune response when conjugated with carrier proteins. Other beta-lactam antibiotics may cross-react with penicillins or may have unique structures that also act as haptens.
+
+Reactions to cephalosporins may occur in penicillin-allergic patients. In these patients, older agents such as cephalothin, cephalexin, cefadroxil, and cephazolin are more likely to precipitate an allergic reaction than newer agents such as cefprozil, cefuroxime, ceftazidime, or ceftriaxone. This increased reactivity with the older agents is due to greater antigenic similarity of the side chain not present with the newer second- and third-generation agents.
+
+One report suggested that the actual incidence of anaphylaxis to cephalosporins in penicillin-anaphylactic patients is much lower than the 10% frequently quotedperhaps 1%, with most reactions considered mild.[14] A retrospective study evaluated 606 hospitalized patients with a history of penicillin allergy who were given a cephalosporin. Only one patient (0.17%) had a reaction, and it was minor.[15]
+
+Another paper indicated that patients with a history of allergy to penicillin seem to have a higher risk (by a factor of about 3) of subsequent reaction to any drug and that the risk of an allergic reaction to cephalosporins in patients with a history of penicillin allergy may be up to 8 times as high as the risk in those with no history of penicillin allergy (ie, at least part of the observed cross-reactivity may represent a general state of immune hyperresponsiveness, rather than true cross-reactivity).[16]
+
+Pichichero reviewed the complicated literature and offered specific guidance for the use of cephalosporins in patients who have a history of IgE-mediated reactions to penicillin.[17]
+
+Patients with a history of positive skin tests for penicillin allergy are at high risk of subsequent reactions to penicillins. However, approximately 95% of patients with a history of penicillin allergy have negative skin tests and a low risk of reactions. Patients with less well-defined reactions to penicillin have a very low risk (1-2%) of developing anaphylaxis to cephalosporins. The rate of skin-test reactivity to imipenem in patients with a known penicillin allergy is almost 50%. In contrast, no known in vitro or clinical cross-reactivity exists between penicillins and aztreonam.
+
+When either a penicillin or a cephalosporin is the drug of choice for a patient with a life-threatening emergency, a number of options exist. When the history is indefinite, the drug may be administered under close observation; however, when possible, obtain the patients informed consent. Immediate treatment measures for anaphylaxis should be available. Alternatively, when the history is more convincing, an alternative agent should be chosen if it provides similar efficacy or one must pursue a desensitization protocol.
+
+Many other drugs have been implicated in IgE-mediated anaphylaxis, albeit less frequently. In the surgical setting, anaphylactic reactions are most often due to muscle relaxants but can also be due to hypnotics, antibiotics, opioids, colloids, and other agents. The prevalence of latex allergy was higher during the 1980s (due to the HIV and hepatitis B and C epidemics and the institution of universal precautions), but the incidence has decreased significantly since the widespread use of latex-free materials. If latex is responsible for anaphylaxis in the perioperative setting, reactions tend to occur during maintenance anesthesia, whereas other agents tend to cause reactions during the induction of anesthesia. Volatile anesthetic agents can cause immune-mediated hepatic toxicity but have not been implicated in anaphylactic reactions.[18]
+
+Hymenoptera stings are a common cause of allergic reaction and anaphylaxis. From 0.5%-3% of the US population experiences a systemic reaction after being stung.[19] In the United States, Hymenoptera envenomations result in fewer than 100 reported deaths per year. Local reaction and urticaria without other manifestations of anaphylaxis are much more common than full-blown anaphylaxis after Hymenoptera stings. Adults with generalized urticaria are at increased risk for anaphylaxis with future stings, but a local reaction, regardless of severity, is not a risk factor for anaphylaxis.
+
+Caution patients treated and released from the emergency department (ED) after an episode of anaphylaxis or generalized urticaria from Hymenoptera envenomation to avoid future exposure when possible. Consider referral to an allergist for desensitization, particularly when further exposure is likely. Additionally, consider prescribing a treatment kit with an epinephrine autoinjector and oral antihistamine. Both are effective measures in preventing or ameliorating future reactions.
+
+Allergen-specific subcutaneous immunotherapy (SCIT) can cause IgE-mediated anaphylaxis. Allergy injections are a common trigger for anaphylaxis. This is not unexpected, because the treatment is based on injecting an allergen to which the patient is sensitive. However, life-threatening reactions are rare. Three studies suggest that fatalities from SCIT occur at a rate of approximately 1 death per 2,500,000 injections.[20, 21, 22] A total of 104 fatalities due to SCIT and skin testing were reported from 1945-2001.
+
+Risk factors for severe anaphylaxis due to immunotherapy include poorly controlled asthma, concurrent use of beta-blockers, high allergen dose, errors in administration, and lack of a sufficient observation period following the injection.
+
+Near-fatal reactions (NFRs) to subcutaneous immunotherapy also have been examined retrospectively. Of 646 allergist-immunologists who responded to a survey on reactions, 273 reported NFRs. The investigators defined an NFR as respiratory compromise, hypotension, or both, requiring emergency epinephrine. Hypotension was reported in 80% and respiratory failure occurred in 10% of NFRs, exclusively in subjects with asthma. Epinephrine was delayed or not administered in 6% of these cases.
+
+Immunologic reactions to aspirin, NSAIDs, and ACE inhibitors
+Reactions to aspirin and nonsteroidal anti-inflammatory drugs (NSAIDs) in the past have been classified as IgE-independent because they were thought to occur from aberrant metabolism of arachidonic acid.
+
+Isolated cutaneous reactions to aspirin/NSAIDs and bronchospasm in aspirin-sensitive asthmatics (often in association with nasal polyposis) are indeed mediated through IgE-independent mechanisms. Blockade of cyclooxygenase by these drugs causes the prostanoid pathway to shut down, resulting in an overproduction of leukotrienes via the 5-lipoxygenase pathway. These patients have marked cross-reactivity between aspirin and most NSAIDs.
+
+Anaphylaxis after taking these drugs, however, apparently occurs via a different mechanism that is more consistent with IgE-mediated anaphylaxis. With true anaphylaxis, the different cyclooxygenase inhibitors do not appear to cross-react. Anaphylaxis occurs only after 2 or more exposures to the implicated drug, suggesting a need for prior sensitization. Finally, patients with true anaphylaxis do not usually have underlying asthma, nasal polyposis, or urticaria.
+
+In one study of nearly 52,000 people taking NSAIDs, 35 developed anaphylactic shock.
+
+Angiotensin-converting enzyme (ACE) inhibitors, widely used in the treatment of hypertension, are associated with angioedema in 0.5-1.0% of patients who take them. Systemic anaphylaxis is rarely associated with these agents.
+
+Immunologic IgE-independent reactions
+Anaphylaxis may result from administration of blood products, including IV immunoglobulin, or animal antiserum, at least partly as a consequence of activation of the complement cascade. Certain byproducts of the cascade are capable of causing mast cell/basophil degranulation. (See Pathophysiology.)
+
+Exercise-induced anaphylaxis is a rare syndrome that can take 1 of 2 forms. The first form is food dependent, requiring exercise and the recent ingestion of particular foods (eg, wheat, celery) or medications (eg, NSAIDs) to cause an episode of anaphylaxis. In these patients, exercise alone does not produce an episode, and, similarly, ingesting the culprit food or medication alone does not cause an episode.
+
+The second form is characterized by intermittent episodes of anaphylaxis during exercise, independent of any food ingestion. Anaphylaxis does not necessarily occur during every episode of physical exertion.
+
+Anaphylaxis can be a manifestation of systemic mastocytosis, a disease characterized by excessive mast cell burden in multiple organs. Such patients appear to be at increased risk for food and venom reactions. Alcohol, vancomycin, opioids, radiocontrast media, and other biologic agents that can directly degranulate mast cells are generally discouraged in these patients.
+
+Nonimmunologic reactions
+Certain agents, including opioids, dextrans, protamine, and vancomycin, are thought to cause direct, nonimmunologic release of mediators from mast cells. Evidence also exists that dextrans and protamine can activate several inflammatory pathways, including complement, coagulation, and vasoactive (kallikrein-kinin) systems.
+
+Intravenously administered radiocontrast media cause an anaphylactoid reaction that is clinically similar to true anaphylaxis and is treated in the same way. The reaction is not related to prior exposure. Approximately 1-3% of patients who receive hyperosmolar IV contrast experience a reaction. Reactions to radiocontrast media usually are mild (most commonly urticarial), with only rare fatalities reported. Risk of a fatal reaction has been estimated at 0.9 cases per 100,000 exposures.
+
+Pretreatment with antihistamines or corticosteroids and use of low-molecular-weight (LMW) contrast agents lead to lower rates of anaphylactoid reactions to IV radiocontrast media (approximately 0.5%). Consider these measures for patients who have prior history of reaction, since rate of recurrence is estimated at 17-60%. Some institutions use only LMW agents. Personnel, medications, and equipment needed for treatment of allergic reactions always should be available when these agents are administered. Obtain consent before administration.
+
+Patients who are atopic and/or asthmatic also are at increased risk of reaction. In addition, allergic reaction is more difficult to treat in those taking beta-blockers.
+
+Shellfish or iodine allergy is not a contraindication to use of IV contrast and does not mandate a pretreatment regimen. As with any allergic patient, give consideration to use of LMW contrast agents. In fact, the term iodine allergy is a misnomer. Iodine is an essential trace element present throughout the body. No one is allergic to iodine. Patients who report iodine allergy usually have had either a prior contrast reaction, a shellfish allergy, or a contact reaction to povidone-iodine (Betadine).
+
+Mucosal exposure (eg, GI, genitourinary [GU]) to radiocontrast agents has not been reported to cause anaphylaxis; therefore, a history of prior reaction is not a contraindication to GI or GU use of these agents.
+
+Idiopathic anaphylaxis
+Idiopathic anaphylaxis is a syndrome of recurrent anaphylaxis for which no consistent triggers can be determined despite an exhaustive search.[23] This recurrent syndrome should be distinguished from a single episode of anaphylaxis for which the etiology may be unclear.
+
+Idiopathic anaphylaxis can be categorized as infrequent (< 6 episodes per year) or frequent (6 episodes per year or 2 or more episodes within the last 2 months).[23] One approach is expectant treatment with epinephrine, antihistamines, and prednisone for individuals who have infrequent episodes and a prolonged taper of prednisone for those with frequent episodes.
+
+Most of these patients are female, and atopy appears to be an underlying risk factor. Two thirds of patients have 5 or fewer episodes per year, while one third have more than 5 episodes per year.
+
+A subpopulation of women develops anaphylaxis in relationship to their menstrual cycle; this phenomenon is known as catamenial anaphylaxis.[24, 25] In severe cases, these patients require manipulation of their hormonal levels by medical pituitary suppression and even oophorectomy. Most of these patients react to shifts in progesterone levels, and the diagnosis can be confirmed by provoking an anaphylactic event through administration of low doses of progesterone.
+
+Biphasic and persistent anaphylaxis
+The reported incidence of biphasic (recurrent) anaphylaxis varies from less than 1% to a maximum of 23%. Additionally, the reported time of onset of the late phase may vary from 1 to 72 hours (most occur within 8-10 h). Potential risk factors include severity of the initial phase, delayed or suboptimal doses of epinephrine during initial treatment, laryngeal edema or hypotension during the initial phase, delayed onset of symptoms after exposure to the culprit antigen (often a food or insect sting), or prior history of biphasic anaphylaxis.[26]
+
+Persistent anaphylaxis, anaphylaxis that may last from 5-32 hours, occurred in 7 of 25 subjects (28%) in the Stark and Sullivan report, with 2 fatalities.[27] Of 13 subjects analyzed in a report on fatal or near-fatal anaphylaxis to foods, 3 (23%) similarly experienced persistent anaphylaxis.[28] Retrospective data from other investigators, however, suggest that persistent anaphylaxis is uncommon.
+
+Neither biphasic nor persistent anaphylaxis can be predicted from the severity of the initial phase of an anaphylactic reaction. Since life-threatening manifestations of anaphylaxis may recur, it may be necessary to monitor patients 24 hours or more after apparent recovery from the initial phase.[26] When prescribing epinephrine, all patients should be instructed to have 2 injectors on hand at all times.
+
+Risk factors
+As mentioned above, atopy is a risk factor for anaphylaxis. In the Rochester Epidemiology Project, 53% of the patients with anaphylaxis had a history of atopic diseases (eg, allergic rhinitis, asthma, atopic dermatitis).[11] The Memphis study detected atopy in 37% of the patients.[29] Other studies have shown atopy to be a risk factor for anaphylaxis from foods, exercise-induced anaphylaxis, idiopathic anaphylaxis, radiocontrast reactions, and latex reactions. Underlying atopy does not appear to be a risk factor for reactions to penicillin or insect stings.
+
+Route and timing of administration affect anaphylactic potential. The oral route of administration is less likely to cause a reaction, and such reactions are usually less severe, although fatal reactions occur following ingestions of foods by someone who is allergic. The longer the interval between exposures, the less likely that an IgE-mediated reaction will recur. This is thought to be due to catabolism and decreased synthesis of allergen-specific IgE over time. This does not appear to be the case for IgE-independent reactions.
+
+A retrospective emergency department study of 302 patients presenting with anaphylaxis, 87 (29%) of whom were taking at least 1 antihypertensive medication, found that antihypertensive pharmacotherapy increased the risk of organ system involvement and hospitalization.[30, 31] There was a more than 2-fold increased risk of involvement in 3 or more organ systems when ACE inhibitors, beta blockers, diuretics, or any antihypertensive medications were used. Most of these agents were also associated with an increased risk for inpatient admission.[30, 31]
+
+eMedicine Logo
+Epidemiology
+The true incidence of anaphylaxis is unknown. Some clinicians reserve the term for the full-blown syndrome, whereas others use it to describe milder cases. The frequency of anaphylaxis is increasing, and this has been attributed to the increased number of potential allergens to which people are exposed.
+
+A review concluded that the lifetime prevalence of anaphylaxis is 1-2% of the population as a whole.[32]
+
+United States statistics
+Neugut et al estimated that 1-15% of the US population is at risk of experiencing an anaphylactic or anaphylactoid reaction.[33] They estimated that the rate of actual anaphylaxis to food was 0.0004%, 0.7-10% for penicillin, 0.22-1% for radiocontrast media (RCM), and 0.5-5% after insect stings.
+
+A population-based study from Rochester, Minnesota, found an average annual incidence of anaphylaxis of 58.9 cases per 100,000 person-years, which had increased from 46.9 cases per 100,000 in 1990.[11] Of identified causes, ingestion of a specific food was responsible for 33%, insect stings for 18.5%, and medications for 13.7%. Twenty-five percent of cases were considered idiopathic. Episodes of anaphylaxis occurred more frequently from July through September, a difference that is attributable to insect stings.
+
+In a study of patients referred to a university-affiliated allergy-immunology practice in Memphis, Tennessee, food was the cause of anaphylaxis in 34% of patients, medications in 20%, and exercise in 7% (anaphylaxis due to insect stings or SCIT was excluded from the study).[29] The cause could not be determined in 59% (ie, they were diagnosed with idiopathic anaphylaxis). A separate study estimated that there are 20,000-47,000 cases of idiopathic anaphylaxis in the United States per year (approximately 8-19 episodes per 100,000 person-years).
+
+Reactions to insects and other venomous plants and animals are more prevalent in tropical areas because of the greater biodiversity in these areas. Exposure and therefore reactions to medications are more common in industrialized areas.
+
+International statistics
+The incidence of anaphylaxis does not appear to vary significantly between countries. Two European studies detected a lower average annual incidence than found in the Rochester study (3.2 cases of anaphylactic shock per 100,000 person-years in Denmark; 9.8 cases of out-of-hospital anaphylaxis per 100,000 person-years in Munich, Germany[34] ). Rates in Europe range from 1-3 cases per 10,000.[35, 34] However, the incidence of anaphylaxis may be increasing.[36]
+
+Simons and colleagues examined the rate of epinephrine prescriptions for a population of 1.15 million patients in Manitoba, Canada, and found that 0.95% of this population was prescribed epinephrine, an indicator of perceived risk that future anaphylaxis may occur.[37] Moneret-Vautrin et al reviewed the published literature and stated that severe anaphylaxis affects at least 1-3 persons per 10,000 population.[38]
+
+Age distribution for anaphylaxis
+Anaphylaxis can occur at any age. In the Rochester study, the mean age was 29.3 years (range, 0.8 to 78.2 years). Age-specific rates were highest for ages 0-19 years (70 cases per 100,000 person-years).[11] The Memphis study had an age range of 1-79 years, with a mean of 37 years.[29] Simons and colleagues noted the highest frequency of epinephrine prescriptions for boys aged 12-17 months (5.3%).[37] The rate was 1.4% for those younger than 17 years, 0.9% for those aged 17-64 years, and 0.3% for those aged 65 years or older.
+
+Severe food allergy is more common in children than in adults. However, the frequency in adults may be increasing, since severe food allergy often persists into adulthood. Anaphylaxis to radiocontrast media, insect stings, and anesthetics has been reported to be more common in adults than in children. Whether this is a function of exposure frequency or increased sensitivity is unclear.
+
+Go to Pediatric Anaphylaxis and Pediatric Exercise-Induced Anaphylaxis for more complete information on these topics.
+
+Sex distribution for anaphylaxis
+The Rochester and Memphis studies both showed a slight female predominance.[11, 29] Earlier studies have suggested that episodes of anaphylaxis to IV muscle relaxants, aspirin, and latex are more common in women, whereas insect sting anaphylaxis is more common in men. These sex discrepancies are likely a function of exposure frequency.
+
+eMedicine Logo
+Prognosis
+Fatal anaphylaxis is infrequent but not rare; milder forms occur much more frequently. Up to 500-1000 fatal cases of anaphylaxis per year are estimated to occur in the United States. Estimated mortality rates range from 0.65-2% of patients with anaphylaxis.[39, 40]
+
+Reactions to foods are thought to be the most common cause of anaphylaxis when it occurs outside of the hospital and are estimated to cause 125 deaths per year in the United States. Severe reactions to penicillin occur with a frequency of 1-5 cases per 10,000 patient courses, with fatalities in 1 case per 50,000-100,000 courses. Fewer than 100 fatal reactions to Hymenoptera stings are reported each year in the United States, but this is considered to be an underestimate.
+
+Anaphylaxis to conventional radiocontrast media (RCM) was estimated to have caused up to 900 fatalities in 1975, or 0.009% of patients receiving RCM.[41] In one series, the reported risk of adverse reactions (mild or severe) in patients receiving lower osmolar RCM agents is 3.13% compared with 12.66% for patients receiving conventional RCM.[42] The study also reported premedication did not lower the risk of nonionic reactions further. The rate of fatal anaphylaxis is also reduced significantly by lower-osmolar RCM, approximately 1 in 168,000 administrations.[43]
+
+In the United Kingdom, half of fatal anaphylaxis episodes are of iatrogenic origin (eg, anesthesia, antibiotics, radiocontrast media), while foods and insect stings each account for a quarter of the fatal episodes.
+
+The most common causes of death are cardiovascular collapse and respiratory compromise. One report examined 214 anaphylactic fatalities for which the mode of death could be surmised in 196, 98 of which were due to asphyxia (49 lower airways [bronchospasm], 26 both upper and lower airways, and 23 upper airways [angioedema]). The fatalities from acute bronchospasm occurred almost exclusively in those with preexisting asthma.
+
+Another analysis of 23 unselected cases of fatal anaphylaxis determined that 16 of 20 immediate deaths (death occurring within one hour of symptom onset) and 16 of the 23 cases that underwent autopsy were due to upper airway edema.
+
+Death can occur rapidly. An analysis of anaphylaxis fatalities occurring in the United Kingdom from 1992 to 2001 revealed the interval between initial onset of food anaphylaxis symptoms and fatal cardiopulmonary arrest averaged 25-35 minutes, which was longer than for drugs (mean, 10-20 minutes pre-hospital; 5 minutes in-hospital) or for insect stings (10-15 minutes).
+
+Asthma is a risk factor for fatal anaphylaxis. Delayed administration of epinephrine is also a risk factor for fatal outcomes.[8]
+
+Posture also influences anaphylaxis outcomes. In a retrospective review of prehospital anaphylactic fatalities in the United Kingdom, the postural history was known for 10 individuals.[44] Four of the 10 fatalities were associated with the assumption of an upright or sitting posture during anaphylaxis. Postmortem findings were consistent with pulseless electrical activity and an empty heart attributed to reduced venous return from vasodilation and redistribution of intravascular volume from the central to the peripheral compartment.
+
+Patients may experience multiple anaphylactic episodes. The Rochester study detected a total of 154 anaphylactic episodes involving 133 people in a 5-year period.[11] Most patients (116) had only 1 episode in those 5 years. Thirteen people had 2 episodes, and 4 people had 3 episodes.
+
+In contrast, in the Memphis study, 48% of patients had 3 or more anaphylactic episodes.[29] Of the 112 patients who responded to survey, however, 38 patients (34%) reported a recurrence of symptoms and the remaining 74 patients (66%) reported remission of symptoms. Overall, 85% of patients either were in remission or reported diminished symptom severity in a subsequent episode or episodes. The Memphis study evaluated a referral population and also deliberately excluded patients with anaphylaxis due to insect stings or SCIT.[29]
+
+eMedicine Logo
+Patient Education
+Avoidance education is crucial, especially in younger patients with food anaphylaxis. Important issues include cross-contamination and inadequate labeling of foods. The Food Allergy & Anaphylaxis Network is an excellent resource for families, as well as physicians. A study of children with food allergy visiting a subspecialty allergy clinic found 59% had an epinephrine autoinjector with them, although 71% of parents reported keeping the autoinjector available at all times. The only variable positively associated with having an autoinjector available was epinephrine autoinjector instruction.[45]
+
+Patients with sensitivity to multiple antibiotics should be provided a list of alternative antibiotics. They can present this list to their primary care physicians when antibiotic therapy is required.
+
+Avoidance education is also important for persons who are hypersensitive to insect stings. Caution patients to avoid use of perfumes or hygiene products that include perfumes, particularly floral scents, as these attract flying Hymenoptera. Brightly colored clothing attracts bees and other pollinating insects. Avoid locations of known hives or nests, and avoid using equipment that disturbs the hive.
+
+Persons who are sensitive to Hymenoptera and who must be outdoors should carry an epinephrine autoinjector (see below). Inform patients who react to Hymenoptera venom of the availability of desensitization therapy. On discharge, warn patients of the possibility of recurrent symptoms, and instruct them to seek further care if this occurs.
+
+In 2011, the Joint Task Force on Practice Parameters, representing the American Academy of Allergy, Asthma & Immunology, the American College of Allergy, Asthma & Immunology, and the Joint Council of Allergy, Asthma and Immunology, issued an updated practice parameter on insect sting hypersensitivity. The practice parameter states that patients with a possible systemic reaction should be referred to an allergist or immunologist, where they should be educated about their risk of another reaction, their options for preventative treatment, and the benefits of wearing a medical identification necklace or bracelet. Avoiding insect stings and dealing with an emergency should be discussed.[46] The 2010 Joint Task Force updated anaphylaxis parameter and the 2011 World Allergy Organization guidelines are generally in accordance with these recommendations.[47, 48]
+
+For patient education information, see eMedicineHealths Allergies Center. Also, see eMedicineHealth's patient education articles Severe Allergic Reaction (Anaphylactic Shock), Food Allergy, and Drug Allergy.
+
+Epinephrine autoinjector instruction
+Good evidence suggests that physicians underprescribe epinephrine and that patients (or their parents) fail to use epinephrine as quickly as possible.[49, 50, 51] Accordingly, at discharge, all patients should be provided an epinephrine autoinjector and should receive proper instruction on how to self-administer it in case of a subsequent episode.[50]
+
+Patients should be instructed to keep an epinephrine autoinjector with them at all times; they should also carry diphenhydramine and take this in conjunction with use of the epinephrine autoinjector. They should be instructed to keep the device from extremes of temperature. Epinephrine is sensitive to both light and temperature and therefore should not be stored, for example, in a refrigerator or in a motor vehicle glove compartment. They also should be instructed to replace any epinephrine autoinjector before its expiration date.
+
+Patients should be instructed to have ready and prompt access to emergency medical services for transportation to the closest ED for treatment. They should also be instructed to obtain emergency medical care immediately after injecting the epinephrine because the effect is short lived (< 15 min) and biphasic reactions can occur.
+
+An epinephrine autoinjector (eg, EpiPen) for adults is available with a single 0.3-mg (1:1,000 v/v) dose. Similarly, an EpiPen Jr., with a 0.15-mg (1:2,000 v/v) dose, is available for children who weigh less than 30 kg. Auvi-Q comes in similar dosing, and has the advantage of being a more compact device that provides visual and audio cues to help with proper administration.
+
+The Adrenaclick is also available as a single-dose autoinjector of either 0.15 mg or 0.3 mg. The Twinject is a pen-sized device containing 2 doses of epinephrine available either as a 0.15- or 0.3-mg formulation. In both cases, the first of the 2 doses is delivered by autoinjector, and the second is injected manually.
+
+Placebo syringes are recommended as educational tools. Live demonstrations of injections might be considered on a case-by-case basis when the patient or parent expresses a fear of injection.[50]
+
+eMedicine Logo
+ 
+Presentation
+History
+Anaphylaxis is an acute multiorgan system reaction. The most common organ systems involved include the cutaneous, respiratory, cardiovascular, and gastrointestinal (GI) systems. In most studies, the frequency of signs and symptoms of anaphylaxis is grouped by organ system.
+
+Anaphylactic reactions almost always involve the skin or mucous membranes. Greater than 90% of patients have some combination of urticaria, erythema, pruritus, or angioedema. In the Memphis study, for example, 87% of patients had urticaria and/or angioedema.[29] Other retrospective studies have reported similar rates of mucocutaneous involvement.
+
+Children, however, may be different. An Australian study evaluated 57 children under age 16 years who presented to a pediatric emergency department (ED) over a three-year period. Cutaneous features were noted in 82.5%, whereas 95% had respiratory symptoms. The reasons why a lack of dermal findings would be more common in children than in adults are not well understood.
+
+The upper respiratory tract commonly is involved, with complaints of nasal congestion, sneezing, or coryza. Cough, hoarseness, or a sensation of tightness in the throat may presage significant airway obstruction. Eyes may itch and tearing may be noted. Conjunctival injection may occur.
+
+Dyspnea is present when patients have bronchospasm or upper airway edema. Hypoxia and hypotension may cause weakness, dizziness, or syncope. Chest pain may occur due to bronchospasm or myocardial ischemia (secondary to hypotension and hypoxia). GI symptoms of cramplike abdominal pain with nausea, vomiting, or diarrhea also occur but are less common, except in the case of food allergy.
+
+The Memphis study reported dyspnea in 59%, syncope or lightheadedness in 33%, and diarrhea or abdominal cramps in 29%.[29] Other studies have reported similar findings.
+
+Initially, patients often describe a sense of impending doom, accompanied by pruritus and flushing. This can evolve rapidly into the following symptoms, broken down by organ system:
+
+Cutaneous/ocular - Flushing, urticaria, angioedema, cutaneous and/or conjunctival pruritus, warmth, and swelling
+
+Respiratory - Nasal congestion, rhinorrhea, throat tightness, wheezing, shortness of breath, cough, hoarseness
+
+Cardiovascular - Dizziness, weakness, syncope, chest pain, palpitations
+
+Gastrointestinal - Dysphagia, nausea, vomiting, diarrhea, bloating, cramps
+
+Neurologic - Headache, dizziness, blurred vision, and seizure (very rare and often associated with hypotension)
+
+Other - Metallic taste, feeling of impending doom
+
+Symptoms usually begin within 5-30 minutes from the time the culprit antigen is injected but can occur within seconds. If the antigen is ingested, symptoms usually occur within minutes to 2 hours. In rare cases, symptoms can be delayed in onset for several hours. Parenteral administration of monoclonal antibodies and oral ingestion of mammalian meat (eg, beef, pork, lamb) have recently been reported to be potential causes for anaphylaxis characterized by delayed onset.[52, 53, 54, 55, 56] It must be remembered that anaphylaxis can begin with relatively minor cutaneous symptoms and rapidly progress to life-threatening respiratory or cardiovascular manifestations. In general, the more rapidly anaphylaxis develops after exposure to an offending stimulus, the more likely the reaction is to be severe.
+
+A thorough history remains the best test to determine a causative agent. For recurrent idiopathic episodes, a patient diary may be helpful to implicate specific foods or medications, including over-the-counter (OTC) products.
+
+eMedicine Logo
+Physical Examination
+The first priority in the physical examination should be to assess the patients airway, breathing, circulation, and adequacy of mentation (eg, alertness, orientation, coherence of thought).
+
+General appearance and vital signs vary according to the severity of the anaphylactic episode and the organ system(s) affected. Vital signs may be normal or significantly disordered with tachypnea, tachycardia, and/or hypotension.
+
+Patients commonly are restless due to severe pruritus from urticaria. Anxiety, tremor, and a sensation of cold may result from compensatory endogenous catecholamine release. Anxiety is common unless hypotension or hypoxia causes obtundation. Frank cardiovascular collapse or respiratory arrest may occur in severe cases.
+
+Respiratory findings
+Severe angioedema of the tongue and lips (as may occur with the use of angiotensin-converting enzyme [ACE] inhibitors) may obstruct airflow. Laryngeal edema may manifest as stridor or severe air hunger. Loss of voice, hoarseness, and/or dysphonia may occur. Bronchospasm, airway edema, and mucus hypersecretion may manifest as wheezing. In the surgical setting, increased pressure of ventilation can be the only manifestation of bronchospasm. Complete airway obstruction is the most common cause of death in anaphylaxis.
+
+Cardiovascular findings
+Tachycardia is present in one fourth of patients, usually as a compensatory response to reduced intravascular volume or to stress from compensatory catecholamine release.
+
+Bradycardia, in contrast, is more suggestive of a vasodepressor (vasovagal) reaction. Although tachycardia is the rule, bradycardia has also been observed in anaphylaxis (see Pathophysiology). Thus, bradycardia may not be as useful for distinguishing anaphylaxis from a vasodepressor reaction as was previously thought. Relative bradycardia (initial tachycardia followed by diminished heart rate despite worsening hypotension) has been reported previously in experimental settings of insect sting anaphylaxis, as well as in trauma patients.[6, 7, 57, 58, 59]
+
+Hypotension (and resultant loss of consciousness) may be observed secondary to capillary leak, vasodilation, and hypoxic myocardial depression. Cardiovascular collapse and shock can occur immediately, without any other findings. This is an especially important consideration in the surgical setting. Because shock may develop without prominent skin manifestations or history of exposure, anaphylaxis is part of the differential diagnosis for patients who present with shock and no obvious cause.
+
+Cognitive findings
+If hypoperfusion or hypoxia occurs, it can cause altered mentation. The patient may exhibit a depressed level of consciousness or may be agitated and/or combative.
+
+Cutaneous findings
+The classic skin manifestation is urticaria (ie, hives). Urticaria can occur anywhere on the body, often localizing to the superficial dermal layers of the palms, soles, and inner thighs. Lesions are red and raised, and they sometimes have central blanching. Intense pruritus occurs with the lesions. Lesion borders are usually irregular and sizes vary markedly. Only a few small or large lesions may become confluent, forming giant urticaria. At times, the entire dermis is involved with diffuse erythema and edema.
+
+In a local reaction, lesions occur near the site of a cutaneous exposure (eg, insect bite). The involved area is erythematous, edematous, and pruritic. If only a local skin reaction (as opposed to generalized urticaria) is present, systemic manifestations (eg, respiratory distress) are less likely. Local reactions, even if severe, are not predictive of systemic anaphylaxis on reexposure.
+
+Angioedema (soft-tissue swelling) is also commonly observed. These lesions involve the deeper dermal layers of skin. It is usually nonpruritic and nonpitting. Common areas of involvement are the larynx, lips, eyelids, hands, feet, and genitalia.
+
+Generalized (whole-body) erythema (or flushing) without urticaria or angioedema is also occasionally observed.
+
+Cutaneous findings may be delayed or absent in rapidly progressive anaphylaxis.
+
+Gastrointestinal findings
+Vomiting, diarrhea, and abdominal distension are frequently observed.
+
+eMedicine Logo
+Complications
+Complications from anaphylaxis are rare, and most patients completely recover. Myocardial ischemia may result from hypotension and hypoxia, particularly when underlying coronary artery disease exists. Ischemia or arrhythmias may result from treatment with pressors. Prolonged hypoxia also may cause brain injury. At times, a fall or other injury may occur when anaphylaxis leads to syncope.
+
+Respiratory failure from severe bronchospasm or laryngeal edema can cause hypoxia, which could lead to brain injury if prolonged.
+
+eMedicine Logo
+ 
+DDx
+Diagnostic Considerations
+The clinical diagnosis of anaphylaxis is based on probability and pattern recognition. Anaphylaxis is considered likely to be present if any 1 of the 3 following clinical criteria is satisfied within minutes to hours:
+
+Acute symptoms involving skin, mucosal surface, or both, as well as at least one of the following: respiratory compromise, hypotension, or end-organ dysfunction
+
+Two or more of the following occur rapidly after exposure to a likely allergen: hypotension, respiratory compromise, persistent gastrointestinal symptoms, or involvement of skin or mucosal surface
+
+Hypotension develops after exposure to an allergen known to cause symptoms for that patient: age-specific low blood pressure or decline of systolic blood pressure of more than 30% compared to baseline
+
+However, anaphylaxis occurs as part of a clinical continuum that can begin with relatively mild features and rapidly progress to life-endangering respiratory or cardiovascular manifestations. Delaying the diagnosis until multiorgan manifestations of anaphylaxis are present is risky because the severity of a reaction is difficult or impossible to predict at the time of symptom onset.
+
+Other problems to be considered in diagnosing potential anaphylaxis include the following:
+
+Vasodepressor (vasovagal) reaction (probably the most common masquerader)
+
+Globus hystericus
+
+Hereditary angioedema
+
+Other forms of shock (ie, hypovolemic, cardiogenic, septic)
+
+Flushing syndrome, including red man syndrome (vancomycin), pancreatic polypeptide tumors, postmenopausal patient, ethanol-induced, autonomic epilepsy
+
+Monosodium glutamate poisoning
+
+Scombroid fish poisoning
+
+Capillary leak syndrome
+
+Pulmonary embolism
+
+Myocardial dysfunction
+
+Foreign body aspiration (young children, especially)
+
+Poisoning, acute
+
+Neurologic (stroke, seizure)
+
+Nonorganic disease, including panic attack, hyperventilation, vocal cord dysfunction syndrome, somatoform anaphylaxis
+
+Differential Diagnoses
+Angioedema
+
+Malignant Carcinoid Syndrome
+
+Medullary Thyroid Carcinoma
+
+Pheochromocytoma
+
+Systemic Mastocytosis
+
+eMedicine Logo
+Workup
+ 
+Workup
+Approach Considerations
+Because anaphylaxis is primarily a clinical diagnosis, laboratory studies are not usually required and are rarely helpful. However, if the diagnosis is unclear, especially with a recurrent syndrome, or if other diseases need to be excluded, some limited laboratory studies are indicated.
+
+eMedicine Logo
+Lab Studies
+Certain laboratory studies may be ordered in specific situations.
+
+Histamine and tryptase assessment
+If a patient is seen shortly after an episode, plasma histamine or urinary histamine metabolites, or serum tryptase measurements may be helpful in confirming the diagnosis.[2]
+
+Plasma histamine levels rise within 10 minutes of onset but fall again within 30 minutes. Urinary histamine levels are generally not dependable, as this test can be affected by diet and by bacteria in the urine. Urinary histamine metabolites measurement is a better test but is not generally available.
+
+Serum mature tryptase (previously called beta-tryptase) levels peak 60-90 minutes after the start of an episode and may persist for as long as 5 hours. The estimated positive predictive value of tryptase elevations in 259 subjects with anesthesia-associated anaphylaxis is 92.6%, and the estimated negative predictive value of normal tryptase levels is 54.3%. Serial tryptase measurements might improve diagnostic sensitivity, but further investigation is needed.
+
+Basal levels of total and mature tryptase between episodes of anaphylaxis can be helpful to rule out systemic mastocytosis. Patients with mastocytosis constitutively produce large quantities of alpha-tryptase, while individuals with anaphylaxis from other causes have normal levels of alpha-tryptase at baseline between episodes of anaphylaxis. During anaphylaxis, a ratio of total tryptase (alpha + mature) to mature tryptase of 20 or greater is consistent with mastocytosis, whereas a ratio of 10 or less suggests anaphylaxis of another etiology.
+
+Recent reports concerning insect sting anaphylaxis suggest closer scrutiny to baseline total tryptase levels, especially in patients who experienced hypotension during anaphylaxis, might be appropriate.[60, 61, 62] Higher baseline tryptase concentrations (>11.4 µg/L) may indicate mastocytosis or a monoclonal mast cell disorder (eg, c-kit mutation) and may require bone marrow biopsy and cytogenetic analysis for further evaluation.[61, 62]
+
+Detecting the rise of histamine or tryptase levels can be difficult, and some patients might have a rise in one but not the other. In one emergency department study evaluating patients with acute allergic reactions, 42 of 97 had elevated histamine while 20 had elevated tryptase levels.[63] No correlation was demonstrated between the levels of tryptase and histamine.
+
+Other potentially useful biomarkers are being studied, and these include platelet-activating factor (PAF), bradykinin, chymase, mast cell carboxypeptidase A3, dipeptidyl peptidase I, IL-33 and other cytokines, leukotrienes, and prostaglandins.[64] Low levels of the PAF acetylhydrolase have been reported in fatal anaphylaxis, and failure of this enzyme to inactivate PAF may help identify individuals at risk of severe or even fatal anaphylaxis.[65]
+
+5-Hydroxyindoleacetic acid levels
+If carcinoid syndrome is considered, urinary 24-hour 5-hydroxyindoleacetic acid levels should be measured.
+
+eMedicine Logo
+Skin Testing and In Vitro IgE Tests
+Skin testing, in vitro IgE tests, or both may be used to determine the stimulus causing the anaphylactic reaction (eg, food allergy, medication allergy [particularly penicillin], or insect bite or sting).
+
+Testing for food allergy
+If the patients medical history and physical examination findings suggest a possible association with food ingestion, percutaneous (puncture) food allergenspecific skin tests and/or in vitrospecific IgE tests (eg, radioallergosorbent assay test [RAST] or ImmunoCAP IgE tests [Phadia AB; Uppsala, Sweden]) can be performed, with an understanding that both false-positive and false-negative results may occur. In the absence of a suggestive clinical history, the rate of false-positive results has been reported to be roughly 50% for both skin tests and in vitrospecific IgE tests. In vitrospecific IgE testing can have roughly a 95% positive predictive value if values are over certain cutoff levels, which vary with the individual food in question.
+
+Conversely, the negative predictive value of skin testing has been reported to be about 95% (it may not be reliable for fresh fruits/vegetables or crustaceans because of the lack of labile allergenic proteins in commercial extracts).
+
+Thus, the detectable presence of specific IgE in the skin or serum can confirm a clinical suspicion formed by compatible patient history and examination. However, undetectable specific IgE occasionally occurs in patients with food allergy and therefore further evaluation (eg, physician-supervised oral food challenge is necessary in cases in which the history is highly suggestive before informing a patient that he or she is not allergic to a suspected food and may ingest it). The double-blind, placebo controlled food challenge is considered the criterion standard for diagnosis, but a physician-supervised single-blind or an open-food challenge may be considered diagnostic in certain circumstances. These areas are reviewed in depth in the 2010 NIAID-sponsored expert panel report on the diagnosis and management of food allergy in the United States.[66]
+
+These guidelines additionally recommend that the following not be used for a diagnosis, either individually or in combination: intradermal tests, measurement of total serum IgE, and the atopy patch test.[66]
+
+Many panallergens (eg, profilins, chitinases, lipid transfer proteins, tropomyosin) can add to the confusion, as foods may share pathogen-related proteins with nonfood allergens. Intradermal skin testing and IgG RAST tests have no role in the diagnosis of food allergy.
+
+Testing for medication allergy
+If the patients history suggests a penicillin etiology and the reagents are available, skin testing for penicillin should be performed with the appropriate positive and negative controls. Penicillin G and major determinant (Pre-Pen; ALK-Abelló, Inc; Round Rock, Tex) are commercially available for skin testing. Of note, although the minor determinant mix (MDM) of penicillin comprises only 5% of penicillin metabolites, the MDM has also been implicated in anaphylaxis. The MDM, however, is not available commercially and generally only available at research centers. If the MDM can be used in conjunction with the commercially available penicillin skin testing, the negative predictive value increases from 97% to closer to 99%.
+
+If penicillin skin testing yields positive results, one must use an alternative antibiotic or pursue a desensitization protocol to penicillin. If skin testing yields negative results, most clinicians recommend giving the first dose of penicillin orally and in an allergists office. This can be done immediately following the negative penicillin skin testing.
+
+If penicillin skin testing yields positive results, myriad desensitization protocols are available for penicillin (and numerous other medications). Informed consent must be obtained. Desensitization protocols must be performed in a setting equipped to quickly handle anaphylaxis (generally in an intensive care unit). Protocols generally involve administering 8-12 escalating doses of the medication orally or intravenously every 20-30 minutes while observing the patient for pruritus, flushing, urticaria, dyspnea, hypotension, or any other manifestations of anaphylaxis. If no manifestations are observed, the patient can receive the full dose of the medication.
+
+Importantly, although there are commercially available reagents for penicillin skin testing, skin testing for other beta-lactam antibiotics or the majority of other medications should be considered experimental because the haptenic determinants are unknown. Skin testing with the parent drug may be beneficial if the results are positive, but a negative result does not exclude the potential for severe clinical reactivity.
+
+Testing for suspected insect bite or sting
+If the patients history suggests an insect sting, allergen-specific skin testing to Hymenoptera venoms should be performed. As noted in the 2011 Joint Task Force update on insect hypersensitivity practice parameters, however, if those tests remain negative after 6 weeks in a patient with a serious reaction, then further testing can include in vitro IgE tests.[46] Skin testing and in vitro IgE testing should be performed 4-6 weeks following the episode of anaphylaxis to improve the sensitivity of the diagnostic test. Skin testing for imported fire ant hypersensitivity should be performed using whole-body extracts since venom preparations for the imported fire ant are not commercially available.
+
+Patients ability to identify the type of flying insect is unreliable (eg, many confuse yellow jackets and bees), generally mandating testing for all flying Hymenoptera. However, exceptions to this mandate can be made for patients whose stings were accompanied by sterile pustule formation within 24 hours (pathognomonic for fire ant sting) or for whom an impaled stinger and abdominal remnant were found at the sting site (the honeybee eviscerates itself as it stings). In these cases, testing may be limited to fire ant and honeybee allergen-specific IgE, respectively.
+
+Skin testing and in vitro IgE testing should be performed 4-6 weeks following the episode of anaphylaxis to improve the sensitivity of the diagnostic test.
+
+Testing for causes of IgE-independent reactions
+Because these reactions are not mediated through IgE, skin testing has no role in their diagnosis. No other diagnostic tests help assess the risk of recurrent IgE-independent reactions.
+
+eMedicine Logo
+ 
+Treatment
+Approach Considerations
+Anaphylaxis is a medical emergency that requires immediate recognition and intervention. Basic equipment and medication should be readily available in the physicians office. Lieberman et al have described this in great detail.[26, 47, 67, 68, 69]
+
+Prehospital patients with symptoms of severe anaphylaxis should first receive standard interventions. Interventions include high-flow oxygen, cardiac monitoring, and intravenous (IV) access. These measures are appropriate for an asymptomatic patient who has a history of serious reaction and has been re-exposed to the inciting agent. Measures beyond basic life support (BLS) are not necessary for patients with purely local reactions.
+
+Disposition of patients with anaphylaxis depends on the severity of the initial reaction and the response to treatment. Patients with nonlife-threatening symptoms may be observed for 4-6 hours after successful treatment and then discharged. Patients who have refractory or very severe anaphylaxis (with cardiovascular and/or severe respiratory symptoms) should be admitted or treated and observed for a longer period in the emergency department (ED) or an observation area.
+
+Diagnosis and management guidelines are available from the American Academy of Allergy, Asthma, and Immunology; the American College of Allergy, Asthma, and Immunology; and the Joint Council of Allergy, Asthma, and Immunology.[47]
+
+Go to Pediatric Anaphylaxis and Pediatric Exercise-Induced Anaphylaxis for complete information on these topics.
+
+eMedicine Logo
+Initial Emergency Department Interventions
+The 2010 Joint Task Force anaphylaxis parameter update, the 2011 World Allergy Organization anaphylaxis guidelines,[48] the 2010 NIAID-sponsored expert panel report[66] , and the 2014 practice parameters from the American Academy of Allergy, Asthma and Immunology, the American College of Allergy, Asthma and Immunology, and the Joint Council of Allergy Asthma and Immunology[70, 71] have similar recommendations for immediate treatment in the ED. It should begin with monitoring and treatment, including oxygen, cardiac monitoring, breathing, mental status, skin, and a large-bore IV with isotonic crystalloid solution. At the same time, where appropriate, the ED team should call for specialized help, particularly a resuscitation team. Further intervention depends on severity of reaction and affected organ system(s), but the guidelines recommend the injection of epinephrine and placing the patient in a supine position (or position of comfort if dyspneic or vomiting) with the legs elevated.
+
+Airway management
+For the initial assessment, check the airway closely. If needed, establish and maintain an airway and/or provide ventilatory assistance. Assess the level of consciousness and obtain blood pressure, pulse, and oximetry values. Place the patient in the supine position with legs elevated, and begin supplemental oxygen.
+
+Establishing and maintaining an airway or providing ventilatory assistance may be necessary. One of the quickest, easiest, and most effective ways to support ventilation involves a 1-way valve facemask with oxygen inlet port (eg, Pocket-Mask [Laerdal Medical Corporation, Gatesville, Tex] or similar device). Artificial ventilation via the mouth-to-mask technique with oxygen attached to the inlet port has provided oxygen saturations comparable to endotracheal intubation. Patients with adequate spontaneous respirations may breathe through the mask.
+
+Standard rapid sequence induction (RSI) techniques can be used but may cause loss of the airway in a patient whose airway anatomy is altered by edema. Severe laryngeal edema may occur so rapidly during anaphylaxis that endotracheal intubation becomes impossible. Epinephrine may rapidly reverse airway compromise. If the edema does not reverse promptly with epinephrine, an endotracheal tube should be inserted promptly. Alternatively, it may be preferable to defer intubation and instead ventilate with a bag/valve/mask apparatus in the interim.
+
+In extreme circumstances, cricothyrotomy or catheter jet ventilation may be lifesaving when orotracheal intubation or bag/valve/mask ventilation is not effective. Cricothyrotomy probably should be attempted rather than an emergency tracheostomy because it is easier to perform.
+
+Wheezing or stridor indicates bronchospasm or mucosal edema. Treatment with epinephrine and inhaled beta-agonists is effective for these indications. Inhaled beta-agonists are used to counteract bronchospasm and should be administered to patients who are wheezing.
+
+Recommendations to treat refractory bronchospasm with corticosteroids have been made because of their effectiveness in reactive airway disease. As in asthma therapy, onset of action is delayed for several hours. Aminophylline also has been recommended for bronchospasm in anaphylaxis and may be more rapidly effective than corticosteroids.
+
+For bradykinin-mediated angioedema (including angioedema due to angiotensin-converting enzyme [ACE] inhibitors), antihistamines and corticosteroids are probably not effective. Epinephrine may be tried in severe cases, but airway intervention may be needed.
+
+Cardiac monitoring
+Cardiac monitoring in patients with severe reactions and in those with underlying cardiovascular disease is important, particularly when adrenergic agonists are used in treatment. Pulse oximetry is also useful.
+
+Intravenous access
+The IV line should be of large caliber due to the potential requirement for large-volume IV fluid resuscitation. Isotonic crystalloid solutions (ie, normal saline, Ringer lactate) are preferred. A keep-vein-open (KVO) rate is appropriate for patients with stable vital signs and only cutaneous manifestations. If hypotension or tachycardia is present, administer a fluid bolus of 20 mg/kg for children and 1 L for adults. Further fluid therapy depends on patient response. Large volumes may be required in the profoundly hypotensive patient.
+
+eMedicine Logo
+Administration of Epinephrine
+Epinephrine maintains blood pressure, antagonizes the effects of the released mediators, and inhibits further release of mediators. Health care professionals are sometimes reluctant to administer epinephrine for fear of adverse effects. However, the use of epinephrine for anaphylaxis has no absolute contraindications. It is the drug of choice and it is usually well tolerated and potentially lifesaving.[48, 69, 72] Anaphylactic deaths correlate with delayed administration of epinephrine. The initial dose can be repeated as necessary, depending on the response. Data are limited concerning the frequency with which patients might require repeated doses of epinephrine to treat anaphylaxis (reports range from 16-36%) and multiple cofactors might be involved.[48, 69]
+
+Administer intramuscular (IM) epinephrine immediately.[37, 67] IM administration of epinephrine in the thigh (vastus lateralis) results in higher and more rapid maximum plasma concentrations of epinephrine than IM or subcutaneous (SC) administration in the arm (deltoid) of asymptomatic children and adults (see Medication).[49] However, similar studies comparing IM injections to SC injections in the thigh have not yet been done. Obesity or other conditions that enlarge the subcutaneous fat pad may prevent intramuscular access.
+
+Remove the source of the antigen if possible (eg, remove stinger after honeybee sting or stop drug infusion). If anaphylaxis occurs after injection of allergen-specific subcutaneous immunotherapy (SCIT), a large local reaction often occurs. Place a tourniquet above the injection site and, after IM epinephrine is administered, inject up to 0.1 mL of epinephrine into the large local reaction site to slow absorption.
+
+Racemic epinephrine via a nebulizer can be used to reduce laryngeal swelling, but it does not replace IM administration of epinephrine. Treat bronchospasm that has not responded to IM epinephrine with inhaled beta2 -adrenergic agonists such as albuterol.
+
+eMedicine Logo
+Administration of Antihistamines and Corticosteroids
+The standard treatment of anaphylaxis should also include antihistamines and corticosteroids. However, antihistamines have a much slower onset of action than epinephrine, they exert minimal effect on blood pressure, and they should not be administered alone as treatment.[73] Antihistamine therapy thus is considered adjunctive to epinephrine.
+
+Administer an H1 blocker and an H2 blocker, because studies have shown the combination to be superior to an H1 blocker alone in relieving the histamine-mediated symptoms. Diphenhydramine and ranitidine are an appropriate combination. IV administration ensures that effective dosing is not impaired by hemodynamic compromise, which adversely affects gastrointestinal (GI) or IM absorption. However, oral or IM administration of antihistamines may suffice for milder anaphylaxis.
+
+Corticosteroids have no immediate effect on anaphylaxis.[74] However, administer them early to try to prevent a potential late-phase reaction (biphasic anaphylaxis). Patients with asthma or other conditions recently treated with a corticosteroid may be at increased risk for severe or fatal anaphylaxis and may receive additional benefit if corticosteroids are administered to them during anaphylaxis. The authors recommend corticosteroid treatment for all patients with anaphylaxis. If absorption is a concern, IV preparations should be used.
+
+Most patients treated with antihistamines and steroids have complete remission following tapering of steroids. Others require long-term prophylaxis with high doses of H1 antihistamines.
+
+Outpatient medications are the oral forms of antihistamines and corticosteroids that should be continued for a short time (a few days) following an episode. The benefit of these drugs is more theoretical because no studies exist that prove their benefit in this setting.
+
+A convenient oral corticosteroid is prednisone. No proven best dose exists. In adults, a dose of 1 mg/kg/d in divided doses is probably adequate; in children, a dose of 0.5-1 mg/kg/d in divided doses is appropriate. Tapering is not necessary unless the patient has been taking steroids chronically.
+
+The following regimens are used commonly by clinicians, though very little hard data concerning the natural history of anaphylaxis treated in the ED exists. In light of this, do not construe the following as an unqualified recommendation or as a standard of care. Evidence for efficacy of H2 -blocker antihistamines is particularly sparse.
+
+H1 -blocker antihistamine treatment is as follows:
+
+Diphenhydramine (Benadryl) - Adults: 25 mg PO q6h for 2-5 d; Children: 1 mg/kg PO q6h for 2-5 d
+
+Hydroxyzine (Atarax) - Adults: 25 mg PO q8h for 2-5 d; Children: 1 mg/kg PO q8h for 2-5 d
+
+Corticosteroid treatment is as follows:
+
+Prednisone - Adults: 20-80 mg PO daily for 2-5 d; Children: 0.5-1 mg/kg PO daily for 2-5 d
+
+Many other glucocorticoid preparations may be used.
+
+H2 -blocker antihistamine treatment is as follows:
+
+Cimetidine - 300 mg PO qid for 2-5 d; Children: Not recommended
+
+Patients with frequent idiopathic anaphylaxis may benefit from daily antihistamine therapy (both H1 antagonists and H2 antagonists) or, in rare circumstances, daily corticosteroid therapy.
+
+For daily antihistamine therapy, diphenhydramine or hydroxyzine is often used first. Second-generation, less-sedating agents may be preferable because of decreased adverse effects. In their adult doses, these include fexofenadine (Allegra) at 180 mg/d, loratadine (Claritin) at 10 mg/d, cetirizine (Zyrtec) at 10 mg/d, desloratadine (Clarinex) at 5 mg/d, and levocetirizine (Xyzal) at 5 mg/d. However, none has been specifically evaluated in anaphylaxis prevention. Some specialists prescribe extra doses of antihistamines as needed and as tolerated to control symptoms.
+
+eMedicine Logo
+Management of Blood Pressure
+Maintaining proper blood pressure is important in the treatment of anaphylactic reactions. Hypotension is often the most difficult manifestation of anaphylaxis to treat. Persons with protracted hypotension must be monitored in an intensive care unit (ICU) setting.
+
+Because hypotension in anaphylaxis is due to a dramatic shift of intravascular volume, the fundamental treatment intervention after epinephrine is aggressive IV fluid administration. Large volumes of crystalloid may be required, potentially exceeding 5 L. The exact amount should be individualized and based on blood pressure and urine output. Depending on its severity, refractory hypotension may require placement of an invasive cardiovascular monitor (central venous catheter) and arterial line.
+
+In patients with preexisting heart disease, ischemic myocardial dysfunction may occur due to hypotension and hypoxia. Epinephrine still may be necessary in patients with severe anaphylaxis, but remember the potential for exacerbating ischemia. If pulmonary congestion or evidence of cardiac ischemia is present, fluid resuscitation should be approached more cautiously.
+
+Vasopressors may also be needed to support blood pressure. Intravenous epinephrine (1:10,000 v/v preparation) can be administered as a continuous infusion, especially when the response to intramuscular epinephrine (1:1000 v/v) is poor. Dopamine infusion can also be used.
+
+Patients with anaphylaxis who are taking a beta-adrenergic blocking agent (eg, for hypertension, migraine prophylaxis) can have refractory anaphylaxis that is poorly responsive to standard measures. Data are limited to case reports, but glucagon might be effective in this situation.[75] It has both inotropic effects and chronotropic effects on the heart by increasing intracellular levels of cyclic adenosine 3,5-monophosphate, independent of the beta-adrenergic receptors. Glucagon can also reverse bronchospasm.
+
+eMedicine Logo
+Treatment of Gastrointestinal Symptoms
+GI symptoms in anaphylaxis may respond to H1 antihistamines and epinephrine.
+
+eMedicine Logo
+Short-Term Desensitization Procedures
+Short-term desensitization procedures can be used for medication allergy in some circumstances in which no therapeutic alternative exists.
+
+Published protocols exist for short-term desensitization and are available for various medications. Consult an allergist-immunologist skilled in desensitization procedures to perform these protocols. Most protocols require the patient to be in an ICU setting throughout the procedure and to have established IV access and epinephrine at the bedside before the procedure starts. Obtain informed consent prior to the procedure. Anaphylaxis is a potential complication of this procedure.
+
+A typical desensitization protocol for beta-lactam antibiotics provides the patient a starting dose that is 6-7 logs below the usual therapeutic dose and increases the dose by 1 log every 20-30 minutes.[76] A typical desensitization regimen involves administering the antibiotic of choice in an initial dose of 0.01 mg. While observing the patient, double the dose every 20-30 minutes until a full dose has been administered.
+
+Desensitization regimens do not protect against non-IgE-mediated reactions that may be severe or even life threatening (eg, Stevens-Johnson syndrome).
+
+eMedicine Logo
+Administration of Anti-IgE
+Anti-IgE (eg, omalizumab) complexes circulating (but not receptor-bound) IgE and keeps it from binding to its receptors. It does not remove IgE bound to receptors and can take several weeks to months to have a substantial effect. It should not be used in an acute setting and would not be expected to influence IgE-independent or nonimmunologic events.
+
+Due to the potential for delayed anaphylaxis after omalizumab (0.09% of recipients in 1 report), observation periods of 2 hours for the first 3 injections and 30 minutes for subsequent injections have been recommended. Patients should also be prescribed an epinephrine autoinjector (see above for epinephrine autoinjector instruction) and advised to carry it before omalizumab injection and for the ensuing 24 hours.[52]
+
+eMedicine Logo
+Inpatient Care
+The presenting manifestation(s) of anaphylaxis dictate inpatient care. Essentially, this care consists of continuing the care initiated in the ED.
+
+Most patients with anaphylaxis may be treated successfully in the ED and then discharged. Treatment success operationally may be defined as complete resolution of symptoms followed by a short period of observation. The purpose of observation is to monitor for recurrence of symptoms (ie, biphasic anaphylaxis). An observation period of 10 hours appears sufficient for most reactions, but some investigators recommend 24 hours.[77]
+
+Hospital admission is required for patients who (1) fail to respond fully, (2) have a recurrent reaction or a secondary complication (eg, myocardial ischemia), (3) experience a significant injury from syncope, or (4) need intubation. As with many other conditions, consider a lower admission threshold when patients are at age extremes or when they have significant comorbid illness.
+
+Consider ICU admission for patients with persistent hypotension. The primary means of support are adrenergic agents (eg, epinephrine, dopamine) and fluid resuscitation. Persistent hypotension in the face of pressors and fluid resuscitation is an indication for invasive hemodynamic monitoring with evaluation of cardiac function and peripheral vascular resistance. Use of these parameters provides the basis for objective decisions regarding the use of fluids and pressors.
+
+Persistent bronchospasm should be treated by continuing albuterol and intravenous steroid administration. Cutaneous manifestations of anaphylaxis are treated with repeated doses of antihistamines.
+
+Therapy with antihistamines and oral glucocorticoids should probably continue at home for another 2-3 days to prevent recurrence.
+
+eMedicine Logo
+Prevention of Anaphylaxis
+Avoidance is the only form of prevention for most inciting agents.[78] Insect sting anaphylaxis can be prevented with allergen immunotherapy, which is highly effective. This recommendation is supported by updated reports of the Joint Task Force on Practice Parameters.[47, 46]
+
+Anti-IgE may be a good prophylactic agent for severe food allergy, but the one study published to date was with TNX-901, which is not being marketed. A phase II multicenter study with omalizumab (Xolair) in peanut allergy was discontinued prematurely because of safety concerns in some study subjects. Obtained data were insufficient to draw any conclusions, but a slight trend existed toward greater tolerability of peanuts in subjects treated with omalizumab compared to placebo.
+
+While theoretically attractive, premedication regimens have not been clinically shown to decrease incidence or severity of IgE-mediated allergic reactions to antibiotics.
+
+Patients at risk for recurrent anaphylaxis should consider wearing a MedicAlert bracelet.[78] They should also avoid the use of beta-blockers if at all possible since this class of medication may not only increase the risk of anaphylaxis, but also block the effects of epinephrine. ACE inhibitors have also been theorized to potentially increase the risk of anaphylaxis. Tricyclic antidepressants and monoamine oxidase inhibitors should also be avoided because of potential drug interactions with necessary therapies.
+
+Patients at risk for recurrent anaphylaxis might benefit from a written action plan.[78] The use and benefit of such plans has yet to be formally evaluated.[79, 80]
+
+Reactions to radiocontrast media
+Patients with a history of severe reactions to IV radiocontrast media may require use of contrast in an urgent or emergency situation. Alternatives (eg, noncontrast spiral computed tomography [CT] for ureteral stone, Doppler ultrasonography for deep venous thrombosis [DVT], nuclear scans or spiral CT for pulmonary embolism) should be considered but are not always feasible. In these circumstances, a prophylactic regimen of corticosteroids and antihistamines may be used.
+
+The precise efficacy of these regimens is difficult to evaluate, but they generally are considered effective. One author states that the recurrence rate for patients with a previous reaction was reduced from 17-60% to 9% when conventional contrast material was used; the rate was reduced to less than 1% when low osmolality material was used after a pretreatment regimen.
+
+Prophylaxis for IgE-independent anaphylactic reactions to radiocontrast media involves prednisone (or hydrocortisone), diphenhydramine, and possibly ranitidine (or another H2 antihistamine), and/or the use of a different contrast agent.
+
+Administer prednisone (50 mg PO) or hydrocortisone (200 mg IV) at 13, 7, and 1 hour before the radiocontrast procedure.
+
+Administer diphenhydramine (50 mg PO/IV) and ranitidine (150 mg PO or 50 mg IV) with or without ephedrine (25 mg PO) 1 hour before the procedure. Ephedrine should not be used in patients with hypertension, coronary artery disease (CAD), a strong family history of CAD (for older patients), arrhythmia, thyrotoxicosis, monoamine oxidase inhibitor use, or porphyria.
+
+Select a radiocontrast agent with lower osmolarity.
+
+eMedicine Logo
+Dietary Measures
+The only dietary consideration is the future avoidance of a suspect or culprit food. Clinical trials are presently evaluating short-term oral desensitization for some foods, such as peanuts.
+
+eMedicine Logo
+Consultations
+Most patients with anaphylaxis should be referred to an allergist-immunologist for further evaluation and treatment. However, the Rochester County study demonstrated that 42% of patients were referred for such a consultation,[11] and emergency departments fared worse in both civilian and military settings, 12-20% and 29%, respectively.
+
+Consultation with an allergist (when available) is appropriate when desensitization to an antibiotic is contemplated. When no inciting agent has been identified, consider referral to an allergist to identify the cause of anaphylaxis.
+
+Some anaphylactic reactions are so severe that treatment is unsuccessful and death occurs. This underscores the critical importance of education, avoidance, and prevention. An allergist-immunologist can provide comprehensive professional advice on these matters.[78]
+
+In the case of severe anaphylaxis requiring admission to the ICU, a critical care specialist should be consulted. When a patient at high risk for contrast reaction is under consideration for a contrast study, consultation with the radiologist regarding pretreatment and choice of contrast agent is appropriate.
+
+eMedicine Logo
+Long-Term Monitoring
+The most important aspect of outpatient follow-up is evaluation by an allergist-immunologist.[47, 66, 46, 48] Skin testing and/or in vitro IgE tests for foods, stinging insects, medications, or latex should be performed as directed by the patients history. Documented hypersensitivity to latex is an indication for evaluation of possible allergy cross-reacting foods (eg, banana, kiwi, avocado). If the patients history and skin test or in vitro IgE tests results confirm Hymenoptera sensitivity as the probable cause of anaphylaxis, venom-specific immunotherapy should be initiated to significantly decrease the likelihood of future episodes.
+
+Future avoidance of culprit foods, medications, latex, or radiocontrast media must be emphasized. If a culprit medication is required in the future and no other alternatives are available, a desensitization procedure should be performed by the allergist/immunologist, usually in an ICU setting. If radiocontrast media are required in the future, a pretreatment protocol may be used. (See Prevention of Anaphylaxis.)
+
+The patient must be provided a prescription for an epinephrine autoinjector (EpiPen, EpiPen Jr, or Twinject) and instructed in its proper use.
+
+eMedicine Logo
+ 
+Medication
+Medication Summary
+The primary drug treatments for acute anaphylactic reactions are epinephrine and H1 antihistamines. According to the 2013 World Allergy Association update,[48] 2015 Joint Task Force anaphylaxis update,[47] and 2010 NIAID guidelines,[66] epinephrine is the drug of choice for life-threatening reactions. When the intravenous (IV) route is not indicated, the intramuscular (IM) route is preferable to the subcutaneous (SC) route due to more rapid and reliable absorption. The anterolateral thigh is the preferred site, in children and adults. There is evidence for better absorption at this site as compared to a deltoid IM injection or SC injection. A summary of pharmacological management recommendations is available in the Joint Task Force anaphylaxis update,[47] NIAID report,[66] or WAO report.[48]
+
+Epinephrine is clearly effective for the most serious effects, and H1 -blockers are also effective; do not delay or defer their use in favor of other treatments. Inhaled beta agonists lack some of the adverse effects of epinephrine and are useful for cases of bronchospasm, but they may not have additional effects when optimal doses of epinephrine are used. Corticosteroids are potentially effective in preventing biphasic (ie, recurrent) reactions. Due to their delayed effect, corticosteroids are not first-line treatments.
+
+H2 -blocking antihistamines theoretically are attractive agents for dermal and gastrointestinal (GI) manifestations, but evidence supporting their clinical effectiveness is less than that for H1 -blocking agents. Some evidence suggests that combining H1 and H2 blockers may be more effective than H1 blockers alone. Glucagon may be useful in treating refractory cardiovascular effects in patients taking beta-blockers.
+
+eMedicine Logo
+Adrenergic Agonists
+Class Summary
+These agents help maintain blood pressure, antagonize effects of released mediators, and prevent further release of mediators.
+
+Epinephrine (Adrenaline, EpiPen, EpiPen Jr, Twinject, Adrenaclick)
+Epinephrine is the drug of choice for treating anaphylaxis. It has alpha-agonist effects that include increased peripheral vascular resistance and reversed peripheral vasodilatation, systemic hypotension, and vascular permeability. Its beta-agonist effects include bronchodilatation, chronotropic cardiac activity, and positive inotropic effects.
+
+eMedicine Logo
+Antihistamines
+Class Summary
+Antihistamines are primarily effective against cutaneous effects of anaphylaxis. Also may help antagonize cardiac and respiratory effects; should be used routinely in most cases of anaphylaxis. IV administration is preferable when a rapid effect is desired. IM dosing also is effective but has a slower onset than IV and may cause local tissue irritation. PO doses must be larger than parenteral doses because of 50% first-pass metabolism in the liver.
+
+Most recommendations for use of antihistamines state that they should be continued for 2-3 days after treatment of the acute anaphylactic event.
+
+Diphenhydramine (Benadryl)
+Diphenhydramine has a long history of efficacy and relative safety. It has an FDA indication for anaphylaxis. IV administration provides faster onset of action.
+
+Hydroxyzine (Vistaril)
+Hydroxyzine is an H1 antihistamine. It may suppress histamine activity in the subcortical region of the CNS.
+
+eMedicine Logo
+H2 Receptor Antagonists
+Class Summary
+These agents block effects of released histamine at H2 receptors, thereby treating vasodilation, possibly some cardiac effects, and glandular hypersecretion. H2 blockers with H1 blockers have additive benefit over H1 blockers alone in treating anaphylaxis. Ranitidine (Zantac) probably preferred over cimetidine (Tagamet) in anaphylaxis in light of the risk for hypotension with rapidly infused cimetidine and the multiple, complex drug interactions with cimetidine. Famotidine (Pepcid) IV is another good alternative.
+
+Cimetidine (Tagamet)
+Many H2 blockers are available. Cimetidine is the prototype drug; other agents have much less evidence of effectiveness in anaphylaxis.
+
+Ranitidine (Zantac)
+Ranitidine is an H2 antagonist, which, when combined with an H1 type, may be useful in treating allergic reactions that do not respond to H1 antagonists alone.
+
+Famotidine (Pepcid)
+H2 antagonist that when combined with an H1 type, may be useful in treating allergic reactions that do not respond to H1 antagonists alone.
+
+eMedicine Logo
+Bronchodilators
+Class Summary
+These agents stimulate beta2-adrenergic receptors in bronchial smooth muscle, causing bronchodilation. Inhaled beta-agonists are used to counteract bronchospasm and should be administered to patients who are wheezing.
+
+Albuterol (Proventil HFA, Ventolin HFA, ProAir HFA)
+Albuterol is a beta agonist for bronchospasm refractory to epinephrine. It relaxes bronchial smooth muscle by action on beta2-receptors, with little effect on cardiac muscle contractility.
+
+eMedicine Logo
+Corticosteroids
+Class Summary
+Corticosteroids have a delayed onset of action and do not reverse the cardiovascular effects of anaphylaxis. These agents should be used in severe reactions, but the use of epinephrine and H1 antihistamines has a higher priority. It is unclear whether corticosteroids administered systemically during the initial phase of anaphylaxis can weaken or prevent late-phase reactions.[77]
+
+While corticosteroids usually are administered IV in patients with anaphylaxis for presumed rapidity of effect, PO and IV corticosteroids are equally efficacious in asthma therapy. When administered acutely, corticosteroids commonly are continued for 2-3 days. In asthma treatment, large parenteral doses customarily are administered acutely, followed by lower PO dosing for varying periods. Long-acting parenteral preparations may be administered as an alternative and have been shown effective in asthma therapy.Optimal dosage range for corticosteroids has not been established; thus, a range of dosages is provided based on published recommendations.
+
+Methylprednisolone (Solu-Medrol)
+Methylprednisolone may help prevent late-phase allergic reactions (biphasic anaphylaxis). It has no immediate effects.
+
+Prednisone
+Prednisone is an immunosuppressant for treatment of allergic reactions. It may decrease inflammation by reversing increased capillary permeability and suppressing PMN activity.
+
+eMedicine Logo
+Positive Inotropic Agents
+Class Summary
+These agents help maintain blood pressure independent of adrenergic receptors by increasing intracellular levels of cyclic AMP. In addition, stimulate release of endogenous catecholamines.
+
+Glucagon (GlucaGen)
+Glucagon might be beneficial for severe anaphylaxis in patients taking beta-blockers (it should be used in addition to epinephrine, not as a substitute), although data are limited to case reports. Glucagon can also be used to reverse bronchospasm.
+
+Pancreatic alpha cells of the islets of Langerhans produce glucagon, a polypeptide hormone. Glucagon exerts opposite effects of insulin on blood glucose. It elevates blood glucose levels by inhibiting glycogen synthesis and enhancing formation of glucose from noncarbohydrate sources, such as proteins and fats (gluconeogenesis). It increases hydrolysis of glycogen to glucose (glycogenolysis) in liver in addition to accelerating hepatic glycogenolysis and lipolysis in adipose tissue. It also increases force of contraction in the heart and has a relaxant effect on the GI tract.
+
+The dose used for anaphylaxis is higher than the usual dose of 1 mg (1 U) IV/IM/SC used to treat hypoglycemia.
+
+eMedicine Logo
+Vasopressors
+Class Summary
+These agents are useful as adjunctive therapy to IV fluids to treat refractory hypotension from anaphylaxis.
+
+Dopamine (Intropin)
+Dopamine often is considered the drug of choice for anaphylaxis-induced refractory hypotension. It stimulates both adrenergic and dopaminergic receptors.
+
+The hemodynamic effect is dependent on dose. Lower doses predominantly stimulate dopaminergic receptors, which, in turn, produce renal and mesenteric vasodilation. Cardiac stimulation and peripheral vasoconstriction are produced by higher doses.
+
+More than 50% of patients are satisfactorily maintained on doses of less than 20 mcg/kg/min.
