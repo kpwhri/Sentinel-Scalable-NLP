@@ -1,0 +1,14 @@
+# Create shell scripts to run metamap on corpus
+# Usage:
+# 1. Build the shell scripts: `mml-build-mmscript-multi run_mm_on_corpus.toml`
+# 2. Run the shell scripts in the `outpath`
+# 3. Build the output
+outpath = 'scripts'
+filelist = 'filelist.txt'
+mm_outpath = 'mmout'
+parameters = '-R MDR,RXNORM -Z 2022AB -V NLM -N'
+num_scripts = 3
+
+[[runs]]
+parameters = '-y'
+name = 'wsd'
