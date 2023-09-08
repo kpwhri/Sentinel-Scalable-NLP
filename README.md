@@ -1,10 +1,7 @@
 
 <div>
-  <p>
-    <a href="https://github.com/kpwhri/Sentinel-Scalable-NLP">
-      <!-- img src="images/logo.png" alt="Logo" -->
-    </a>
-  </p>
+
+  <h2 align="center">IC FE2 Carrell Smith</h2>
 
   <h3 align="center">Sentinel Scalable NLP</h3>
 
@@ -44,7 +41,7 @@ There is one folder for each project documented here.  Currently there is one pr
 ### Prerequisites
 
 In general, components of this project have been used/tested with:
-* SAS version 9.4+ (?)
+* SAS version 9.4+
 * Structured healthcare data organized according to the Sentinel Common Data Model (or any other comparable "flat file" formatted collection of structured healthcare data)
 * Excel (or comparable spreadsheet software used to display data in a tabular format)
 
