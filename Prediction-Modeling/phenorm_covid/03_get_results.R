@@ -138,7 +138,7 @@ for (i in seq_len(length(silver_labels_plus_voting))) {
   this_wide_perf <- perf_wide %>%
     filter(id == this_silver_label)
   this_wide_perf %>%
-    mutate(across(3:9, round, 3)) %>%
+    mutate(across(3:9, \(x) round(x, 3))) %>%
     write_csv(file = paste0(file_prefix, "_perf_table.csv"))
 }
 # Maximum F1 score
