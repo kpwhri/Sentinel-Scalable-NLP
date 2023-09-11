@@ -338,7 +338,7 @@ phenorm_roc <- function(performance_object = NULL, analysis_name = "Primary 1",
   the_title <- paste0("Receiver operating characteristic curve: ", analysis_name)
   aucs <- performance_object %>%
     group_by(id) %>%
-    slice(n = 1) %>%
+    slice(1) %>%
     select(id, auc)
   if (nrow(aucs) > 1) {
     roc_curve <- performance_object %>%
