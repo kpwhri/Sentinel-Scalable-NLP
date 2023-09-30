@@ -2,9 +2,9 @@
 
 This folder contains the code necessary to run phenotyping models using PheNorm. 
 
-The `phenorm_covid` subdirectory contains a further README file with instructions on how to run the COVID-19 analyses.
+The `COVID` subdirectory contains a further README file with instructions on how to run the COVID-19 analyses.
 
-The `phenorm_anaphylaxis` subdirectory contains a further README file with instructions on how to run the anaphylaxis analysis.
+The `Anaphylaxis` subdirectory contains a further README file with instructions on how to run the anaphylaxis analysis.
 
 The code is designed to be run from the command line (Unix-style; you can also use Windows Subsystem for Linux on a Windows computer) or interactively from an `R` console (or `RStudio`). The input data can either include both counts of all mentions *and* counts of non-negated mentions, or can include only one of these two -- based on an argument specified in the data processing step, only one of the sets of NLP variables is included for analysis.
 
@@ -108,7 +108,7 @@ If there is an external evaluation site (e.g., the PheNorm model was trained in 
 
 ## Running the entire analysis
 
-The entire analysis can be run from the command line using `run_analysis.sh`. This file contains bash code that will run an entire PheNorm from the command line. This file also serves as a reference for interactive `R` sessions -- it specifies the values that you will need to change defaults to, as outlined below. You can also run each of the consituent bash scripts referenced above in order.
+The entire analysis can be run from the command line using the files in the `PheNorm` subdirectory, using `run_analysis.sh`. This file contains bash code that will run an entire PheNorm from the command line. This file also serves as a reference for interactive `R` sessions -- it specifies the values that you will need to change defaults to, as outlined below. You can also run each of the constituent bash scripts referenced above in order.
 
 If you prefer to run `R` in an interactive session, use the following steps (changing the defaults to match those used in `run_analysis.sh`, but relative to your computer/filesystem):
 1. "source" `00_install_packages.R`
