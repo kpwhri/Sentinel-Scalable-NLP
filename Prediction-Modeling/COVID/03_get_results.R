@@ -16,10 +16,10 @@ source(here::here("phenorm_covid", "phenorm_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
 parser <- add_option(parser, "--data-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_1_dimension-reduction_0_train-on-gold_0/",
                      help = "The input data directory")
 parser <- add_option(parser, "--output-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_1_dimension-reduction_0_train-on-gold_0/",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
@@ -138,7 +138,7 @@ for (i in seq_len(length(silver_labels_plus_voting))) {
   this_wide_perf <- perf_wide %>%
     filter(id == this_silver_label)
   this_wide_perf %>%
-    mutate(across(3:9, round, 3)) %>%
+    mutate(across(3:9, \(x) round(x, 3))) %>%
     write_csv(file = paste0(file_prefix, "_perf_table.csv"))
 }
 # Maximum F1 score
