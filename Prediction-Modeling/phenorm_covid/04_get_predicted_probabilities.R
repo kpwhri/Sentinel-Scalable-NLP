@@ -26,6 +26,8 @@ parser <- add_option(parser, "--weight", default = "Sampling_Weight",
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
 parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
 parser <- add_option(parser, "--study-id", default = "Studyid", help = "The study id variable")
+parser <- add_option(parser, "--valid-label", default = "Train_Eval_Set", 
+                     help = "The name of the validation set variable")
 args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 fit_output_dir <- paste0(args$output_dir, "fits/")
