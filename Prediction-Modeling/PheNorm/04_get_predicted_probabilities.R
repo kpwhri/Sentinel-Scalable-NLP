@@ -85,11 +85,9 @@ names(preds_train_df)[1] <- args$study_id
 unordered_preds <- rbind(preds_test_df, preds_train_df)
 ids_only <- data.frame(all_data[[id_var]])
 names(ids_only) <- args$study_id
-preds <- ids_only |> 
+pred_dataset <- ids_only |> 
   left_join(unordered_preds, by = args$study_id)
 # save
-pred_dataset <- cbind.data.frame(all_data[[id_var]], preds)
-names(pred_dataset)[1] <- names(all_data)[id_var]
 readr::write_csv(
   pred_dataset, file = paste0(
     fit_output_dir, args$analysis, "_", args$data_site, 
