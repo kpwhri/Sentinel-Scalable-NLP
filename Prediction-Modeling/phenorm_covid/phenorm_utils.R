@@ -207,6 +207,7 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
     auc <- unlist(ROCR::performance(
       prediction.obj = pred_obj, measure = "auc"
     )@y.values)
+    # could also compute CI for AUC here
     sens_spec <- ROCR::performance(
       prediction.obj = pred_obj, measure = "tpr", x.measure = "fpr"
     )

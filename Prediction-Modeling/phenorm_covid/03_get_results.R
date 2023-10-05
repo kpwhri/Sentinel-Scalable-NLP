@@ -16,10 +16,10 @@ source(here::here("phenorm_covid", "phenorm_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
 parser <- add_option(parser, "--data-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_1_dimension-reduction_0_train-on-gold_0/",
                      help = "The input data directory")
 parser <- add_option(parser, "--output-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_1_dimension-reduction_0_train-on-gold_0/",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
