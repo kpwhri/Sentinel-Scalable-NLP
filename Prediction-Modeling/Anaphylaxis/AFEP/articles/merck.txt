@@ -1,0 +1,116 @@
+Anaphylaxis
+By James Fernandez , MD, PhD, Cleveland Clinic Lerner College of Medicine at Case Western Reserve University
+Last review/revision Oct 2022
+VIEW PATIENT EDUCATION
+Etiology
+Pathophysiology
+Symptoms and Signs
+Diagnosis
+Treatment
+Prevention
+Key Points
+More Information
+Anaphylaxis is an acute, potentially life-threatening, IgE-mediated allergic reaction that occurs in previously sensitized people when they are reexposed to the sensitizing antigen. Symptoms can include stridor, dyspnea, wheezing, and hypotension. Diagnosis is clinical. Treatment is with epinephrine. Bronchospasm and upper airway edema may require inhaled or injected beta-agonists and sometimes endotracheal intubation. Persistent hypotension requires IV fluids and sometimes vasopressors.
+(See also Overview of Allergic and Atopic Disorders.)
+
+The prevalence of anaphylaxis is difficult to ascertain, but one study using 2 nationwide public surveys suggested that it was about 1.6% in the general adult population. Fatal anaphylaxis is far less common; it occurs in < 1 per million population (1).
+
+General reference
+1. Ma L, Danoff TM, Borish L: Case fatality and population mortality associated with anaphylaxis in the United States. J Allergy Clin Immunol 133 (4):10751083, 2014. doi: 10.1016/j.jaci.2013.10.029
+Etiology of Anaphylaxis
+Anaphylaxis is typically triggered by
+
+Drugs (eg, beta-lactam antibiotics, insulin, streptokinase, allergen extracts)
+Foods (eg, nuts, eggs, seafood)
+Proteins (eg, tetanus antitoxin, blood transfusions)
+Animal venoms
+Latex
+Peanut and latex allergens may be airborne. Occasionally, exercise or cold exposure can trigger or contribute to an anaphylactic reaction.
+
+History of atopy does not increase risk of anaphylaxis but increases risk of death when anaphylaxis occurs.
+
+Pathophysiology of Anaphylaxis
+Interaction of antigen with IgE on basophils and mast cells triggers release of histamine, leukotrienes, and other mediators that cause diffuse smooth muscle contraction (eg, resulting in bronchoconstriction, vomiting, or diarrhea) and vasodilation with plasma leakage (eg, resulting in urticaria or angioedema).
+
+Anaphylactoid reactions
+Anaphylactoid reactions are clinically indistinguishable from anaphylaxis but do not involve IgE and do not require prior sensitization. They occur via direct stimulation of mast cells or via immune complexes that activate complement.
+
+The most common triggers of anaphylactoid reactions are
+
+Iodinated radiopaque contrast agents
+Aspirin and other nonsteroidal anti-inflammatory drugs (NSAIDs)
+Opioids
+Monoclonal antibodies
+Exercise
+Symptoms and Signs of Anaphylaxis
+Symptoms of anaphylaxis typically begin within 15 minutes of exposure and involve the skin, upper or lower airways, cardiovascular system, and/or gastrointestinal (GI) tract. One or more areas may be affected, and symptoms do not necessarily progress from mild (eg, urticaria) to severe (eg, airway obstruction, refractory shock), although each patient typically manifests the same reaction to subsequent exposure.
+
+Symptoms range from mild to severe and include flushing, pruritus, urticaria, sneezing, rhinorrhea, nausea, abdominal cramps, diarrhea, a sense of choking or dyspnea, palpitations, and dizziness.
+
+Signs of anaphylaxis include hypotension, tachycardia, urticaria, angioedema, wheezing, stridor, cyanosis, and syncope. Shock can develop within minutes, and patients may have seizures, become unresponsive, and die. Cardiovascular collapse can occur without respiratory or other symptoms.
+
+Late-phase reactions may occur 4 to 8 hours after the exposure or later. Symptoms and signs are usually less severe than they were initially and may be limited to urticaria; however, they may be more severe or fatal. Therefore, patients who have an anaphylactic reaction should be observed in an acute care setting for several hours after the initial reaction.
+
+Diagnosis of Anaphylaxis
+Clinical evaluation
+Sometimes measurement of serum levels of tryptase
+Diagnosis of anaphylaxis is clinical. Anaphylaxis should be suspected if any of the following suddenly occur without explanation:
+
+Shock
+Respiratory symptoms (eg, dyspnea, stridor, wheezing)
+Two or more other manifestations of possible anaphylaxis (eg, angioedema, rhinorrhea, GI symptoms)
+Risk of rapid progression to shock leaves no time for testing, although mild equivocal cases can be confirmed by measuring serum levels of tryptase (preferably within 2 hours of the reaction). During anaphylaxis, these levels are elevated, and measuring them can help confirm the diagnosis if it is unclear or if the symptoms recur (eg, after treatment with IV drugs).
+
+The cause is usually easily recognized based on history. If health care workers have unexplained anaphylactic symptoms, latex allergy should be considered.
+
+Pearls & Pitfalls
+Consider latex allergy in health care workers with unexplained anaphylactic symptoms.
+Treatment of Anaphylaxis
+Epinephrine given immediately
+Sometimes intubation
+IV fluids and sometimes vasopressors for persistent hypotension
+Antihistamines
+Inhaled beta-agonists for bronchoconstriction
+Anaphylactoid reactions are treated similarly to anaphylactic reactions.
+
+Epinephrine
+Epinephrine is the cornerstone of treatment for anaphylaxis; it may help relieve all symptoms and signs and should be given immediately.
+
+Epinephrine can be given subcutaneously or IM (usual dose is 0.3 to 0.5 mL of a 1:1000 [0.1%] solution in adults or 0.01 mL/kg in children, repeated every 5 to 15 minutes). Maximal absorption occurs when the drug is given IM in the anterolateral (mid-outer) aspect of the thigh.
+
+Management of cardiac arrest is as per standard protocols. Patients with hypotension or severe airway obstruction may be given epinephrine IV or intraosseously (IO). A continuous drip using an infusion pump is preferred, but if the delay to prepare the drip and pump is unacceptable, epinephrine can be given as a single slow IV bolus dose of 0.05 to 0.1 mg (0.5 to 1 mL of a 0.1 mg/mL[1:10,000] solution over 1 to 2 minutes). For a continuous drip, 1 mg epinephrine is mixed in 250 mL 5% D/W or 0.9% normal saline for a concentration of 4 mcg/mL and is started at 0.1 mcg/kg/minute and titrate up by 0.05 mcg/kg/min every 2 to 3 minutes as needed based on blood pressure, heart rate, and oxygenation. If the patient's weight cannot be estimated accurately, the recommended starting dose for adults is 1 to 2 mcg/minute, titrated upward by 2 to 4 mcg/min every 2 to 3 minutes. If an initial bolus is desired but IV access is delayed, 0.2 to 0.25 mg epinephrine may also be given through an endotracheal tube (2 to 2.5 mL of a 0.1 mg/mL solution diluted to 5 to 10 mL with sterile water or saline); alternatively, a second IM dose of epinephrine may be given.
+
+Glucagon 1 to 5 mg IV over 5 minutes (20 to 30 mcg/kg in children) followed by a 5 to 15 mcg/minute infusion has been recommended for patients taking oral beta-blockers, which attenuate the effect of epinephrine. However, some evidence suggests that patients taking beta blockers are no less responsive to epinephrine (1, 2. 3). Rapid administration of glucagon can cause vomiting.
+
+Other treatments
+Patients who have stridor and wheezing unresponsive to epinephrine should be given oxygen and be intubated. Early intubation is recommended because waiting for a response to epinephrine may allow upper airway edema to progress sufficiently to prevent endotracheal intubation and require cricothyrotomy.
+
+Hypotension often resolves after epinephrine is given. Persistent hypotension can usually be treated with 1 to 2 L (20 to 40 mL/kg in children) of isotonic IV fluids (eg, 0.9% saline). Hypotension refractory to fluids and IV epinephrine may require vasopressors (eg, dopamine 5 mcg/kg/minute).
+
+Antihistaminesboth H1 blockers (eg, diphenhydramine 50 to 100 mg IV) and H2 blockers (eg, cimetidine 300 mg IV)should be given every 6 hours until symptoms resolve.
+
+Inhaled beta-agonists are useful for managing bronchoconstriction that persists after treatment with epinephrine; albuterol 5 to 10 mg by continuous nebulization can be given.
+
+Corticosteroids have no proven role but may help prevent a late-phase reaction; methylprednisolone 125 mg IV initially is adequate.
+
+Treatment references
+1. White JL, Greger KC, Lee S, et al: Patients taking -Blockers do not require increased doses of epinephrine for anaphylaxis. J Allergy Clin Immunol Pract 6 (5):15531558.e1, 2018. doi: 10.1016/j.jaip.2017.12.020
+2. Sturm GJ, Herzog SA, Aberer W, et al: -blockers and ACE inhibitors are not a risk factor for severe systemic sting reactions and adverse events during venom immunotherapy. Allergy 76 (7):21662176, 2021. doi: 10.1111/all.14785
+3. Tejedor-Alonso MA, Farias-Aquino E, Elia Pérez-Fernández E, et al: Relationship between anaphylaxis and use of beta-blockers and angiotensin-converting enzyme inhibitors: A systematic review and meta-analysis of observational studies. J Allergy Clin Immunol Pract 7 (3):879897.e5, 2019. doi: 10.1016/j.jaip.2018.10.042
+Prevention of Anaphylaxis
+Primary prevention of anaphylaxis is avoidance of known triggers. Desensitization is used for allergen triggers that cannot reliably be avoided (eg, insect stings).
+
+Patients with past anaphylactoid reactions to a radiopaque contrast agent should not be reexposed. When exposure is absolutely necessary, patients are given 3 doses of prednisone 50 mg orally every 6 hours, starting 18 hours before the procedure, and diphenhydramine 50 mg orally 1 hour before the procedure; however, evidence to support the efficacy of this approach is limited.
+
+Patients with an anaphylactic reaction to insect stings, foods, or other known substances should wear an alert bracelet and carry a prefilled, self-injecting epinephrine syringe (containing 0.3 mg for adults and 0.15 mg for children) and oral antihistamines for prompt self-treatment after exposure. If a severe reaction occurs, patients should be advised to use these treatments as quickly as possible and then go to the emergency department. There, they can be closely monitored and treatment can be repeated or adjusted as needed.
+
+Key Points 
+Common triggers of anaphylaxis include drugs (eg, beta-lactam antibiotics, allergen extracts), foods (eg, nuts, seafood), proteins (eg, tetanus antitoxin, blood transfusions), animal venoms, and latex.
+NonIgE-mediated reactions that have anaphylactic-like manifestations (anaphylactoid reactions) can be caused by an iodinated radiopaque contrast agent, aspirin, other nonsteroidal anti-inflammatory drugs, opioids, monoclonal antibodies, and exercise.
+Consider anaphylaxis if patients have unexplained hypotension, respiratory symptoms, or  2 anaphylactic manifestations (eg, angioedema, rhinorrhea, gastrointestinal symptoms).
+Give epinephrine immediately because anaphylactic symptoms may rapidly progress to airway occlusion or shock; epinephrine can help relieve all symptoms.
+Instruct patients to always wear an alert bracelet and carry a prefilled, self-injecting epinephrine syringe for prompt self-treatment after exposure.
+More Information
+The following English-language resource may be helpful. Please note that THE MANUAL is not responsible for the content of this resource.
+
+Anaphylaxisa 2020 practice parameter update, systematic review, and grading of recommendations, assessment, development and evaluation (GRADE) analysis. This article discusses the epidemiology, risk factors, pathogenesis, diagnosis, and treatment of anaphylaxis. It evaluates the relative benefits and harms of supplemental glucocorticoids and/or antihistamine premedication to prevent anaphylaxis and the evidence for these treatments. The article also provides recommendations for treatment.

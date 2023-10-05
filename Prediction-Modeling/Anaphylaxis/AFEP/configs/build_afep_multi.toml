@@ -1,0 +1,57 @@
+# Explore parameter outputs
+# Usage:
+# 1. To generate output config file, run: `mml-build-mmscript-multi build_afep_multi.toml`
+# 2. Run generated shell scripts in the `outpath` (these will run Metamap)
+# 3. Once metamap has finished running, run the AFEP algorithm with: `mml-run-afep-multi run-afep.conf`
+outpath = 'scripts'
+filelist = 'kb_filelist.txt'
+mm_outpath = 'output'
+parameters = '-R MDR,RXNORM -Z 2022AB -V NLM -N'
+
+[[runs]]
+parameters = '-y -C --conj'
+name = 'relaxed_wsd_conj'
+
+[[runs]]
+parameters = '-y -C'
+name = 'relaxed_wsd'
+
+[[runs]]
+parameters = '-C --conj'
+name = 'conj'
+
+[[runs]]
+parameters = '-b -y'
+name = 'compute_all_mappings_wsd'
+
+[[runs]]
+parameters = '-y -b --conj'
+name = 'compute_all_mappings_conj_wsd'
+
+[[runs]]
+parameters = '-b --conj'
+name = 'compute_all_mappings_conj'
+
+[[runs]]
+parameters = '-b'
+name = 'compute_all_mappings'
+
+[[runs]]
+parameters = '-y --conj'
+name = 'wsd_conj'
+
+[[runs]]
+parameters = '-y'
+name = 'wsd'
+
+[[runs]]
+parameters = '-r 0 -y'
+name = 'threshold_0_wsd'
+
+[[runs]]
+parameters = '-r 0'
+name = 'threshold_0'
+
+[[runs]]
+parameters = '-b --conj -r 0'
+name = 'compute_all_mappings_conj_threshold_0'
