@@ -2,7 +2,7 @@
 *.sas7bdat
 out/
 .idea/
-Prediction-Modeling/COVID/r_io_files/*
+Prediction-Modeling/COVID-19/r_io_files/*
 Prediction-Modeling/*io_files*/*
 Prediction-Modeling/phenorm_covid/*
 .Rproj.user
