@@ -3,12 +3,13 @@
 # 1. Build the shell scripts: `mml-build-mmscript-multi run_mm_on_corpus.toml`
 # 2. Run the shell scripts in the `outpath`
 # 3. Build the output
-outpath = 'scripts'
-filelist = 'filelist.txt'
-mm_outpath = 'mmout'
-parameters = '-R MDR,RXNORM -Z 2022AB -V NLM -N'
-num_scripts = 3
+outpath = 'scripts'  # path to write Metamap-running shell scripts to
+filelist = 'filelist.txt'  # newline-separated list of files
+mm_outpath = 'mmout'  # output location for Metamap mmi/json files
+parameters = '-R MDR,RXNORM -Z 2022AB -V NLM -N'  # parameters to run Metamap with
+num_scripts = 3  # number of scripts to prepare (i.e., enabling parallel processing of notes)
 
+# here is the run we used, though other configuration options can be provided in a separate run
 [[runs]]
 parameters = '-y'
 name = 'wsd'
