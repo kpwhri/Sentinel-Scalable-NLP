@@ -2,9 +2,6 @@
 
 # run internal PheNorm models at KPWA ---------------------------------
 
-# project-specific setup
-source 00_setup.sh
-
 # ensure that required packages are installed by first running install_packages.sh
 
 # for each analysis, do the following steps (internal): ------------------------
