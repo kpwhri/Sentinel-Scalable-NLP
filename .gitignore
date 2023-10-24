@@ -5,6 +5,7 @@ out/
 Prediction-Modeling/COVID/r_io_files/*
 Prediction-Modeling/*io_files*/*
 Prediction-Modeling/phenorm_covid/*
+Prediction-Modeling/sandbox/*
 .Rproj.user
 *.Rproj
 *.zip
