@@ -3,7 +3,7 @@
 # process datasets -------------------------------------------------------------
 
 # project-specific setup
-source phenorm_covid/00_covid19_phenorm_setup.sh
+source COVID/00_covid19_phenorm_setup.sh
 
 # ensure that required packages are installed by first running install_packages.sh
 
@@ -48,6 +48,6 @@ for (( i=0; i<${n_analyses}; i++)); do
     fi
     # process the dataset: 
     echo "Processing data for analysis ${analysis}"
-    Rscript phenorm_covid/01_process_data.R "${args[@]}" > "./${io_dir}/01_process_data_${analysis}.out" 2>&1
+    Rscript COVID/01_process_data.R "${args[@]}" > "./${io_dir}/01_process_data_${analysis}.out" 2>&1
     echo "Data processing for analysis ${analysis} complete"
 done

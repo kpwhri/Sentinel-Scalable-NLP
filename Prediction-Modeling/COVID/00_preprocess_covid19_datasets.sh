@@ -5,7 +5,7 @@
 # already meets the specifications.
 
 # project-specific setup
-source phenorm_covid/00_covid19_phenorm_setup.sh
+source COVID/00_covid19_phenorm_setup.sh
 
 # ensure that required packages are installed by first running install_packages.sh
 
@@ -21,6 +21,6 @@ for (( i=0; i<${n_analyses}; i++)); do
     )
     # process the dataset: 
     echo "Preprocessing data for analysis ${analysis}"
-    Rscript phenorm_covid/00_project_specific_preprocessing.R "${args[@]}" > "./${io_dir}/00_preprocess_data_${analysis}.out" 2>&1
+    Rscript COVID/00_project_specific_preprocessing.R "${args[@]}" > "./${io_dir}/00_preprocess_data_${analysis}.out" 2>&1
     echo "Data preprocessing for analysis ${analysis} complete"
 done

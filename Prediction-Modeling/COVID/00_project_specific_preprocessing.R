@@ -9,9 +9,9 @@ library("optparse")
 library("tidyverse")
 library("here")
 
-here::i_am("phenorm_covid/README.md")
+here::i_am("COVID/README.md")
 
-source(here::here("phenorm_covid", "phenorm_utils.R"))
+source(here::here("COVID", "phenorm_utils.R"))
 parser <- OptionParser()
 parser <- add_option(parser, "--data-dir",
                      default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PROGRAMMING/SAS Datasets/Replicate VUMC Analysis/Sampling for Chart Review/Severity-specific silver-standard surrogates/",
