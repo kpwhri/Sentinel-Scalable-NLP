@@ -9,9 +9,9 @@ cui_of_interest="C1971"
 site="kpwa"
 # external_site="<replace with the external validation site, if any>"
 # dataset name
-data_name="mock_data.rds"
+data_name="mock_data2.rds"
 # analysis name
-analysis_name="anaphylaxis"
+analysis_name="anaphylaxis2"
 # directory
 dir_prefix="/mnt/c/Users/L107067/OneDrive - Kaiser Permanente/Code/Sentinel-Scalable-NLP/Prediction-Modeling/"
 dir="${dir_prefix}Anaphylaxis/"

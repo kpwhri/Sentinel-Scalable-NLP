@@ -77,7 +77,7 @@ if (grepl(".rds", args$data_name)) {
 } else {
   input_data <- readr::read_csv(paste0(args$data_dir, args$data_name), na = c("NA", ".", ""))  
 }
-if (!grepl(args$valid_label, names(input_data))) {
+if (!any(grepl(args$valid_label, names(input_data)))) {
   input_data[[args$valid_label]] <- rep(0, nrow(input_data))
 }
 if (!is.numeric(input_data %>% pull(!!args$valid_label))) {
