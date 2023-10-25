@@ -134,32 +134,26 @@ if (args$use_afep) {
 }
 
 # combine and log-transform ---------------------------------------------------
+train_all_cc <- train %>% 
+  filter(complete.cases(train)) %>% 
+  select(-!!args$study_id, -!!args$valid_label)
+train_screened_cc <- train_screened %>% 
+  filter(complete.cases(train_screened)) %>% 
+  select(-!!args$study_id, -!!args$valid_label)
 if (args$chart_reviewed) {
-  train_all_cc <- train %>% 
-    filter(complete.cases(train)) %>% 
-    select(-!!args$study_id, -!!args$valid_label)
   test_all_cc <- test %>% 
     filter(complete.cases(test)) %>% 
     select(-!!args$study_id, -!!args$valid_label, -!!args$gold_label)
-  train_screened_cc <- train_screened %>% 
-    filter(complete.cases(train_screened)) %>% 
-    select(-!!args$study_id, -!!args$valid_label)
   test_screened_cc <- test_screened %>% 
     filter(complete.cases(test_screened)) %>%
     select(-!!args$study_id, -!!args$valid_label, -!!args$gold_label)
 } else {
-  train_all_cc <- train %>% 
-    filter(complete.cases(train)) %>% 
-    select(-!!args$study_id)
   test_all_cc <- test %>% 
     filter(complete.cases(test)) %>% 
-    select(-!!args$study_id)
-  train_screened_cc <- train_screened %>% 
-    filter(complete.cases(train_screened)) %>% 
-    select(-!!args$study_id)
+    select(-!!args$study_id, -!!args$valid_label)
   test_screened_cc <- test_screened %>% 
     filter(complete.cases(test_screened)) %>%
-    select(-!!args$study_id)
+    select(-!!args$study_id, -!!args$valid_label)
 }
 
 # log transform
