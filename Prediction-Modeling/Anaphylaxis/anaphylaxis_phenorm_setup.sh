@@ -13,10 +13,10 @@ data_name="mock_data.rds"
 # analysis name
 analysis_name="anaphylaxis"
 # directory
-dir_prefix="C:/Users/L107067/OneDrive - Kaiser Permanente/Code/Sentinel-Scalable-NLP/Prediction-Modeling/"
-dir="${dir}Anaphylaxis"
+dir_prefix="/mnt/c/Users/L107067/OneDrive - Kaiser Permanente/Code/Sentinel-Scalable-NLP/Prediction-Modeling/"
+dir="${dir_prefix}Anaphylaxis/"
 # dataset directory
-data_dir="${dir}sandbox"
+data_dir="${dir_prefix}sandbox/"
 # random number seed, can be edited
 rng_seed=20231024
 # set up analysis options ------------------------------------------------------
@@ -41,6 +41,7 @@ study_id="Studyid"
 util_var="Utiliz"
 weight_var="Sampling_Weight"
 gold_label="PTYPE_POSITIVE"
+chart_reviewed=FALSE
 
 # directory setup, based on entries above --------------------------------------
 # these directories are specified by the directories above
