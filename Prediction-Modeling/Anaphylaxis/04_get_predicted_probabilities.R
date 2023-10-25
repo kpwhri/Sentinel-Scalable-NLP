@@ -59,15 +59,19 @@ model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
 model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels, args$weight))]
 # get predictions among those in the test set
 test_ids <- all_data[[id_var]][all_data[[valid_label]] == 1]
-set.seed(1234)
-preds_test <- predict.PheNorm(
-  phenorm_model = fit, newdata = test_minus_id, silver_labels = silver_labels,
-  features = model_features,
-  utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels
-)
-names(preds_test) <- paste0("pred_prob_", names(preds_test))
-preds_test_df <- data.frame(test_ids, preds_test)
-names(preds_test_df)[1] <- args$study_id
+if (length(test_ids) > 0) {
+  set.seed(1234)
+  preds_test <- predict.PheNorm(
+    phenorm_model = fit, newdata = test_minus_id, silver_labels = silver_labels,
+    features = model_features,
+    utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels
+  )
+  names(preds_test) <- paste0("pred_prob_", names(preds_test))
+  preds_test_df <- data.frame(test_ids, preds_test)
+  names(preds_test_df)[1] <- args$study_id
+} else {
+  preds_test_df <- NULL
+}
 
 # get predictions among those in the training set
 train_ids <- all_data[[id_var]][all_data[[valid_label]] == 0]
