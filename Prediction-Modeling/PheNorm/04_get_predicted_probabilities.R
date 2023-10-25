@@ -98,3 +98,4 @@ readr::write_csv(
     "_phenorm_all_predicted_probabilities_using_", args$model_site, "_model.csv"
   )
 )
+print("Predicted probabilities obtained on entire dataset.")
