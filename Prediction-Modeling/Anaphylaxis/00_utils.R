@@ -105,7 +105,7 @@ process_data <- function(dataset = NULL, structured_data_names = "AGE",
     test <- dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 1)
   } else {
     all_data <- dplyr::select(
-      dataset, !!c(matches(study_id), matches(weight),
+      dataset, !!c(matches(study_id), matches(validation_name), matches(weight),
                    matches(paste0("^", structured_data_names, "$")), 
                    matches(unique(c(nlp_data_names, utilization_variable))))
     ) 
