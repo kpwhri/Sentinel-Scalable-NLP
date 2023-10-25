@@ -18,7 +18,7 @@ dir="${dir_prefix}Anaphylaxis/"
 # dataset directory
 data_dir="${dir_prefix}sandbox/"
 # random number seed, can be edited
-rng_seed=20231024
+rng_seeds=20231024
 # set up analysis options ------------------------------------------------------
 # set to the defaults
 # toggle negation on/off, defaults to TRUE

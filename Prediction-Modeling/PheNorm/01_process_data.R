@@ -109,6 +109,7 @@ processed_data <- process_data(dataset = only_cuis_of_interest,
                                validation_name = args$valid_label,
                                gold_label = args$gold_label,
                                utilization_variable = args$utilization,
+                               weight = args$weight,
                                train_on_gold_data = args$train_on_gold,
                                chart_reviewed = args$chart_reviewed)
 train <- processed_data$train

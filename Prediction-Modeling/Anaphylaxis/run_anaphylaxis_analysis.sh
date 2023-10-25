@@ -4,7 +4,7 @@
 source ../PheNorm/00_install_packages.sh
 
 # run setup file
-source anaphylaxis_phenorm_setup.sh
+source 00_anaphylaxis_phenorm_setup.sh
 
 # get PheNorm predictions
 source 01_process_datasets.sh
