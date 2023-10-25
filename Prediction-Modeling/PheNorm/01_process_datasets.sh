@@ -18,7 +18,8 @@ for (( i=0; i<${n_analyses}; i++)); do
         --gold-label "${gold_label_arry[$i]}" --valid-label "${valid_label}" \
         --study-id ${study_id} --utilization "${util_var}"  \
         --weight ${weight_var} --site "${site}" --cui "${cui_of_interest}" \
-        --train-value ${train_value} --nonneg-label ${nonneg_label}
+        --train-value ${train_value} --nonneg-label ${nonneg_label} \
+        --chart-reviewed ${chart_reviewed}
     )
     if [[ ${use_negation} -ge 1 ]]; then
         args+=(--use-nonneg)

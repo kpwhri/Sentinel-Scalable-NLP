@@ -61,6 +61,7 @@ process_structured_data <- function(data, vars_to_process, values) {
 #' @param weight a string specifying the name of the inverse probability weights
 #'   (if this variable name doesn't exist in the dataset, a vector of 1s will be created [i.e., no weighting])
 #' @param train_on_gold_data should we train on gold data? defaults to FALSE (i.e., train/test split)
+#' @param chart_reviewed logical; is gold-labeled data available (i.e., have we run chart review already?)? defaults to \code{TRUE}
 #' @return a list, with nlp and structured data (both training and testing sets)
 process_data <- function(dataset = NULL, structured_data_names = "AGE",
                          nlp_data_names = "C", study_id = "STUDYID",
@@ -68,42 +69,57 @@ process_data <- function(dataset = NULL, structured_data_names = "AGE",
                          gold_label = "AP_GOLD_LABEL",
                          utilization_variable = "Utiliz",
                          weight = "weight",
-                         train_on_gold_data = FALSE) {
+                         train_on_gold_data = FALSE,
+                         chart_reviewed = TRUE) {
   if (!any(grepl(utilization_variable, names(dataset)))) {
     dataset[[utilization_variable]] <- 1
   }
   if (!any(grepl(weight, names(dataset)))) {
     dataset[[weight]] <- 1
   }
-  all_data <- dplyr::select(
-    dataset, !!c(matches(study_id), matches(validation_name), 
-                 matches(gold_label), matches(weight),
-                 matches(paste0("^", structured_data_names, "$")), 
-                 matches(unique(c(nlp_data_names, utilization_variable))))
-  ) 
-  outcome_indx <- which(grepl(gold_label, names(all_data), ignore.case = TRUE))
-  valid_indx <- which(grepl(validation_name, names(all_data), ignore.case = TRUE))
-  outcomes <- all_data[[outcome_indx]]
-  if (!is.numeric(outcomes)) {
-    if (any(grepl("yes", outcomes, ignore.case = TRUE))) {
-      outcomes <- ifelse(grepl("yes", outcomes, ignore.case = TRUE), 1, 0)
-      outcomes[all_data[[valid_indx]] == 0] <- NA
-    } else {
-      stop("Outcome is not in a recognized format (numeric, binary, or 'yes'/'no'). Please use an outcome variable that is in one of these formats.")
+  if (chart_reviewed) {
+    all_data <- dplyr::select(
+      dataset, !!c(matches(study_id), matches(validation_name), 
+                   matches(gold_label), matches(weight),
+                   matches(paste0("^", structured_data_names, "$")), 
+                   matches(unique(c(nlp_data_names, utilization_variable))))
+    ) 
+    outcome_indx <- which(grepl(gold_label, names(all_data), ignore.case = TRUE))
+    valid_indx <- which(grepl(validation_name, names(all_data), ignore.case = TRUE))
+    outcomes <- all_data[[outcome_indx]]
+    if (!is.numeric(outcomes)) {
+      if (any(grepl("yes", outcomes, ignore.case = TRUE))) {
+        outcomes <- ifelse(grepl("yes", outcomes, ignore.case = TRUE), 1, 0)
+        outcomes[all_data[[valid_indx]] == 0] <- NA
+      } else {
+        stop("Outcome is not in a recognized format (numeric, binary, or 'yes'/'no'). Please use an outcome variable that is in one of these formats.")
+      }
+      all_data[[outcome_indx]] <- outcomes
     }
-    all_data[[outcome_indx]] <- outcomes
-  }
-  if (train_on_gold_data) {
-    train <- dplyr::select(all_data, -!!matches(gold_label))
+    if (train_on_gold_data) {
+      train <- dplyr::select(all_data, -!!matches(gold_label))
+    } else {
+      train <- dplyr::select(dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 0),
+                             -!!matches(gold_label))
+    }
+    test <- dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 1)
   } else {
-    train <- dplyr::select(dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 0),
-                           -!!matches(gold_label))
+    all_data <- dplyr::select(
+      dataset, !!c(matches(study_id), matches(weight),
+                   matches(paste0("^", structured_data_names, "$")), 
+                   matches(unique(c(nlp_data_names, utilization_variable))))
+    ) 
+    train <- all_data
+    test <- all_data
   }
-  test <- dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 1)
   train_cc <- train[complete.cases(train), ]
   test_cc <- test[complete.cases(test), ]
-  outcome_indx <- which(grepl(gold_label, names(test_cc), ignore.case = TRUE))
-  outcomes <- test_cc[[outcome_indx]]
+  if (chart_reviewed) {
+    outcome_indx <- which(grepl(gold_label, names(test_cc), ignore.case = TRUE))
+    outcomes <- test_cc[[outcome_indx]]
+  } else {
+    outcomes <- rep(NA, nrow(test_cc))
+  }
   return(list("outcome" = outcomes, "train" = train_cc, "test" = test_cc,
               "all" = all_data))
 }

@@ -60,6 +60,8 @@ parser <- add_option(parser, "--no-normalized", action = "store_false",
                      dest = "use-normalized")
 parser <- add_option(parser, "--train-on-gold", default = FALSE, action = "store_true",
                      help = "Should we train on gold-labeled data too?")
+parser <- add_option(parser, "--chart-reviewed", default = TRUE, 
+                     help = "Have we already performed chart review?")
 args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 if (!dir.exists(args$analysis_data_dir)) {
@@ -107,7 +109,8 @@ processed_data <- process_data(dataset = only_cuis_of_interest,
                                validation_name = args$valid_label,
                                gold_label = args$gold_label,
                                utilization_variable = args$utilization,
-                               train_on_gold_data = args$train_on_gold)
+                               train_on_gold_data = args$train_on_gold,
+                               chart_reviewed = args$chart_reviewed)
 train <- processed_data$train
 test <- processed_data$test
 outcomes <- processed_data$outcome
@@ -130,18 +133,33 @@ if (args$use_afep) {
 }
 
 # combine and log-transform ---------------------------------------------------
-train_all_cc <- train %>% 
-  filter(complete.cases(train)) %>% 
-  select(-!!args$study_id, -!!args$valid_label)
-test_all_cc <- test %>% 
-  filter(complete.cases(test)) %>% 
-  select(-!!args$study_id, -!!args$valid_label, -!!args$gold_label)
-train_screened_cc <- train_screened %>% 
-  filter(complete.cases(train_screened)) %>% 
-  select(-!!args$study_id, -!!args$valid_label)
-test_screened_cc <- test_screened %>% 
-  filter(complete.cases(test_screened)) %>%
-  select(-!!args$study_id, -!!args$valid_label, -!!args$gold_label)
+if (args$chart_reviewed) {
+  train_all_cc <- train %>% 
+    filter(complete.cases(train)) %>% 
+    select(-!!args$study_id, -!!args$valid_label)
+  test_all_cc <- test %>% 
+    filter(complete.cases(test)) %>% 
+    select(-!!args$study_id, -!!args$valid_label, -!!args$gold_label)
+  train_screened_cc <- train_screened %>% 
+    filter(complete.cases(train_screened)) %>% 
+    select(-!!args$study_id, -!!args$valid_label)
+  test_screened_cc <- test_screened %>% 
+    filter(complete.cases(test_screened)) %>%
+    select(-!!args$study_id, -!!args$valid_label, -!!args$gold_label)
+} else {
+  train_all_cc <- train %>% 
+    filter(complete.cases(train)) %>% 
+    select(-!!args$study_id)
+  test_all_cc <- test %>% 
+    filter(complete.cases(test)) %>% 
+    select(-!!args$study_id)
+  train_screened_cc <- train_screened %>% 
+    filter(complete.cases(train_screened)) %>% 
+    select(-!!args$study_id)
+  test_screened_cc <- test_screened %>% 
+    filter(complete.cases(test_screened)) %>%
+    select(-!!args$study_id)
+}
 
 # log transform
 log_train_all <- apply_log_transformation(
@@ -187,8 +205,10 @@ summary_stats <- tibble::tibble(
   `Summary Statistic` = c("Sample size (total)", "Sample size (completely-observed)",
                           "Sample size (chart reviewed)", "Number of events",
                           "Number of NLP features", "Number of NLP features after screen"),
-  `Value` = c(nrow(input_data), nrow(train_all_cc) + nrow(test_all_cc),
-              nrow(test_all_cc), sum(outcomes),
+  `Value` = c(nrow(input_data), 
+              ifelse(args$chart_reviewed, nrow(train_all_cc) + nrow(test_all_cc), nrow(train_all_cc)),
+              ifelse(args$chart_reviewed, nrow(test_all_cc), 0), 
+              sum(outcomes),
               length(cui_names), # need to account for study id, utilization
               sum(grepl("C[0-9]", names(test_screened_cc))))
 )
