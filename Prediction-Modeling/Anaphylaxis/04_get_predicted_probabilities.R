@@ -11,7 +11,7 @@ library("stringr")
 library("PheNorm")
 library("ggplot2")
 library("cowplot")
-theme_set(theme_cowplow())
+theme_set(theme_cowplot())
 library("here")
 
 here::i_am("README.md")
