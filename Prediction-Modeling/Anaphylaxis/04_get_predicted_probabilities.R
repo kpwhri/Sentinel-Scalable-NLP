@@ -118,5 +118,5 @@ pred_prob_hist <- long_pred_dataset %>%
 ggsave(filename = paste0(
     fit_output_dir, args$analysis, "_", args$data_site, 
     "_phenorm_predicted_probabilities_hist_using_", args$model_site, "_model.png"
-  ), pred_prob_hist, width = 4, height = 3, units = "in", dpi = 300)
+  ), pred_prob_hist, width = 8, height = 3, units = "in", dpi = 300)
 print("Predicted probabilities obtained on entire dataset.")
