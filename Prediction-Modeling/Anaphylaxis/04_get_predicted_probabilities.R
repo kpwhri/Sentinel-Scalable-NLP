@@ -114,9 +114,9 @@ pred_prob_hist <- long_pred_dataset %>%
   ggplot(aes(x = pred_prob)) +
   geom_histogram(breaks = breaks) +
   labs(x = "Predicted probability", y = "Count") +
-  facet_grid(cols = vars(model))
+  facet_wrap(vars(model), nrow = 2, ncol = 2)
 ggsave(filename = paste0(
     fit_output_dir, args$analysis, "_", args$data_site, 
     "_phenorm_predicted_probabilities_hist_using_", args$model_site, "_model.png"
-  ), pred_prob_hist, width = 8, height = 3, units = "in", dpi = 300)
+  ), pred_prob_hist, width = 8, height = 8, units = "in", dpi = 300)
 print("Predicted probabilities obtained on entire dataset.")
