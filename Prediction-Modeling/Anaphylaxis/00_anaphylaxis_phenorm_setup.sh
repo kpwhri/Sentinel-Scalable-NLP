@@ -2,23 +2,30 @@
 
 # Project-specific setup
 
+# mount the G: drive (in /mnt/g); modify this line if you are using a different system (or if you don't have to mount drives)
+sudo mkdir -p /mnt/g
+sudo mount -t drvfs G: /mnt/g
+
 # edit the following lines based on the analysis and directory structure -------
 # CUI of interest
-cui_of_interest="C1971"
+cui_of_interest="C0002792"
 # model development site and external validation site
 site="kpwa"
 # external_site="<replace with the external validation site, if any>"
 # dataset name
-data_name="mock_data2.rds"
+data_name="di7_phenorm_modeling_file_brian.csv"
 # analysis name
-analysis_name="anaphylaxis2"
+analysis_name="sentinel_anaphylaxis"
 # directory
-dir_prefix="/mnt/c/Users/L107067/OneDrive - Kaiser Permanente/Code/Sentinel-Scalable-NLP/Prediction-Modeling/"
-dir="${dir_prefix}Anaphylaxis/"
+# dir_prefix="/mnt/c/Users/L107067/OneDrive - Kaiser Permanente/Code/Sentinel-Scalable-NLP/Prediction-Modeling/"
+dir_prefix="/mnt/g/"
+top_dir="${dir_prefix}CTRHS/Sentinel/Innovation_Center/DI7_Assisted_Review/"
+dir="${top_dir}ANALYSIS/"
 # dataset directory
-data_dir="${dir_prefix}sandbox/"
+# data_dir="${dir_prefix}sandbox/"
+data_dir="${top_dir}"PROGRAMMING/SAS\ Datasets/05_Silver_Labels_and_Analytic_File_for_BrianW/
 # random number seed, can be edited
-rng_seeds=20231024
+rng_seeds=20231204
 # set up analysis options ------------------------------------------------------
 # set to the defaults
 # toggle negation on/off, defaults to TRUE

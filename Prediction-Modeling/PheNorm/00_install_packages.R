@@ -2,7 +2,8 @@
 
 # install necessary packages for the COVID PheNorm analysis
 
-package_list <- c("optparse", "here", "PheNorm", "ROCR", "WeightedROC", "tidyverse", "cowplot", "cvAUC")
+package_list <- c("optparse", "here", "PheNorm", "ROCR", "WeightedROC", "cvAUC")
+tidy_package_list <- c("ggplot2", "dplyr", "readr", "stringr", "cowplot")
 # check to make sure each package is installed; if not, install it
 lapply(as.list(package_list), function(package) {
   is_package_avail <- require(package, character.only = TRUE)

@@ -8,6 +8,7 @@ Prediction-Modeling/phenorm_covid/*
 Prediction-Modeling/sandbox/*
 Prediction-Modeling/Anaphylaxis/PheNorm/*
 Prediction-Modeling/Anaphylaxis/phenorm_io*
+Prediction-Modeling/Anaphylaxis/*vsd*
 .Rproj.user
 *.Rproj
 *.zip

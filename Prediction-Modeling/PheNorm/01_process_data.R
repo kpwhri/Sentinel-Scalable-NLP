@@ -4,7 +4,9 @@
 
 # required packages and functions ---------------------------------------------
 library("optparse")
-library("tidyverse")
+library("dplyr")
+library("readr")
+library("stringr")
 library("here")
 
 here::i_am("README.md")
