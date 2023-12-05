@@ -107,7 +107,8 @@ readr::write_csv(
 # create a histogram of predicted probabilities for each silver label
 # first, get the base-R hist breakpoints
 long_pred_dataset <- pred_dataset %>%
-  pivot_longer(cols = starts_with("pred"), names_to = "model", values_to = "pred_prob") 
+  pivot_longer(cols = starts_with("pred"), names_to = "model", values_to = "pred_prob") %>%
+  mutate(model = gsub("pred_prob_", "", model))
 breaks <- pretty(range(long_pred_dataset$pred_prob), n = nclass.Sturges(long_pred_dataset$pred_prob),
                  min.n = 1)
 pred_prob_hist <- long_pred_dataset %>%
