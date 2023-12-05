@@ -10,7 +10,7 @@ source 00_anaphylaxis_phenorm_setup.sh
 echo "Preprocessing data for anaphylaxis analysis"
 args=(
     --data-dir "${data_dir}" --analysis-data-dir "${data_dir}" \
-    --data-name "${data_name}" --analysis "${analysis_name}" \
+    --data-name "${raw_data_name}" --analysis "${analysis_name}" \
     --gold-label "${gold_label}" --valid-label "${valid_label}" \
     --study-id ${study_id} --utilization "${util_var}"  \
     --weight ${weight_var}

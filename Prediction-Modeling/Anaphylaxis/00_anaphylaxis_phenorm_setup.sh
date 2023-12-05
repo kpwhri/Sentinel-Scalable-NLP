@@ -13,7 +13,8 @@ cui_of_interest="C0002792"
 site="kpwa"
 # external_site="<replace with the external validation site, if any>"
 # dataset name
-data_name="di7_phenorm_modeling_file_brian.csv"
+raw_data_name="di7_phenorm_modeling_file_brian.csv"
+data_name="di7_phenorm_modeling_file_brian.rds"
 # analysis name
 analysis_name="sentinel_anaphylaxis"
 # directory
