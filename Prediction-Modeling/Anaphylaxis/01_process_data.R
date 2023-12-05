@@ -95,7 +95,7 @@ only_cuis_of_interest <- filter_cui_variables(dataset = input_data, use_nonnegat
                                               nonneg_id = args$nonneg_label)
 
 data_names <- names(only_cuis_of_interest)
-cui_names <- data_names[grepl("C[0-9]", data_names)]
+cui_names <- data_names[grepl("C[0-9]", data_names, ignore.case = TRUE)]
 # note that "silver" is required to be in the variable name for all silver labels
 silver_labels <- data_names[grepl("silver", data_names, ignore.case = TRUE)]
 nlp_names <- c(silver_labels, args$utilization, cui_names)
@@ -127,8 +127,8 @@ if (args$use_afep) {
   afep_screened_data <- phenorm_afep(
     train = train, test = test, study_id = args$study_id,
     cui_of_interest = args$cui,
-    train_cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train))],
-    test_cui_cols = (1:ncol(test))[grepl("C[0-9]", names(test))],
+    train_cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train), ignore.case = TRUE)],
+    test_cui_cols = (1:ncol(test))[grepl("C[0-9]", names(test), ignore.case = TRUE)],
     threshold = 0.15
   )
   train_screened <- afep_screened_data$train
@@ -210,7 +210,7 @@ summary_stats <- tibble::tibble(
               ifelse(args$chart_reviewed, nrow(test_all_cc), 0), 
               sum(outcomes),
               length(cui_names), # need to account for study id, utilization
-              sum(grepl("C[0-9]", names(test_screened_cc))))
+              sum(grepl("C[0-9]", names(test_screened_cc), ignore.case = TRUE)))
 )
 readr::write_csv(
   summary_stats, file = paste0(
