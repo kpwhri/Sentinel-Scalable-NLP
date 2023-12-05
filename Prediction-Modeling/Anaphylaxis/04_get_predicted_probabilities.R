@@ -114,7 +114,7 @@ pred_prob_hist <- long_pred_dataset %>%
   ggplot(aes(x = pred_prob)) +
   geom_histogram(breaks = breaks) +
   labs(x = "Predicted probability", y = "Count") +
-  facet_wrap(vars(model), nrow = 2, ncol = 2)
+  facet_wrap(vars(model))
 ggsave(filename = paste0(
     fit_output_dir, args$analysis, "_", args$data_site, 
     "_phenorm_predicted_probabilities_hist_using_", args$model_site, "_model.png"
