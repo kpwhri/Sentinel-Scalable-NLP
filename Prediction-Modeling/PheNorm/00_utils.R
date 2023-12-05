@@ -135,9 +135,9 @@ filter_cui_variables <- function(dataset = NULL, use_nonnegated = TRUE,
                                  use_normalized = TRUE, use_nonnormalized = TRUE,
                                  nonneg_id = "_nonneg") {
   if (use_nonnegated) {
-    cui_names <- names(dataset)[grepl("C[0-9]", names(dataset))]
+    cui_names <- names(dataset)[grepl("C[0-9]", names(dataset), ignore.case = TRUE)]
     names_to_keep <- rep(TRUE, length(names(dataset)))
-    names_to_keep[grepl("C[0-9]", names(dataset))] <- grepl(nonneg_id, cui_names)
+    names_to_keep[grepl("C[0-9]", names(dataset), ignore.case = TRUE)] <- grepl(nonneg_id, cui_names)
     dataset <- dataset[, names_to_keep]
     dataset_names <- names(dataset)
     names(dataset) <- gsub(nonneg_id, "", gsub("count", "Count", dataset_names))
@@ -150,9 +150,9 @@ filter_cui_variables <- function(dataset = NULL, use_nonnegated = TRUE,
       select(-contains("normalized"))
   }
   if (!use_nonnormalized) {
-    cui_names <- names(dataset)[grepl("C[0-9]", names(dataset))]
+    cui_names <- names(dataset)[grepl("C[0-9]", names(dataset), ignore.case = TRUE)]
     names_to_keep <- rep(TRUE, length(names(dataset)))
-    names_to_keep[grepl("C[0-9]", names(dataset))] <- !grepl("count", cui_names, ignore.case = TRUE)
+    names_to_keep[grepl("C[0-9]", names(dataset), ignore.case = TRUE)] <- !grepl("count", cui_names, ignore.case = TRUE)
     dataset <- dataset[, names_to_keep]
   }
   return(dataset)
@@ -184,8 +184,8 @@ apply_log_transformation <- function(dataset = NULL, varnames = NULL,
 #' @return train and test datasets screened by AFEP
 phenorm_afep <- function(train = NULL, test = NULL, study_id = "Studyid", cui_of_interest = "C",
                          utilization_variable = "Utiliz",
-                         train_cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train))],
-                         test_cui_cols = (1:ncol(test))[grepl("C[0-9]", names(test))],
+                         train_cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train), ignore.case = TRUE)],
+                         test_cui_cols = (1:ncol(test))[grepl("C[0-9]", names(test), ignore.case = TRUE)],
                          threshold = 0.15) {
   cui_col_of_interest <- train_cui_cols[grepl(cui_of_interest, names(train[, train_cui_cols]))][1]
   test_cui_col_of_interest <- test_cui_cols[grepl(cui_of_interest, names(test[, test_cui_cols]))][1]
