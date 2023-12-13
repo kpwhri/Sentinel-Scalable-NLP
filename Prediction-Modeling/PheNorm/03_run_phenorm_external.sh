@@ -4,9 +4,6 @@
 # this code can only be run after internal model building 
 # (and hence data processing) has occurred locally
 
-# project-specific setup
-source 00_setup.sh
-
 # ensure that required packages are installed by first running install_packages.sh
 
 # for each analysis, do the following steps (external): ------------------------
