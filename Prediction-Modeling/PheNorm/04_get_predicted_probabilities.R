@@ -5,9 +5,13 @@
 # required packages and functions ---------------------------------------------
 library("optparse")
 library("dplyr")
+library("tidyr")
 library("readr")
 library("stringr")
 library("PheNorm")
+library("ggplot2")
+library("cowplot")
+theme_set(theme_cowplot())
 library("here")
 
 here::i_am("README.md")
@@ -91,7 +95,7 @@ names(preds_train_df)[1] <- args$study_id
 unordered_preds <- rbind(preds_test_df, preds_train_df)
 ids_only <- data.frame(all_data[[id_var]])
 names(ids_only) <- args$study_id
-pred_dataset <- ids_only |> 
+pred_dataset <- ids_only %>% 
   left_join(unordered_preds, by = args$study_id)
 # save
 readr::write_csv(
@@ -100,4 +104,20 @@ readr::write_csv(
     "_phenorm_all_predicted_probabilities_using_", args$model_site, "_model.csv"
   )
 )
+# create a histogram of predicted probabilities for each silver label
+# first, get the base-R hist breakpoints
+long_pred_dataset <- pred_dataset %>%
+  pivot_longer(cols = starts_with("pred"), names_to = "model", values_to = "pred_prob") %>%
+  mutate(model = gsub("pred_prob_", "", model))
+breaks <- pretty(range(long_pred_dataset$pred_prob), n = nclass.Sturges(long_pred_dataset$pred_prob),
+                 min.n = 1)
+pred_prob_hist <- long_pred_dataset %>%
+  ggplot(aes(x = pred_prob)) +
+  geom_histogram(breaks = breaks) +
+  labs(x = "Predicted probability", y = "Count") +
+  facet_wrap(vars(model))
+ggsave(filename = paste0(
+    fit_output_dir, args$analysis, "_", args$data_site, 
+    "_phenorm_predicted_probabilities_hist_using_", args$model_site, "_model.png"
+  ), pred_prob_hist, width = 11, height = 8, units = "in", dpi = 300)
 print("Predicted probabilities obtained on entire dataset.")
