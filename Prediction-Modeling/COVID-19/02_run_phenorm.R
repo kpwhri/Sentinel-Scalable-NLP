@@ -8,9 +8,9 @@ library("tidyverse")
 library("PheNorm")
 library("here")
 
-here::i_am("phenorm_covid/README.md")
+here::i_am("COVID/README.md")
 
-source(here::here("phenorm_covid", "phenorm_utils.R"))
+source(here::here("COVID", "phenorm_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
 parser <- add_option(parser, "--data-dir",

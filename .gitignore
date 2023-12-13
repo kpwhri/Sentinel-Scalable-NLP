@@ -5,6 +5,10 @@ out/
 Prediction-Modeling/COVID-19/r_io_files/*
 Prediction-Modeling/*io_files*/*
 Prediction-Modeling/phenorm_covid/*
+Prediction-Modeling/sandbox/*
+Prediction-Modeling/Anaphylaxis/PheNorm/*
+Prediction-Modeling/Anaphylaxis/phenorm_io*
+Prediction-Modeling/Anaphylaxis/*vsd*
 .Rproj.user
 *.Rproj
 *.zip
