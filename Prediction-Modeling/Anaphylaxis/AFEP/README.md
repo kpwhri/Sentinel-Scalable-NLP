@@ -1,6 +1,8 @@
 
 # AFEP
 
+Documentation on deploying the AFEP process for Anaphylaxis.
+
 ## Prerequisites
 
 * Install Metamap
