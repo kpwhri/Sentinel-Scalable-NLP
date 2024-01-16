@@ -42,14 +42,14 @@ train_on_gold_data=0
 corrupt_rate=0.3
 train_size_mult=13
 # Variable names and helpful values
-valid_label="Train_Eval_Set"
+valid_label="HOI_2_0_Gold_Set"
 train_value="1"
 nonneg_label="_nonneg"
-study_id="obs_id"
+study_id="Obs_ID"
 util_var="utiliz"
-weight_var="sampling_weight"
-gold_label="PTYPE_POSITIVE"
-chart_reviewed=FALSE
+weight_var="Sampling_Weight"
+gold_label="HOI_2_0_Gold_Case"
+chart_reviewed=true
 
 # directory setup, based on entries above --------------------------------------
 # these directories are specified by the directories above
