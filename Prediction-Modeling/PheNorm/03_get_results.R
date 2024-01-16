@@ -5,7 +5,9 @@
 # required packages and functions ---------------------------------------------
 library("optparse")
 library("dplyr")
+library("tidyr")
 library("readr")
+library("purrr")
 library("stringr")
 library("ggplot2")
 library("cowplot")

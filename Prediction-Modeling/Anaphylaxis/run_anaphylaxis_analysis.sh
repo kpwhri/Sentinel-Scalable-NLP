@@ -17,6 +17,7 @@ args=(
 )
 Rscript 00_project-specific_preprocessing.R "${args[@]}" > "./${io_dir}/00_preprocess_data_${analysis_name}.out" 2>&1
 
-# get PheNorm predictions
+# process the datasets for PheNorm
 source 01_process_datasets.sh
+# run internal model training and evaluation
 source 02_run_phenorm_internal.sh

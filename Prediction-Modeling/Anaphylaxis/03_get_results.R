@@ -5,7 +5,9 @@
 # required packages and functions ---------------------------------------------
 library("optparse")
 library("dplyr")
+library("tidyr")
 library("readr")
+library("purrr")
 library("stringr")
 library("ggplot2")
 library("cowplot")
@@ -101,7 +103,7 @@ perf_list <- lapply(as.list(1:ncol(preds)), function(k) {
                           weights = analysis_data$test[[args$weight]],
                           identifier = perf_names[k])
 })
-perf <- map_dfr(perf_list, bind_rows)
+perf <- purrr::map_dfr(perf_list, bind_rows)
 perf_wide <- perf %>%
   pivot_wider(names_from = measure, values_from = perf) %>%
   select(-auc)
