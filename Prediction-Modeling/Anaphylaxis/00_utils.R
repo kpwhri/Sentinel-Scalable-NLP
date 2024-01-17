@@ -217,12 +217,14 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
                                     weights = rep(1, length(predictions)), 
                                     identifier = "model 1") {
   if (isTRUE(all.equal(weights, rep(1, length(predictions))))) {
+    # unweighted analysis
     pred_obj <- ROCR::prediction(
       predictions = predictions, labels = labels
     )
     auc <- unlist(ROCR::performance(
       prediction.obj = pred_obj, measure = "auc"
     )@y.values)
+    auc_ci <- cvAUC::ci.cvAUC(predictions = predictions, labels = labels, confidence = 0.95)$ci
     sens_spec <- ROCR::performance(
       prediction.obj = pred_obj, measure = "tpr", x.measure = "fpr"
     )
@@ -242,11 +244,16 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
     )@y.values)
     cutoffs <- unlist(sens_spec@alpha.values)
   } else {
+    # weighted analysis
     pred_obj_init <- WeightedROC::WeightedROC(guess = predictions, label = labels,
                                               weight = weights)
     # flip around to match ROCR (decreasing cutoff)
     pred_obj <- pred_obj_init[order(pred_obj_init$threshold, decreasing = TRUE), ] 
     auc <- WeightedROC::WeightedAUC(tpr.fpr = pred_obj_init)
+    auc_vimp <- vimp::measure_auc(fitted_values = predictions, y = labels,
+                                  ipc_weights = weights, ipc_eif_preds = rep(1, length(labels)))
+    auc_se <- mean(auc_vimp$eif ^ 2)
+    auc_ci <- auc_vimp + auc_se %o% qnorm(c(0.025, 0.975))
     sens <- pred_obj$TPR
     spec <- 1 - pred_obj$FPR
     tp <- apply(as.matrix(pred_obj$threshold), 1, 
@@ -275,7 +282,9 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
   )
   percentile_function <- ecdf(predictions)
   cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff) 
-  output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, cutoff_dependent)
+  output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, 
+                                  "auc_cil" = auc_ci[1], "auc_ciu" = auc_ci[2],
+                                  cutoff_dependent)
   return(output_tibble)
 }
 
