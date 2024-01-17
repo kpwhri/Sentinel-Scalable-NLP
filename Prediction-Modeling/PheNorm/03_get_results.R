@@ -106,7 +106,7 @@ perf_list <- lapply(as.list(1:ncol(preds)), function(k) {
 perf <- map_dfr(perf_list, bind_rows)
 perf_wide <- perf %>%
   pivot_wider(names_from = measure, values_from = perf) %>%
-  select(-auc)
+  select(-starts_with("auc"))
 # create plots and tables -----------------------------------------------------
 result_prefix <- paste0(
   results_output_dir, "phenorm_", args$analysis, "_data_", args$data_site,
@@ -152,6 +152,13 @@ perf_wide %>%
   group_by(id) %>%
   filter(abs(F1 - max(F1, na.rm = TRUE)) < 0.0005) %>%
   write_csv(file = paste0(result_prefix, "_max_f1.csv"))
+# AUCs with 95% CIs
+perf %>%
+  group_by(id) %>%
+  slice(1) %>%
+  select(id, starts_with("auc")) %>%
+  mutate(est_ci = sprintf("%.3f [%.3f, %.3f]", auc, auc_cil, auc_ciu)) %>%
+  write_csv(file = paste0(result_prefix, "_aucs.csv"))
 # print out the final model (covariates, coefficients)
 final_model <- fit$betas
 rownames(final_model) <- model_fit_names
@@ -175,4 +182,39 @@ readr::write_csv(
     result_prefix, "_vim.csv"
   )
 )
+# compute AUC for prediction using the "raw" silver labels ---------------------
+num_silvers <- length(silver_labels)
+raw_silver_perf <- lapply(as.list(seq_len(num_silvers)), function(k) {
+  get_performance_metrics(predictions = analysis_data$test_all %>% pull(silver_labels[k]), 
+                          labels = outcomes,
+                          identifier = silver_labels[k])
+})
+all_raw_silver_perf <- purrr::map_dfr(raw_silver_perf, bind_rows)
+saveRDS(raw_silver_perf, paste0(result_prefix, "phenorm_perf_raw_silver_labels.rds"))
+all_raw_silver_perf_wide <- all_raw_silver_perf %>% 
+  pivot_wider(names_from = measure, values_from = perf)
+for (i in seq_len(num_silvers)) {
+  this_silver_label <- silver_labels[i]
+  file_prefix <- paste0(result_prefix, "raw_silver_label_", tolower(this_silver_label))
+  this_wide_perf <- all_raw_silver_perf_wide %>% 
+    filter(id == this_silver_label)
+  this_wide_perf %>% 
+    mutate(across(3:9, round, 3)) %>% 
+    write_csv(file = paste0(file_prefix, "_perf_table.csv"))
+}
+all_raw_silver_perf_wide %>% 
+  group_by(id) %>% 
+  mutate(max_f1 = max(F1, na.rm = TRUE)) %>% 
+  filter(abs(F1 - max_f1) < 0.0005) %>% 
+  select(-max_f1) %>% 
+  ungroup() %>% 
+  write_csv(file = paste0(result_prefix, "raw_silver_max_f1.csv"))
+# AUCs and 95% CIs
+all_raw_silver_perf %>%
+  group_by(id) %>%
+  slice(1) %>%
+  select(id, starts_with("auc")) %>%
+  mutate(est_ci = sprintf("%.3f [%.3f, %.3f]", auc, auc_cil, auc_ciu)) %>%
+  write_csv(file = paste0(result_prefix, "_raw_silver_aucs.csv"))
+  
 print("Results complete.")

@@ -1,7 +1,7 @@
 # run anaphylaxis analysis
 
 # install packages, if necessary
-source ../PheNorm/00_install_packages.sh
+# source ../PheNorm/00_install_packages.sh
 
 # run setup file
 source 00_anaphylaxis_phenorm_setup.sh
