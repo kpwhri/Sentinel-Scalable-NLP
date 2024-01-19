@@ -21,7 +21,7 @@ parser <- add_option(parser, "--data-name",
                      default = ".rds", 
                      help = "The name of the dataset")
 parser <- add_option(parser, "--analysis",
-                     default = "phase_1_updated_symptomatic_covid", 
+                     default = "sentinel_anaphylaxis", 
                      help = "The name of the analysis")
 parser <- add_option(parser, "--gold-label", default = "PTYPE_POSITIVE", 
                      help = "The name of the gold label")
@@ -42,13 +42,18 @@ if (!dir.exists(args$analysis_data_dir)) {
 }
 
 # read in the dataset
-input_data <- readr::read_csv(paste0(args$data_dir, args$data_name), na = c("NA", ".", ""))  
+if (grepl(".csv", args$data_name)) {
+  input_data <- readr::read_csv(paste0(args$data_dir, args$data_name), na = c("NA", ".", ""))    
+} else {
+  input_data <- haven::read_sas(paste0(args$data_dir, args$data_name))
+}
+
 
 # remove any columns with 0 variance/only one unique value, outside of the special columns
 all_num_unique <- lapply(input_data, function(x) length(unique(x)))
-is_zero <- (all_num_unique == 0)
+is_zero_one <- (all_num_unique == 0) | (all_num_unique == 1)
 removed_zero_variance <- input_data %>%
-  select(!!args$study_id, !!args$weight, (1:ncol(input_data))[!is_zero])  
+  select(!!args$study_id, !!args$weight, (1:ncol(input_data))[!is_zero_one])  
 
 # remove columns that we don't want to use in modeling
 removed_unneccessary_cols <- removed_zero_variance %>%
@@ -61,5 +66,5 @@ removed_unneccessary_cols <- removed_zero_variance %>%
 binary_outcome <- removed_unneccessary_cols %>% 
   mutate(HOI_2_0_Gold_Case = as.numeric(HOI_2_0_Gold_Case == "Yes"))
 
-saveRDS(binary_outcome, paste0(args$data_dir, gsub(".csv", ".rds", args$data_name)))
+saveRDS(binary_outcome, paste0(args$data_dir, gsub(".sas7bdat", ".rds", gsub(".csv", ".rds", args$data_name))))
 print("Data preprocessing complete")
