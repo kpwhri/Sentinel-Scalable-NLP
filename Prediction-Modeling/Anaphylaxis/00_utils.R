@@ -215,7 +215,9 @@ get_f_score <- function(precision, recall, beta) {
 # @param identifier the silver label that we're computing performance for
 get_performance_metrics <- function(predictions = NULL, labels = NULL, 
                                     weights = rep(1, length(predictions)), 
-                                    identifier = "model 1") {
+                                    identifier = "model 1",
+                                    scale = "identity",
+                                    truncate = TRUE) {
   if (isTRUE(all.equal(weights, rep(1, length(predictions))))) {
     # unweighted analysis
     pred_obj <- ROCR::prediction(
@@ -250,10 +252,18 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
     # flip around to match ROCR (decreasing cutoff)
     pred_obj <- pred_obj_init[order(pred_obj_init$threshold, decreasing = TRUE), ] 
     auc <- WeightedROC::WeightedAUC(tpr.fpr = pred_obj_init)
+    ipc_eif_preds <- vimp::measure_auc(fitted_values = predictions, y = labels)$eif
     auc_vimp <- vimp::measure_auc(fitted_values = predictions, y = labels,
-                                  ipc_weights = weights, ipc_eif_preds = rep(1, length(labels)))
-    auc_se <- mean(auc_vimp$eif ^ 2)
-    auc_ci <- auc_vimp + auc_se %o% qnorm(c(0.025, 0.975))
+                                  ipc_weights = weights, ipc_eif_preds = ipc_eif_preds,
+                                  scale = scale)
+    auc_se <- sqrt(mean(auc_vimp$eif ^ 2) / length(auc_vimp$eif))
+    auc_ci <- vimp::vimp_ci(est = auc_vimp$point_est, se = auc_se,
+                            scale = scale, level = 0.95, truncate = FALSE)
+    
+    if (truncate) {
+      auc_ci[1] <- ifelse(auc_ci[1] < 0, 0, auc_ci[1])
+      auc_ci[2] <- ifelse(auc_ci[2] > 1, 1, auc_ci[2])
+    }
     sens <- pred_obj$TPR
     spec <- 1 - pred_obj$FPR
     tp <- apply(as.matrix(pred_obj$threshold), 1, 

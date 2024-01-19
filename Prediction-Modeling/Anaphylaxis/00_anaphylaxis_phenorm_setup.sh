@@ -13,6 +13,7 @@ cui_of_interest="C0002792"
 site="kpwa"
 # external_site="<replace with the external validation site, if any>"
 # dataset name
+# raw_data_name="di7_phenorm_modeling_file.sas7bdat"
 raw_data_name="di7_phenorm_modeling_file_brian.csv"
 data_name="di7_phenorm_modeling_file_brian.rds"
 # analysis name
@@ -47,7 +48,7 @@ train_value="1"
 nonneg_label="_nonneg"
 study_id="Obs_ID"
 util_var="utiliz"
-weight_var="Sampling_Weight"
+weight_var="HOI_2_0_Sampling_Weight"
 gold_label="HOI_2_0_Gold_Case"
 chart_reviewed=true
 
