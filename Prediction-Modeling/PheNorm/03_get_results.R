@@ -6,6 +6,7 @@
 library("optparse")
 library("dplyr")
 library("tidyr")
+library("tibble")
 library("readr")
 library("purrr")
 library("stringr")
