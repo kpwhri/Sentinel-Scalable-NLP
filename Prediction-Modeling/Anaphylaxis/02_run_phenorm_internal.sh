@@ -26,6 +26,6 @@ for (( i=0; i<${n_analyses}; i++)); do
     fi
     # get predictions on entire dataset
     echo "Obtaining predicted probabilities on entire dataset for analysis ${analysis}"
-    Rscript 04_get_predicted_probabilities.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --data-site "${site}" --model-site "${site}" --study-id ${study_id} > "./${io_dir}/04_get_predprobs_${analysis}.out" 2>&1
+    Rscript 04_get_predicted_probabilities.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --weight ${weight_var} --valid-label ${valid_label} --data-site "${site}" --model-site "${site}" --study-id ${study_id} > "./${io_dir}/04_get_predprobs_${analysis}.out" 2>&1
     echo "Model training and internal results for analysis ${analysis} complete"
 done
