@@ -9,6 +9,7 @@ Prediction-Modeling/sandbox/*
 Prediction-Modeling/Anaphylaxis/PheNorm/*
 Prediction-Modeling/Anaphylaxis/phenorm_io*
 Prediction-Modeling/Anaphylaxis/*vsd*
+Prediction-Modeling/Anaphylaxis/*test*
 .Rproj.user
 *.Rproj
 *.zip

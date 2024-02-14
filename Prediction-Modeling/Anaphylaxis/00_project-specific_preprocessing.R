@@ -48,6 +48,9 @@ if (grepl(".csv", args$data_name)) {
   input_data <- haven::read_sas(paste0(args$data_dir, args$data_name))
 }
 
+if (is.null(input_data[[args$weight]])) {
+  input_data[[args$weight]] <- 1
+}
 
 # remove any columns with 0 variance/only one unique value, outside of the special columns
 all_num_unique <- lapply(input_data, function(x) length(unique(x)))
@@ -62,9 +65,18 @@ removed_unneccessary_cols <- removed_zero_variance %>%
          -starts_with("filter_group"), -starts_with("n_cal"), 
          -starts_with("n_notes"), -starts_with("tot_notes"))
 
-# change HOI 2.0 gold case status to 0/1
-binary_outcome <- removed_unneccessary_cols %>% 
-  mutate(HOI_2_0_Gold_Case = as.numeric(HOI_2_0_Gold_Case == "Yes"))
+if (grepl("hoi_20", args$analysis) | grepl("hoi20", args$analysis)) {
+  removed_unneccessary_cols <- removed_unneccessary_cols %>%
+    select(-starts_with("DI7"))
+  # change HOI 2.0 gold case status to 0/1
+  binary_outcome <- removed_unneccessary_cols %>% 
+    mutate(HOI_2_0_Gold_Case = as.numeric(HOI_2_0_Gold_Case == "Yes"))
+} else {
+  removed_unneccessary_cols <- removed_unneccessary_cols %>%
+    select(-starts_with("HOI_2_0"))
+  binary_outcome <- removed_unneccessary_cols
+}
+
 
 saveRDS(binary_outcome, paste0(args$data_dir, gsub(".sas7bdat", ".rds", gsub(".csv", ".rds", args$data_name))))
 print("Data preprocessing complete")

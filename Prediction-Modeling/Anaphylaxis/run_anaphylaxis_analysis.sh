@@ -21,3 +21,5 @@ Rscript 00_project-specific_preprocessing.R "${args[@]}" > "./${io_dir}/00_prepr
 source 01_process_datasets.sh
 # run internal model training and evaluation
 source 02_run_phenorm_internal.sh
+# run external model training and evaluation
+source 03_run_phenorm_external.sh

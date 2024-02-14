@@ -11,12 +11,13 @@ sudo mount -t drvfs G: /mnt/g
 cui_of_interest="C0002792"
 # model development site and external validation site
 site="kpwa"
-# external_site="<replace with the external validation site, if any>"
+external_site="vumc"
 # dataset name
 # raw_data_name="di7_phenorm_modeling_file.sas7bdat"
 raw_data_name="di7_phenorm_modeling_file_brian.csv"
 data_name="di7_phenorm_modeling_file_brian.rds"
-# analysis name
+# analysis name (first row is to use HOI 2.0 results)
+# analysis_name="sentinel_anaphylaxis_hoi20"
 analysis_name="sentinel_anaphylaxis"
 # directory
 # dir_prefix="/mnt/c/Users/L107067/OneDrive - Kaiser Permanente/Code/Sentinel-Scalable-NLP/Prediction-Modeling/"
@@ -42,14 +43,17 @@ train_on_gold_data=0
 # tuning parameters for PheNorm, also set to the defaults
 corrupt_rate=0.3
 train_size_mult=13
-# Variable names and helpful values
-valid_label="HOI_2_0_Gold_Set"
-train_value="1"
+# Variable names and helpful values; first set is for HOI 2.0 gold-standard analysis
+# valid_label="HOI_2_0_Gold_Set"
+valid_label="DI7_GOLD_SET"
+train_value="0"
 nonneg_label="_nonneg"
 study_id="Obs_ID"
 util_var="utiliz"
-weight_var="HOI_2_0_Sampling_Weight"
-gold_label="HOI_2_0_Gold_Case"
+# weight_var="HOI_2_0_Sampling_Weight"
+weight_var="weight"
+# gold_label="HOI_2_0_Gold_Case"
+gold_label="DI7_ANA_CASE_STATUS"
 chart_reviewed=true
 
 # directory setup, based on entries above --------------------------------------
