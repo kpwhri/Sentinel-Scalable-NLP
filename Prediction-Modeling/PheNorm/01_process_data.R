@@ -117,7 +117,12 @@ processed_data <- process_data(dataset = only_cuis_of_interest,
                                weight = args$weight,
                                train_on_gold_data = args$train_on_gold,
                                chart_reviewed = args$chart_reviewed)
-train <- processed_data$train
+# drop variables in the training data with 0 variance/only one unique value, outside of the special columns
+all_num_unique <- lapply(processed_data$train, function(x) length(unique(x)))
+is_zero_one <- (all_num_unique == 0) | (all_num_unique == 1)
+train <- processed_data$train %>% 
+  select(!!args$study_id, all_of(silver_labels), !!args$weight, !!args$utilization,
+         !!args$valid_label, (1:ncol(processed_data$train))[!is_zero_one])
 test <- processed_data$test
 outcomes <- processed_data$outcome
 all_data <- processed_data$all
