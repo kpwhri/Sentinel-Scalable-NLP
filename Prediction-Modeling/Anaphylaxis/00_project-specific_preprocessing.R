@@ -52,14 +52,15 @@ if (is.null(input_data[[args$weight]])) {
   input_data[[args$weight]] <- 1
 }
 
-# remove any columns with 0 variance/only one unique value, outside of the special columns
-all_num_unique <- lapply(input_data, function(x) length(unique(x)))
-is_zero_one <- (all_num_unique == 0) | (all_num_unique == 1)
-removed_zero_variance <- input_data %>%
-  select(!!args$study_id, !!args$weight, (1:ncol(input_data))[!is_zero_one])  
+# # remove any columns with 0 variance/only one unique value, outside of the special columns
+# all_num_unique <- lapply(input_data, function(x) length(unique(x)))
+# is_zero_one <- (all_num_unique == 0) | (all_num_unique == 1)
+# removed_zero_variance <- input_data %>%
+#   select(!!args$study_id, !!args$weight, (1:ncol(input_data))[!is_zero_one])  
 
 # remove columns that we don't want to use in modeling
-removed_unneccessary_cols <- removed_zero_variance %>%
+# removed_unneccessary_cols <- removed_zero_variance %>%
+removed_unneccessary_cols <- input_data %>% 
   select(-starts_with("Assigned_Path"), 
          # -starts_with("HOI_2_0"), 
          -starts_with("filter_group"), -starts_with("n_cal"), 
