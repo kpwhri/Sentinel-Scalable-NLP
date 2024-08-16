@@ -30,6 +30,7 @@ Another project, referred to as **Prediction Modeling**, implements a highly aut
 
 ### Steps
 
-* Create the Anaphylaxis Cohort using SAS code in `High-Sensitivity-Filter/Programs`
-* Process the cohort with NLP using configuration files in `Prediction-Modeling/Anaphylaxis/NLP/configs`
-* Run PheNorm using the R code in `Prediction-Modeling/Anaphylaxis/NLP`
+* Create the Anaphylaxis Cohort using [SAS code](High-Sensitivity-Filter/Programs)
+* Process the corpus output by `04_CLinical_Text_for_NLP.sas` with `mml_utils` using [configuration files](Prediction-Modeling/Anaphylaxis/NLP/configs)
+  * A step-by-step guide is provided in the [`mml_utils` documentation](https://github.com/kpwhri/mml_utils/tree/master/examples/phenorm)
+* Run PheNorm using the [R code](Prediction-Modeling/Anaphylaxis/NLP)
