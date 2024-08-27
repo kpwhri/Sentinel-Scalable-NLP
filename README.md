@@ -18,7 +18,7 @@ One of these projects, referred to as **High-Sensitivity Filter** implements a m
 Another project, referred to as **Prediction Modeling**, implements a highly automated approach to developing models to determine whether a patient has experienced a particular health outcome of interest based heavily on information extracted from unstructured clinical chart notes. This automated and scalable approach to model development, referred to as the PheNorm approach.  The name PheNorm comes from the term “phenotype normalization,” the goal of which is to both speed up the process of developing phenotype models and minimize operator dependence, which often accompanies manual approaches to feature engineering and model development.  Code and tools available in the Prediction Modeling project were developed while implementing the PheNorm method to model the phenotype “symptomatic COVID-19 disease” using data from two different healthcare settings.
 
 
-## Quick Start
+## Prediction Modeling Quick Start
 
 ### Prerequisites
 
