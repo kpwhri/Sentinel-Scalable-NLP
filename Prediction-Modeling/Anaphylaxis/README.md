@@ -19,9 +19,9 @@ To replicate or use the process described here, you will need:
 
 1. Downloaded and cleaned articles from Mayo, Medline, Medscape, Merck, and Wikipedia (see [articles](AFEP/articles)).
 2. Run exploration of possible parameters, and select the best CUI output (see [build_afep_multi](AFEP/configs/build_afep_multi.toml)).
-  * Place the output selected CUIs into a file with one CUI per line (see [example from our work](NLP/cuis.txt))
+   * Place the output selected CUIs into a file with one CUI per line (see [example from our work](NLP/cuis.txt))
 3. Identify corpus using method described in SAS files [here](https://github.com/kpwhri/Sentinel-Scalable-NLP/tree/master/High-Sensitivity-Filter/Programs)
-  * Run the SAS code in the enumerated order (from 01 - 05)
+   * Run the SAS code in the enumerated order (from 01 - 05)
 4. Now that the CUIs have been identified, extract these CUIs from the entire corpus
    * Use [run_mm_on_corpus.toml](NLP/configs/run_mm_on_corpus.toml) to generate Metamap shell scripts
    * Run Metamap using these scripts
