@@ -34,3 +34,4 @@ Another project, referred to as **Prediction Modeling**, implements a highly aut
 * Process the corpus output by `04_CLinical_Text_for_NLP.sas` with `mml_utils` using [configuration files](Prediction-Modeling/Anaphylaxis/NLP/configs)
   * A step-by-step guide is provided in the [`mml_utils` documentation](https://github.com/kpwhri/mml_utils/tree/master/examples/phenorm)
 * Run PheNorm using the [R code](Prediction-Modeling/)
+  * If you are only applying the model, consider using the [Prenorm Predict repository](https://github.com/kpwhri/phenorm_predict) which contains only the necessary scripts to run an existing model.
