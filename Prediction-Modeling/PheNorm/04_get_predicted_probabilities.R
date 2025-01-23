@@ -29,6 +29,8 @@ parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
 parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
+parser <- add_option(parser, "--seed", type = "integer", default = 1234,
+                     help = "The random number seed to use")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
 parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
 parser <- add_option(parser, "--study-id", default = "Studyid", help = "The study id variable")
@@ -66,7 +68,7 @@ model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels, args$w
 # get predictions among those in the test set
 test_ids <- all_data[[id_var]][all_data[[valid_label]] == 1]
 if (length(test_ids) > 0) {
-  set.seed(1234)
+  set.seed(args$seed)
   preds_test <- predict.PheNorm(
     phenorm_model = fit, newdata = test_minus_id, silver_labels = silver_labels,
     features = model_features,
@@ -81,7 +83,7 @@ if (length(test_ids) > 0) {
 
 # get predictions among those in the training set
 train_ids <- all_data[[id_var]][all_data[[valid_label]] == 0]
-set.seed(1234)
+set.seed(args$seed)
 preds_train <- predict.PheNorm(
   phenorm_model = fit, newdata = train_minus_id, silver_labels = silver_labels,
   features = model_features,
