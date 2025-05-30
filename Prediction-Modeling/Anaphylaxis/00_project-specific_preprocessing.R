@@ -61,23 +61,27 @@ if (is.null(input_data[[args$weight]])) {
 # remove columns that we don't want to use in modeling
 # removed_unneccessary_cols <- removed_zero_variance %>%
 removed_unneccessary_cols <- input_data %>% 
-  select(-starts_with("Assigned_Path"), 
+  select(-starts_with("Assigned_Path", ignore.case = TRUE), 
          # -starts_with("HOI_2_0"), 
-         -starts_with("filter_group"), -starts_with("n_cal"), 
-         -starts_with("n_notes"), -starts_with("tot_notes"))
+         -starts_with("filter_group", ignore.case = TRUE), 
+         -starts_with("n_cal", ignore.case = TRUE), 
+         -starts_with("n_notes", ignore.case = TRUE), 
+         -starts_with("tot_notes", ignore.case = TRUE),
+         -starts_with("...1"))
 
 if (grepl("hoi_20", args$analysis) | grepl("hoi20", args$analysis)) {
   removed_unneccessary_cols <- removed_unneccessary_cols %>%
-    select(-starts_with("DI7"))
+    select(-matches("(?i).*(gold|gs).*(?![\\w]*hoi_2_0_gold)", perl = TRUE))
   # change HOI 2.0 gold case status to 0/1
   binary_outcome <- removed_unneccessary_cols %>% 
-    mutate(HOI_2_0_Gold_Case = as.numeric(HOI_2_0_Gold_Case == "Yes"))
+    mutate(HOI_2_0_Gold_Case = as.numeric(HOI_2_0_Gold_Case == "Yes")) %>% 
+    mutate(across(- !! args$study_id, .fns = as.numeric))
 } else {
   removed_unneccessary_cols <- removed_unneccessary_cols %>%
     select(-starts_with("HOI_2_0"))
-  binary_outcome <- removed_unneccessary_cols
+  binary_outcome <- removed_unneccessary_cols %>% 
+    mutate(across(- !! args$study_id, .fns = as.numeric))
 }
-
 
 saveRDS(binary_outcome, paste0(args$data_dir, gsub(".sas7bdat", ".rds", gsub(".csv", ".rds", args$data_name))))
 print("Data preprocessing complete")

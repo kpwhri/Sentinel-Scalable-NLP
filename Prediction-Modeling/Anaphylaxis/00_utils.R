@@ -226,7 +226,6 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
     auc <- unlist(ROCR::performance(
       prediction.obj = pred_obj, measure = "auc"
     )@y.values)
-    auc_ci <- cvAUC::ci.cvAUC(predictions = predictions, labels = labels, confidence = 0.95)$ci
     sens_spec <- ROCR::performance(
       prediction.obj = pred_obj, measure = "tpr", x.measure = "fpr"
     )
@@ -292,9 +291,7 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
   )
   percentile_function <- ecdf(predictions)
   cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff) 
-  output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, 
-                                  "auc_cil" = auc_ci[1], "auc_ciu" = auc_ci[2],
-                                  cutoff_dependent)
+  output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, cutoff_dependent)
   return(output_tibble)
 }
 

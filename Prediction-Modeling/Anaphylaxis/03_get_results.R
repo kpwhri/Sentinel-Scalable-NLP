@@ -23,13 +23,13 @@ source(here::here("00_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
 parser <- add_option(parser, "--data-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/DI7_Assisted_Review/ANALYSIS/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The input data directory")
 parser <- add_option(parser, "--output-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/DI7_Assisted_Review/ANALYSIS/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
-                     default = "sentinel_anaphylaxis", help = "The name of the analysis")
+                     default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
 parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
@@ -104,7 +104,7 @@ perf_list <- lapply(as.list(1:ncol(preds)), function(k) {
                           weights = analysis_data$test[[args$weight]],
                           identifier = perf_names[k])
 })
-perf <- purrr::map_dfr(perf_list, bind_rows)
+perf <- map_dfr(perf_list, bind_rows)
 perf_wide <- perf %>%
   pivot_wider(names_from = measure, values_from = perf) %>%
   select(-starts_with("auc"))
@@ -217,5 +217,5 @@ all_raw_silver_perf %>%
   select(id, starts_with("auc")) %>%
   mutate(est_ci = sprintf("%.3f [%.3f, %.3f]", auc, auc_cil, auc_ciu)) %>%
   write_csv(file = paste0(result_prefix, "_raw_silver_aucs.csv"))
-
+  
 print("Results complete.")
