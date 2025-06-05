@@ -19,13 +19,13 @@ for (( i=0; i<${n_analyses}; i++)); do
     if [ "${chart_reviewed,,}" = true ]; then
         # get predictions on test data, plot results:
         echo "Obtaining internal validation results for analysis ${analysis}"
-        Rscript 03_get_results.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --weight ${weight_var} --data-site "${site}" --model-site "${site}" > "./${io_dir}/03_get_results_${analysis}.out" 2>&1
+        Rscript 03_get_results.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --weight ${weight_var} --data-site "${site}" --model-site "${site}" --seed "${seed}" > "./${io_dir}/03_get_results_${analysis}.out" 2>&1
     else
         # do nothing 
         echo "No chart reviews exist, so not performing internal validation"
     fi
     # get predictions on entire dataset
     echo "Obtaining predicted probabilities on entire dataset for analysis ${analysis}"
-    Rscript 04_get_predicted_probabilities.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --weight ${weight_var} --valid-label ${valid_label} --data-site "${site}" --model-site "${site}" --study-id ${study_id} > "./${io_dir}/04_get_predprobs_${analysis}.out" 2>&1
+    Rscript 04_get_predicted_probabilities.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --weight ${weight_var} --valid-label ${valid_label} --data-site "${site}" --model-site "${site}" --study-id ${study_id} --seed "${seed}" > "./${io_dir}/04_get_predprobs_${analysis}.out" 2>&1
     echo "Model training and internal results for analysis ${analysis} complete"
 done
