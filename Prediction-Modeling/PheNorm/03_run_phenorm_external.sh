@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # run external PheNorm models --------------------------------------------------
 # this code can only be run after internal model building 

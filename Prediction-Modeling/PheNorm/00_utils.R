@@ -251,18 +251,7 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
     # flip around to match ROCR (decreasing cutoff)
     pred_obj <- pred_obj_init[order(pred_obj_init$threshold, decreasing = TRUE), ] 
     auc <- WeightedROC::WeightedAUC(tpr.fpr = pred_obj_init)
-    ipc_eif_preds <- vimp::measure_auc(fitted_values = predictions, y = labels)$eif
-    auc_vimp <- vimp::measure_auc(fitted_values = predictions, y = labels,
-                                  ipc_weights = weights, ipc_eif_preds = ipc_eif_preds,
-                                  scale = scale)
-    auc_se <- sqrt(mean(auc_vimp$eif ^ 2) / length(auc_vimp$eif))
-    auc_ci <- vimp::vimp_ci(est = auc_vimp$point_est, se = auc_se,
-                            scale = scale, level = 0.95, truncate = FALSE)
     
-    if (truncate) {
-      auc_ci[1] <- ifelse(auc_ci[1] < 0, 0, auc_ci[1])
-      auc_ci[2] <- ifelse(auc_ci[2] > 1, 1, auc_ci[2])
-    }
     sens <- pred_obj$TPR
     spec <- 1 - pred_obj$FPR
     tp <- apply(as.matrix(pred_obj$threshold), 1, 
@@ -291,7 +280,20 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
   )
   percentile_function <- ecdf(predictions)
   cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff) 
-  output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, cutoff_dependent)
+  ipc_eif_preds <- vimp::measure_auc(fitted_values = predictions, y = labels)$eif
+  auc_vimp <- vimp::measure_auc(fitted_values = predictions, y = labels,
+                                ipc_weights = weights, ipc_eif_preds = ipc_eif_preds,
+                                scale = scale)
+  auc_se <- sqrt(mean(auc_vimp$eif ^ 2) / length(auc_vimp$eif))
+  auc_ci <- vimp::vimp_ci(est = auc_vimp$point_est, se = auc_se,
+                          scale = scale, level = 0.95, truncate = FALSE)
+  
+  if (truncate) {
+    auc_ci[1] <- ifelse(auc_ci[1] < 0, 0, auc_ci[1])
+    auc_ci[2] <- ifelse(auc_ci[2] > 1, 1, auc_ci[2])
+  }
+  output_tibble <- tibble::tibble("id" = identifier, "auc" = auc, "auc_cil" = auc_ci[, 1],
+                                  "auc_ciu" = auc_ci[, 2], cutoff_dependent)
   return(output_tibble)
 }
 

@@ -20,6 +20,6 @@ for (( i=0; i<${n_analyses}; i++)); do
     fi
     # get predictions on test data, plot results:
     echo "Obtaining external validation results for analysis ${analysis}"
-    Rscript COVID/03_get_results.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --weight ${weight_var} --data-site "${site}" --model-site "${external_site}"  > "./${io_dir}/03_get_results_${analysis}_${site}_${external_site}.out" 2>&1
+    Rscript COVID/03_get_results.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --weight ${weight_var} --data-site "${site}" --model-site "${external_site}" --seed "${seed}" > "./${io_dir}/03_get_results_${analysis}_${site}_${external_site}.out" 2>&1
     echo "External results for analysis ${analysis} complete"
 done

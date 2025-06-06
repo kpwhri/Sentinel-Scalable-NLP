@@ -33,7 +33,9 @@ parser <- add_option(parser, "--analysis",
 parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
-parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
+parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")
+parser <- add_option(parser, "--seed", type = "integer", default = 4747,
+                     help = "The random number seed to use")                     
 args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 fit_output_dir <- paste0(args$output_dir, "fits/")
@@ -84,7 +86,7 @@ if (args$model_site == args$data_site) {
   preds <- phenorm_analysis$preds
 } else {
   # get features used to train external PheNorm model
-  set.seed(1234)
+  set.seed(args$seed)
   preds <- predict.PheNorm(
     phenorm_model = fit, newdata = analysis_data$test_all, silver_labels = silver_labels,
     features = model_features,
@@ -191,12 +193,12 @@ raw_silver_perf <- lapply(as.list(seq_len(num_silvers)), function(k) {
                           identifier = silver_labels[k])
 })
 all_raw_silver_perf <- purrr::map_dfr(raw_silver_perf, bind_rows)
-saveRDS(raw_silver_perf, paste0(result_prefix, "phenorm_perf_raw_silver_labels.rds"))
+saveRDS(raw_silver_perf, paste0(result_prefix, "_phenorm_perf_raw_silver_labels.rds"))
 all_raw_silver_perf_wide <- all_raw_silver_perf %>% 
   pivot_wider(names_from = measure, values_from = perf)
 for (i in seq_len(num_silvers)) {
   this_silver_label <- silver_labels[i]
-  file_prefix <- paste0(result_prefix, "raw_silver_label_", tolower(this_silver_label))
+  file_prefix <- paste0(result_prefix, "_raw_silver_label_", tolower(this_silver_label))
   this_wide_perf <- all_raw_silver_perf_wide %>% 
     filter(id == this_silver_label)
   this_wide_perf %>% 
@@ -209,7 +211,7 @@ all_raw_silver_perf_wide %>%
   filter(abs(F1 - max_f1) < 0.0005) %>% 
   select(-max_f1) %>% 
   ungroup() %>% 
-  write_csv(file = paste0(result_prefix, "raw_silver_max_f1.csv"))
+  write_csv(file = paste0(result_prefix, "_raw_silver_max_f1.csv"))
 # AUCs and 95% CIs
 all_raw_silver_perf %>%
   group_by(id) %>%

@@ -36,6 +36,8 @@ parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site 
 parser <- add_option(parser, "--study-id", default = "Studyid", help = "The study id variable")
 parser <- add_option(parser, "--valid-label", default = "Train_Eval_Set", 
                      help = "The name of the validation set variable")
+parser <- add_option(parser, "--seed", type = "integer", default = 4747,
+                     help = "The random number seed to use")
 args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 fit_output_dir <- paste0(args$output_dir, "fits/")
@@ -52,8 +54,20 @@ test_data <- analysis_data$test
 all_data <- analysis_data$all
 id_var <- which(grepl(args$study_id, names(all_data), ignore.case = TRUE))
 valid_label <- which(grepl(args$valid_label, names(all_data), ignore.case = TRUE))
-train_minus_id <- train_data[, -id_var]
-test_minus_id <- test_data[, -id_var]
+# check to see if the training data or testing has the ID variable; if so, remove it
+train_id_col <- grepl(args$study_id, names(train_data), ignore.case = TRUE)
+if (any(train_id_col)) {
+  train_minus_id <- train_data[, !train_id_col]  
+} else {
+  train_minus_id <- train_data
+}
+test_id_col <- grepl(args$study_id, names(train_data), ignore.case = TRUE)
+if (any(test_id_col)) {
+  test_minus_id <- test_data[, !test_id_col]  
+} else {
+  test_minus_id <- test_data
+}
+
 phenorm_analysis <- readRDS(
   file = paste0(
     fit_output_dir, args$analysis, "_", args$model_site, "_phenorm_output.rds"

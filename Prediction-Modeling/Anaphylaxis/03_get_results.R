@@ -23,17 +23,19 @@ source(here::here("00_utils.R"))
 # set up command-line args ----------------------------------------------------
 parser <- OptionParser()
 parser <- add_option(parser, "--data-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/DI7_Assisted_Review/ANALYSIS/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/analysis_datasets_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The input data directory")
 parser <- add_option(parser, "--output-dir",
-                     default = "G:/CTRHS/Sentinel/Innovation_Center/DI7_Assisted_Review/ANALYSIS/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
+                     default = "G:/CTRHS/Sentinel/Innovation_Center/NLP_COVID19_Carrell/PheNorm/results_negation_0_normalization_0_dimension-reduction_0_train-on-gold_0/",
                      help = "The output directory")
 parser <- add_option(parser, "--analysis",
-                     default = "sentinel_anaphylaxis", help = "The name of the analysis")
+                     default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
 parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
-parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
+parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")
+parser <- add_option(parser, "--seed", type = "integer", default = 4747,
+                     help = "The random number seed to use")                              
 args <- parse_args(parser, convert_hyphens_to_underscores = TRUE)
 
 fit_output_dir <- paste0(args$output_dir, "fits/")
@@ -84,7 +86,7 @@ if (args$model_site == args$data_site) {
   preds <- phenorm_analysis$preds
 } else {
   # get features used to train external PheNorm model
-  set.seed(1234)
+  set.seed(args$seed)
   preds <- predict.PheNorm(
     phenorm_model = fit, newdata = analysis_data$test_all, silver_labels = silver_labels,
     features = model_features,
@@ -104,7 +106,7 @@ perf_list <- lapply(as.list(1:ncol(preds)), function(k) {
                           weights = analysis_data$test[[args$weight]],
                           identifier = perf_names[k])
 })
-perf <- purrr::map_dfr(perf_list, bind_rows)
+perf <- map_dfr(perf_list, bind_rows)
 perf_wide <- perf %>%
   pivot_wider(names_from = measure, values_from = perf) %>%
   select(-starts_with("auc"))
@@ -191,12 +193,12 @@ raw_silver_perf <- lapply(as.list(seq_len(num_silvers)), function(k) {
                           identifier = silver_labels[k])
 })
 all_raw_silver_perf <- purrr::map_dfr(raw_silver_perf, bind_rows)
-saveRDS(raw_silver_perf, paste0(result_prefix, "phenorm_perf_raw_silver_labels.rds"))
+saveRDS(raw_silver_perf, paste0(result_prefix, "_phenorm_perf_raw_silver_labels.rds"))
 all_raw_silver_perf_wide <- all_raw_silver_perf %>% 
   pivot_wider(names_from = measure, values_from = perf)
 for (i in seq_len(num_silvers)) {
   this_silver_label <- silver_labels[i]
-  file_prefix <- paste0(result_prefix, "raw_silver_label_", tolower(this_silver_label))
+  file_prefix <- paste0(result_prefix, "_raw_silver_label_", tolower(this_silver_label))
   this_wide_perf <- all_raw_silver_perf_wide %>% 
     filter(id == this_silver_label)
   this_wide_perf %>% 
@@ -209,7 +211,7 @@ all_raw_silver_perf_wide %>%
   filter(abs(F1 - max_f1) < 0.0005) %>% 
   select(-max_f1) %>% 
   ungroup() %>% 
-  write_csv(file = paste0(result_prefix, "raw_silver_max_f1.csv"))
+  write_csv(file = paste0(result_prefix, "_raw_silver_max_f1.csv"))
 # AUCs and 95% CIs
 all_raw_silver_perf %>%
   group_by(id) %>%
@@ -217,5 +219,5 @@ all_raw_silver_perf %>%
   select(id, starts_with("auc")) %>%
   mutate(est_ci = sprintf("%.3f [%.3f, %.3f]", auc, auc_cil, auc_ciu)) %>%
   write_csv(file = paste0(result_prefix, "_raw_silver_aucs.csv"))
-
+  
 print("Results complete.")
