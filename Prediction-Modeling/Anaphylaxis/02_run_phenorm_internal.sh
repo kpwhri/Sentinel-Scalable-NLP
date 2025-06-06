@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # run internal PheNorm models at KPWA ---------------------------------
 
@@ -16,7 +16,7 @@ for (( i=0; i<${n_analyses}; i++)); do
     # run PheNorm on the training data:
     echo "Running PheNorm for analysis ${analysis}"
     Rscript 02_run_phenorm.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --seed $seed --utilization ${util_var} --weight ${weight_var} --corrupt-rate ${corrupt_rate} --train-size-multiplier ${train_size_mult} --site "${site}" > "./${io_dir}/02_run_phenorm_${analysis}.out" 2>&1
-    if [ "${chart_reviewed,,}" = true ]; then
+    if [ "${chart_reviewed}" = true ]; then
         # get predictions on test data, plot results:
         echo "Obtaining internal validation results for analysis ${analysis}"
         Rscript 03_get_results.R --data-dir "${analysis_data_dir}" --output-dir "${output_dir}" --analysis "$analysis" --weight ${weight_var} --data-site "${site}" --model-site "${site}" --seed "${seed}" > "./${io_dir}/03_get_results_${analysis}.out" 2>&1
