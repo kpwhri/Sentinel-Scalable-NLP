@@ -142,7 +142,11 @@ if (args$use_afep) {
 # combine and log-transform ---------------------------------------------------
 prelim_cc <- prelim_data %>% 
   filter(complete.cases(prelim_data))
-train_ids <- (1:nrow(prelim_cc))[prelim_data[[args$valid_label]] == 0]
+if (args$train_on_gold) {
+  train_ids <- 1:nrow(prelim_cc)
+} else {
+  train_ids <- (1:nrow(prelim_cc))[prelim_data[[args$valid_label]] == 0]
+}
 test_ids <- (1:nrow(prelim_cc))[prelim_data[[args$valid_label]] == 1]
 all_cc <- prelim_data %>% 
   filter(complete.cases(prelim_data)) %>% 
@@ -186,7 +190,7 @@ summary_stats <- tibble::tibble(
                           "Sample size (chart reviewed)", "Number of events",
                           "Number of NLP features", "Number of NLP features after screen"),
   `Value` = c(nrow(input_data), 
-              ifelse(args$chart_reviewed, length(train_ids) + length(test_ids), length(train_ids)),
+              ifelse(args$chart_reviewed, nrow(analysis_data$data), length(train_ids)),
               ifelse(args$chart_reviewed, length(test_ids), 0), 
               sum(outcomes),
               length(cui_names), # need to account for study id, utilization

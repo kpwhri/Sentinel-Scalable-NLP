@@ -105,15 +105,15 @@ process_data <- function(dataset = NULL, structured_data_names = "AGE",
   train_valid_cc <- dplyr::pull(dat_cc, validation_name)
   if (train_on_gold_data) {
     train_ids <- 1:nrow(dat_cc)
-    test_ids <- NULL
   } else {
     train_ids <- (1:nrow(dat_cc))[train_valid_cc == 0]
-    test_ids <- (1:nrow(dat_cc))[train_valid_cc == 1]
   }
   if (chart_reviewed) {
+    test_ids <- (1:nrow(dat_cc))[train_valid_cc == 1]
     final_outcomes <- outcomes[test_ids]
   } else {
-    final_outcomes <- rep(NA, length(test_ids))
+    test_ids <- rep(NA, nrow(dat_cc))
+    final_outcomes <- rep(NA, nrow(dat_cc))
   }
   return(list("data" = dat_cc, 
               "outcome" = final_outcomes, 
