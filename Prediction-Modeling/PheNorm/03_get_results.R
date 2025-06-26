@@ -90,7 +90,8 @@ if (args$model_site == args$data_site) {
   preds <- predict.PheNorm(
     phenorm_model = fit, newdata = analysis_data$test_all, silver_labels = silver_labels,
     features = model_features,
-    utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels
+    utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels,
+    start_from_empirical = FALSE
   )
   saveRDS(
     preds, file = paste0(
@@ -103,7 +104,7 @@ if (args$model_site == args$data_site) {
 perf_names <- names(preds)
 perf_list <- lapply(as.list(1:ncol(preds)), function(k) {
   get_performance_metrics(predictions = preds[[k]], labels = outcomes,
-                          weights = analysis_data$test[[args$weight]],
+                          weights = analysis_data$data[[args$weight]][analysis_data$test_ids],
                           identifier = perf_names[k])
 })
 perf <- map_dfr(perf_list, bind_rows)
@@ -146,9 +147,15 @@ for (i in seq_len(length(silver_labels_plus_voting))) {
   )
   this_wide_perf <- perf_wide %>%
     filter(id == this_silver_label)
-  this_wide_perf %>%
-    mutate(across(3:9, round, 3)) %>%
-    write_csv(file = paste0(file_prefix, "_perf_table.csv"))
+  if (packageVersion("dplyr") >= "1.1.0") {
+    this_wide_perf %>%
+      mutate(across(3:9, \(x) round(x, 3))) %>%
+      write_csv(file = paste0(file_prefix, "_perf_table.csv"))
+  } else {
+    this_wide_perf %>%
+      mutate(across(3:9, round, 3)) %>%
+      write_csv(file = paste0(file_prefix, "_perf_table.csv"))  
+  }
 }
 # Maximum F1 score
 perf_wide %>%
@@ -172,9 +179,9 @@ readr::write_csv(
   )
 )
 # variable importance
-set.seed(5678)
+set.seed(args$seed)
 est_vim <- get_vimp(phenorm_model = fit, preds = preds,
-                    newdata = analysis_data$test_all, 
+                    newdata = analysis_data$data[analysis_data$test_ids, ], 
                     silver_labels = silver_labels,
                     features = model_features,
                     utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels,
@@ -188,7 +195,8 @@ readr::write_csv(
 # compute AUC for prediction using the "raw" silver labels ---------------------
 num_silvers <- length(silver_labels)
 raw_silver_perf <- lapply(as.list(seq_len(num_silvers)), function(k) {
-  get_performance_metrics(predictions = analysis_data$test_all %>% pull(silver_labels[k]), 
+  get_performance_metrics(predictions = analysis_data$data[analysis_data$test_ids, ] %>% 
+                            pull(silver_labels[k]), 
                           labels = outcomes,
                           identifier = silver_labels[k])
 })
@@ -201,9 +209,15 @@ for (i in seq_len(num_silvers)) {
   file_prefix <- paste0(result_prefix, "_raw_silver_label_", tolower(this_silver_label))
   this_wide_perf <- all_raw_silver_perf_wide %>% 
     filter(id == this_silver_label)
-  this_wide_perf %>% 
-    mutate(across(3:9, round, 3)) %>% 
-    write_csv(file = paste0(file_prefix, "_perf_table.csv"))
+  if (packageVersion("dplyr") >= "1.1.0") {
+    this_wide_perf %>% 
+      mutate(across(3:9, \(x) round(x, 3))) %>% 
+      write_csv(file = paste0(file_prefix, "_perf_table.csv"))
+  } else {
+    this_wide_perf %>% 
+      mutate(across(3:9, round, 3)) %>% 
+      write_csv(file = paste0(file_prefix, "_perf_table.csv"))  
+  }
 }
 all_raw_silver_perf_wide %>% 
   group_by(id) %>% 

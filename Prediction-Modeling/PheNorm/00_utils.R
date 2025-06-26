@@ -21,7 +21,7 @@ run_phenorm <- function(data = NULL, train_ids = 1:nrow(data),
     nm.X = features, corrupt.rate = corrupt_rate, train.size = train_size,
     train_ids = train_ids, test_ids = test_ids
   )
-  return(list("fit" = phenorm_fit, "preds" = phenorm_fit$probs[test_ids]))
+  return(list("fit" = phenorm_fit, "preds" = phenorm_fit$all_probs[test_ids, ]))
 }
 
 
@@ -298,7 +298,7 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
 #' @return the estimated variable importance for each variable in the model
 get_vimp <- function(phenorm_model = NULL, preds = NULL,
                      newdata = NULL, silver_labels = NULL, features = NULL,
-                     utilization = NULL, use_empirical_sd = TRUE,
+                     utilization = NULL, start_from_empirical = FALSE,
                      aggregate_labels = silver_labels,
                      outcomes = NULL,
                      na.rm = TRUE, measure = "ate") {
@@ -316,11 +316,11 @@ get_vimp <- function(phenorm_model = NULL, preds = NULL,
       newX_1[, i] <- 1
       preds_0 <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX_0,
                                  silver_labels = silver_labels, features = features,
-                                 utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                 utilization = utilization, start_from_empirical = start_from_empirical,
                                  aggregate_labels = aggregate_labels, na.rm = na.rm)
       preds_1 <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX_1,
                                  silver_labels = silver_labels, features = features,
-                                 utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                 utilization = utilization, start_from_empirical = start_from_empirical,
                                  aggregate_labels = aggregate_labels, na.rm = na.rm)
       est_vim[i, 2:ncol(est_vim)] <- colMeans(preds_1 - preds_0)
     }
@@ -330,12 +330,12 @@ get_vimp <- function(phenorm_model = NULL, preds = NULL,
       newX[, i] <- X[, i] + sd(X[, i])
       new_preds <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX,
                                    silver_labels = silver_labels, features = features,
-                                   utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                   utilization = utilization, start_from_empirical = start_from_empirical,
                                    aggregate_labels = aggregate_labels, na.rm = na.rm)
       est_vim[i, 2:ncol(est_vim)] <- colMeans(preds - new_preds)
     }
   } else if (grepl("permute", measure)) {
-    # return permutation-based difference in AUC
+    # return permutation-based difference in AUC, unweighted
     orig_auc <- unlist(lapply(as.list(1:ncol(preds)), function(i) {
       cvAUC::AUC(predictions = preds[, i], labels = outcomes)
     }))
@@ -344,7 +344,7 @@ get_vimp <- function(phenorm_model = NULL, preds = NULL,
       newX[, i] <- X[sample(nrow(X), replace = FALSE), i]
       shuffle_preds <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX,
                                        silver_labels = silver_labels, features = features,
-                                       utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                       utilization = utilization, start_from_empirical = start_from_empirical,
                                        aggregate_labels = aggregate_labels, na.rm = na.rm)
       shuffle_aucs <- unlist(lapply(as.list(1:ncol(shuffle_preds)), function(k) {
         cvAUC::AUC(predictions = shuffle_preds[, k], labels = outcomes)
@@ -368,10 +368,9 @@ phenorm_roc <- function(performance_object = NULL, analysis_name = "Primary 1",
     slice(1) %>%
     select(id, auc)
   if (nrow(aucs) > 1) {
-    roc_curve <- performance_object %>%
+    roc_curve_init <- performance_object %>%
       pivot_wider(names_from = measure, values_from = perf) %>%
       ggplot(aes(x = 1 - Specificity, y = Sensitivity, color = id)) +
-      geom_line(size = 1) +
       geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
       labs(x = "1 - Specificity", y = "Sensitivity", color = "Silver Label") +
       ggtitle(stringr::str_wrap(the_title, title_length)) +
@@ -382,15 +381,21 @@ phenorm_roc <- function(performance_object = NULL, analysis_name = "Primary 1",
   } else {
     the_title <- paste0("Receiver operating characteristic curve: ", analysis_name, ", ",
                      aucs$id)
-    roc_curve <- performance_object %>%
+    roc_curve_init <- performance_object %>%
       pivot_wider(names_from = measure, values_from = perf) %>%
       ggplot(aes(x = 1 - Specificity, y = Sensitivity)) +
-      geom_line(size = 1) +
       geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
       labs(x = "1 - Specificity", y = "Sensitivity") +
       ggtitle(stringr::str_wrap(the_title, title_length)) +
       annotate(geom = "text", x = 0.75, y = 0.25, size = 8,
                label = paste0("AUC = ", round(aucs$auc, 3)))
+  }
+  if (packageVersion("ggplot2") >= "3.4.0") {
+    roc_curve <- roc_curve_init +
+      geom_line(linewidth = 1)
+  } else {
+    roc_curve <- roc_curve_init +
+      geom_line(size = 1)
   }
   return(roc_curve)
 }
@@ -401,15 +406,21 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
                              title_length = 80) {
   the_title <- paste0("Performance metrics at different cutpoints: ", analysis_name)
   all_measures <- c("Sensitivity", "Specificity", "PPV", "NPV", "F1", "F0.5")
-  combined_plot <- performance_object %>%
+  combined_plot_init <- performance_object %>%
     ggplot(aes(x = quantile, y = perf, color = factor(measure, levels = all_measures))) +
-    geom_line(size = 1) +
     labs(x = "Percentile Cutpoint", y = "Percent", color = "Performance metric") +
     ggtitle(stringr::str_wrap(the_title, title_length)) +
     scale_y_continuous(minor_breaks = seq(0, 1, 0.05)) +
     scale_x_continuous(minor_breaks = seq(0, 1, 0.05)) +
     theme(panel.grid.minor = element_line(color = "grey"),
           panel.grid.major = element_line(color = "grey"))
+  if (packageVersion("ggplot2") >= "3.4.0") {
+    combined_plot <- combined_plot_init +
+      geom_line(linewidth = 1)
+  } else {
+    combined_plot <- combined_plot_init +
+      geom_line(size = 1)
+  }
   return(combined_plot)
 }
 
@@ -566,8 +577,8 @@ predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
   original_phenorm_score <- phenorm_model$scores
   posterior_probs <- do.call(cbind, sapply(1:ncol(phenorm_score), function(i) {
     fit <- PheNorm:::normalmixEM2comp2(phenorm_score[, i], lambda = 0.5,
-                                       mu = quantile(ifelse(start_from_empirical, original_phenorm_score[, i], phenorm_score[, i]), probs = c(1/3, 2/3), na.rm = na.rm),
-                                       sigsqrd = ifelse(start_from_empirical, sd(original_phenorm_score[, i], na.rm = na.rm) / 2, 1))
+                                       mu = quantile(`if`(start_from_empirical, original_phenorm_score[, i], phenorm_score[, i]), probs = c(1/3, 2/3), na.rm = na.rm),
+                                       sigsqrd = `if`(start_from_empirical, sd(original_phenorm_score[, i], na.rm = na.rm) / 2, 1))
     fit$posterior[, 2]
   }, simplify = FALSE))
   colnames(posterior_probs) <- colnames(phenorm_score)
