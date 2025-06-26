@@ -47,9 +47,9 @@ analysis_data <- readRDS(
 )
 silver_labels <- analysis_data$silver_labels
 outcomes <- analysis_data$outcomes
-train_data <- analysis_data$train
-test_data <- analysis_data$test
-all_data <- analysis_data$all
+train_data <- analysis_data$data[analysis_data$train_ids, ]
+test_data <- analysis_data$data[analysis_data$test_ids, ]
+all_data <- analysis_data$full
 id_var <- which(grepl(args$study_id, names(all_data), ignore.case = TRUE))
 valid_label <- which(grepl(args$valid_label, names(all_data), ignore.case = TRUE))
 # check to see if the training data or testing has the ID variable; if so, remove it
@@ -77,51 +77,28 @@ fit <- phenorm_analysis$fit
 # get features used to train PheNorm model
 model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
 model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels, args$weight))]
-# get predictions among those in the test set
-test_ids <- all_data[[id_var]][all_data[[valid_label]] == 1]
-if (length(test_ids) > 0) {
-  set.seed(args$seed)
-  preds_test <- predict.PheNorm(
-    phenorm_model = fit, newdata = test_minus_id, silver_labels = silver_labels,
-    features = model_features,
-    utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels
-  )
-  names(preds_test) <- paste0("pred_prob_", names(preds_test))
-  preds_test_df <- data.frame(test_ids, preds_test)
-  names(preds_test_df)[1] <- args$study_id
-} else {
-  preds_test_df <- NULL
-}
-
-# get predictions among those in the training set
-train_ids <- all_data[[id_var]][all_data[[valid_label]] == 0]
+# get predictions on everyone in the new dataset
 set.seed(args$seed)
-preds_train <- predict.PheNorm(
-  phenorm_model = fit, newdata = train_minus_id, silver_labels = silver_labels,
-  features = model_features,
-  utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels
+preds <- predict.PheNorm(
+  phenorm_model = fit, newdata = analysis_data$data, 
+  silver_labels = silver_labels, features = model_features,
+  utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels,
+  start_from_empirical = FALSE
 )
-names(preds_train) <- paste0("pred_prob_", names(preds_train))
-preds_train_df <- data.frame(train_ids, preds_train)
-names(preds_train_df)[1] <- args$study_id
+preds_df <- data.frame(1:nrow(analysis_data$data), preds)
+names(preds_df)[1] <- args$study_id
 
-# set up whole vector of predictions
-unordered_preds <- rbind(preds_test_df, preds_train_df)
-ids_only <- data.frame(all_data[[id_var]])
-names(ids_only) <- args$study_id
-pred_dataset <- ids_only %>% 
-  left_join(unordered_preds, by = args$study_id)
 # save
 readr::write_csv(
-  pred_dataset, file = paste0(
+  preds_df, file = paste0(
     fit_output_dir, args$analysis, "_", args$data_site, 
     "_phenorm_all_predicted_probabilities_using_", args$model_site, "_model.csv"
   )
 )
 # create a histogram of predicted probabilities for each silver label
 # first, get the base-R hist breakpoints
-long_pred_dataset <- pred_dataset %>%
-  pivot_longer(cols = starts_with("pred"), names_to = "model", values_to = "pred_prob") %>%
+long_pred_dataset <- preds_df %>%
+  pivot_longer(cols = -matches(args$study_id), names_to = "model", values_to = "pred_prob") %>%
   mutate(model = gsub("pred_prob_", "", model))
 breaks <- pretty(range(long_pred_dataset$pred_prob), n = nclass.Sturges(long_pred_dataset$pred_prob),
                  min.n = 1)
