@@ -50,14 +50,15 @@ analysis_data <- readRDS(
 )
 silver_labels <- analysis_data$silver_labels
 # run PheNorm on training data, predict on test data --------------------------
+set.seed(args$seed)
 phenorm_analysis <- run_phenorm(
-  train = analysis_data$train, test = analysis_data$test,
+  data = analysis_data$data,
+  train_ids = analysis_data$train_ids, test_ids = analysis_data$test_ids,
   silver_labels = silver_labels, aggregate_labels = silver_labels,
-  features = names(analysis_data$train %>% 
+  features = names(analysis_data$data %>% 
                     select(-!!c(silver_labels, args$utilization, args$weight))), 
-  utilization = args$utilization, seed = args$seed, 
-  weight = args$weight, corrupt.rate = args$corrupt_rate, 
-  train.size = args$train_size_multiplier * nrow(analysis_data$train)
+  utilization = args$utilization, weight = args$weight, corrupt.rate = args$corrupt_rate, 
+  train.size = max(args$train_size_multiplier * nrow(analysis_data$train), 1e5)
 )
 saveRDS(
   phenorm_analysis, file = paste0(

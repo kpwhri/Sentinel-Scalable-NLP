@@ -9,23 +9,19 @@
 #' @param seed a random number seed
 #' @param aggregate_labels a character vector of which labels to aggregate over
 #' @param ... other arguments to pass to PheNorm
-run_phenorm <- function(train = NULL, test = NULL, silver_labels = "", features = "",
+run_phenorm <- function(data = NULL, train_ids = 1:nrow(data), 
+                        test_ids = NULL, silver_labels = "", features = "",
                         utilization = "", weight = "", seed = 1234, 
                         aggregate_labels = silver_labels, ...) {
   L <- list(...)
   corrupt_rate <- ifelse(is.null(L$corrupt.rate), .3, L$corrupt.rate)
-  train_size <- ifelse(is.null(L$train.size), 10 * nrow(train), L$train.size)
-  set.seed(seed)
+  train_size <- ifelse(is.null(L$train.size), max(10 * nrow(train), 1e5), L$train.size)
   phenorm_fit <- phenorm_prob(
-    nm.logS.ori = silver_labels, nm.utl = utilization, nm.wt = weight, dat = train,
-    nm.X = features, corrupt.rate = corrupt_rate, train.size = train_size
+    nm.logS.ori = silver_labels, nm.utl = utilization, nm.wt = weight, dat = data,
+    nm.X = features, corrupt.rate = corrupt_rate, train.size = train_size,
+    train_ids = train_ids, test_ids = test_ids
   )
-  set.seed(seed)
-  phenorm_preds <- predict.PheNorm(
-    phenorm_model = phenorm_fit, newdata = test, silver_labels = silver_labels,
-    features = features, utilization = utilization, aggregate_labels = aggregate_labels
-  )
-  return(list("fit" = phenorm_fit, "preds" = phenorm_preds))
+  return(list("fit" = phenorm_fit, "preds" = phenorm_fit$all_probs[test_ids, ]))
 }
 
 
@@ -96,31 +92,32 @@ process_data <- function(dataset = NULL, structured_data_names = "AGE",
       }
       all_data[[outcome_indx]] <- outcomes
     }
-    if (train_on_gold_data) {
-      train <- dplyr::select(all_data, -!!matches(gold_label))
-    } else {
-      train <- dplyr::select(dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 0),
-                             -!!matches(gold_label))
-    }
-    test <- dplyr::filter(all_data, !!rlang::sym(names(all_data)[valid_indx]) == 1)
   } else {
     all_data <- dplyr::select(
       dataset, !!c(matches(study_id), matches(validation_name), matches(weight),
                    matches(paste0("^", structured_data_names, "$")), 
                    matches(unique(c(nlp_data_names, utilization_variable))))
     ) 
-    train <- all_data
-    test <- all_data
   }
-  train_cc <- train[complete.cases(train), ]
-  test_cc <- test[complete.cases(test), ]
-  if (chart_reviewed) {
-    outcome_indx <- which(grepl(gold_label, names(test_cc), ignore.case = TRUE))
-    outcomes <- test_cc[[outcome_indx]]
+  data_minus_outcome <- dplyr::select(all_data, -!!matches(gold_label))
+  cc <- complete.cases(data_minus_outcome)
+  dat_cc <- data_minus_outcome[cc, ]
+  train_valid_cc <- dplyr::pull(dat_cc, validation_name)
+  if (train_on_gold_data) {
+    train_ids <- 1:nrow(dat_cc)
+    test_ids <- NULL
   } else {
-    outcomes <- rep(NA, nrow(test_cc))
+    train_ids <- (1:nrow(dat_cc))[train_valid_cc == 0]
+    test_ids <- (1:nrow(dat_cc))[train_valid_cc == 1]
   }
-  return(list("outcome" = outcomes, "train" = train_cc, "test" = test_cc,
+  if (chart_reviewed) {
+    final_outcomes <- outcomes[test_ids]
+  } else {
+    final_outcomes <- rep(NA, length(test_ids))
+  }
+  return(list("data" = dat_cc, 
+              "outcome" = final_outcomes, 
+              "train_ids" = train_ids, "test_ids" = test_ids,
               "all" = all_data))
 }
 
@@ -174,35 +171,31 @@ apply_log_transformation <- function(dataset = NULL, varnames = NULL,
 }
 
 # apply AFEP -------------------------------------------------------------------
-#' @param train the training dataset
-#' @param test the testing dataset
+#' @param data the dataset
+#' @param train_ids the training-data ids
+#' @param test the testing-data ids
 #' @param study_id the study id
 #' @param cui_of_interest a string specifying the cui of interest
 #' @param utilization_variable a string specifying the utilization variable
 #' @param cui_cols a numeric vector specifying which columns of the NLP dataset correspond to CUIs
 #' @param threshold the threshold for AFEP
 #' @return train and test datasets screened by AFEP
-phenorm_afep <- function(train = NULL, test = NULL, study_id = "Studyid", cui_of_interest = "C",
+phenorm_afep <- function(data = NULL, train_ids = 1:nrow(data), test_ids = NULL, 
+                         study_id = "Studyid", cui_of_interest = "C",
                          utilization_variable = "Utiliz",
-                         train_cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train), ignore.case = TRUE)],
-                         test_cui_cols = (1:ncol(test))[grepl("C[0-9]", names(test), ignore.case = TRUE)],
+                         cui_cols = (1:ncol(data))[grepl("C[0-9]", names(data), ignore.case = TRUE)],
                          threshold = 0.15) {
-  cui_col_of_interest <- train_cui_cols[grepl(cui_of_interest, names(train[, train_cui_cols]))][1]
-  test_cui_col_of_interest <- test_cui_cols[grepl(cui_of_interest, names(test[, test_cui_cols]))][1]
-  other_cui_cols <- train_cui_cols[!grepl(cui_of_interest[1], names(train[, train_cui_cols]))]
-  test_other_cui_cols <- test_cui_cols[!grepl(cui_of_interest[1], names(test[, test_cui_cols]))]
-  train_selected <- afep(dataset = train %>% select(-!!study_id), nlp_label = cui_of_interest,
-                         features = names(train[, other_cui_cols]),
+  cui_col_of_interest <- cui_cols[grepl(cui_of_interest, names(data[, cui_cols]))][1]
+  other_cui_cols <- cui_cols[!grepl(cui_of_interest[1], names(data[, cui_cols]))]
+  train_selected <- afep(dataset = data[train_ids, ] %>% select(-!!study_id), 
+                         nlp_label = cui_of_interest,
+                         features = names(data[, other_cui_cols]),
                          threshold = threshold)
-  train_afep_plus <- rep(TRUE, ncol(train))
-  test_afep_plus <- rep(TRUE, ncol(test))
-  train_afep_plus[other_cui_cols] <- train_selected
-  test_afep_plus[test_other_cui_cols] <- train_selected
-  train_afep_plus[cui_col_of_interest] <- TRUE
-  test_afep_plus[test_cui_col_of_interest] <- TRUE
-  train_screened <- train[, train_afep_plus]
-  test_screened <- test[, test_afep_plus]
-  return(list("train" = train_screened, "test" = test_screened))
+  afep_plus <- rep(TRUE, ncol(data))
+  afep_plus[other_cui_cols] <- train_selected
+  afep_plus[cui_col_of_interest] <- TRUE
+  screened <- data[, afep_plus]
+  return(screened)
 }
 get_f_score <- function(precision, recall, beta) {
   (1 + beta ^ 2) * precision * recall / (beta ^ 2 * precision + recall)
@@ -305,7 +298,7 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
 #' @return the estimated variable importance for each variable in the model
 get_vimp <- function(phenorm_model = NULL, preds = NULL,
                      newdata = NULL, silver_labels = NULL, features = NULL,
-                     utilization = NULL, use_empirical_sd = TRUE,
+                     utilization = NULL, start_from_empirical = FALSE,
                      aggregate_labels = silver_labels,
                      outcomes = NULL,
                      na.rm = TRUE, measure = "ate") {
@@ -323,11 +316,11 @@ get_vimp <- function(phenorm_model = NULL, preds = NULL,
       newX_1[, i] <- 1
       preds_0 <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX_0,
                                  silver_labels = silver_labels, features = features,
-                                 utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                 utilization = utilization, start_from_empirical = start_from_empirical,
                                  aggregate_labels = aggregate_labels, na.rm = na.rm)
       preds_1 <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX_1,
                                  silver_labels = silver_labels, features = features,
-                                 utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                 utilization = utilization, start_from_empirical = start_from_empirical,
                                  aggregate_labels = aggregate_labels, na.rm = na.rm)
       est_vim[i, 2:ncol(est_vim)] <- colMeans(preds_1 - preds_0)
     }
@@ -337,12 +330,12 @@ get_vimp <- function(phenorm_model = NULL, preds = NULL,
       newX[, i] <- X[, i] + sd(X[, i])
       new_preds <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX,
                                    silver_labels = silver_labels, features = features,
-                                   utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                   utilization = utilization, start_from_empirical = start_from_empirical,
                                    aggregate_labels = aggregate_labels, na.rm = na.rm)
       est_vim[i, 2:ncol(est_vim)] <- colMeans(preds - new_preds)
     }
   } else if (grepl("permute", measure)) {
-    # return permutation-based difference in AUC
+    # return permutation-based difference in AUC, unweighted
     orig_auc <- unlist(lapply(as.list(1:ncol(preds)), function(i) {
       cvAUC::AUC(predictions = preds[, i], labels = outcomes)
     }))
@@ -351,7 +344,7 @@ get_vimp <- function(phenorm_model = NULL, preds = NULL,
       newX[, i] <- X[sample(nrow(X), replace = FALSE), i]
       shuffle_preds <- predict.PheNorm(phenorm_model = phenorm_model, newdata = newX,
                                        silver_labels = silver_labels, features = features,
-                                       utilization = utilization, use_empirical_sd = use_empirical_sd,
+                                       utilization = utilization, start_from_empirical = start_from_empirical,
                                        aggregate_labels = aggregate_labels, na.rm = na.rm)
       shuffle_aucs <- unlist(lapply(as.list(1:ncol(shuffle_preds)), function(k) {
         cvAUC::AUC(predictions = shuffle_preds[, k], labels = outcomes)
@@ -375,10 +368,9 @@ phenorm_roc <- function(performance_object = NULL, analysis_name = "Primary 1",
     slice(1) %>%
     select(id, auc)
   if (nrow(aucs) > 1) {
-    roc_curve <- performance_object %>%
+    roc_curve_init <- performance_object %>%
       pivot_wider(names_from = measure, values_from = perf) %>%
       ggplot(aes(x = 1 - Specificity, y = Sensitivity, color = id)) +
-      geom_line(size = 1) +
       geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
       labs(x = "1 - Specificity", y = "Sensitivity", color = "Silver Label") +
       ggtitle(stringr::str_wrap(the_title, title_length)) +
@@ -389,15 +381,21 @@ phenorm_roc <- function(performance_object = NULL, analysis_name = "Primary 1",
   } else {
     the_title <- paste0("Receiver operating characteristic curve: ", analysis_name, ", ",
                      aucs$id)
-    roc_curve <- performance_object %>%
+    roc_curve_init <- performance_object %>%
       pivot_wider(names_from = measure, values_from = perf) %>%
       ggplot(aes(x = 1 - Specificity, y = Sensitivity)) +
-      geom_line(size = 1) +
       geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
       labs(x = "1 - Specificity", y = "Sensitivity") +
       ggtitle(stringr::str_wrap(the_title, title_length)) +
       annotate(geom = "text", x = 0.75, y = 0.25, size = 8,
                label = paste0("AUC = ", round(aucs$auc, 3)))
+  }
+  if (packageVersion("ggplot2") >= "3.4.0") {
+    roc_curve <- roc_curve_init +
+      geom_line(linewidth = 1)
+  } else {
+    roc_curve <- roc_curve_init +
+      geom_line(size = 1)
   }
   return(roc_curve)
 }
@@ -408,15 +406,21 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
                              title_length = 80) {
   the_title <- paste0("Performance metrics at different cutpoints: ", analysis_name)
   all_measures <- c("Sensitivity", "Specificity", "PPV", "NPV", "F1", "F0.5")
-  combined_plot <- performance_object %>%
+  combined_plot_init <- performance_object %>%
     ggplot(aes(x = quantile, y = perf, color = factor(measure, levels = all_measures))) +
-    geom_line(size = 1) +
     labs(x = "Percentile Cutpoint", y = "Percent", color = "Performance metric") +
     ggtitle(stringr::str_wrap(the_title, title_length)) +
     scale_y_continuous(minor_breaks = seq(0, 1, 0.05)) +
     scale_x_continuous(minor_breaks = seq(0, 1, 0.05)) +
     theme(panel.grid.minor = element_line(color = "grey"),
           panel.grid.major = element_line(color = "grey"))
+  if (packageVersion("ggplot2") >= "3.4.0") {
+    combined_plot <- combined_plot_init +
+      geom_line(linewidth = 1)
+  } else {
+    combined_plot <- combined_plot_init +
+      geom_line(size = 1)
+  }
   return(combined_plot)
 }
 
@@ -436,7 +440,9 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
 #' @param dat all data columns need to be log-transformed and need column names
 #' @param nm.X additional features other than the main ICD and NLP
 #' @param corrupt.rate rate for random corruption denoising, between 0 and 1, default value=0.3
-#' @param train.size size of training sample, default value 10 * nrow(dat)
+#' @param train.size size of training sample, default value 1e5
+#' @param train_ids row IDs for the training sample; defaults to all observations
+#' @param test_ids row IDs for the testing sample; defaults to none
 #' @return list containing probability and beta coefficient
 #' @examples
 #' \dontrun{
@@ -447,7 +453,9 @@ phenorm_combined <- function(performance_object = NULL, analysis_name = "Primary
 #' head(fit.phenorm$probs)
 #' }
 #' @export
-phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.rate = 0.3, train.size = 10 * nrow(dat)) {
+phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, 
+                         corrupt.rate = 0.3, train.size = 1e5,
+                         train_ids = 1:nrow(dat), test_ids = NULL, aggregate_labels = nm.logS.ori) {
   dat <- as.matrix(dat)
   S.ori <- dat[, nm.logS.ori, drop = FALSE]
   utl <- dat[, nm.utl, drop = FALSE]
@@ -460,14 +468,18 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.r
   S.norm <- S.ori - PheNorm:::VTM(a.hat, nrow(dat)) * as.vector(utl)
   if (!is.null(nm.X)) {
     X <- as.matrix(dat[, nm.X, drop = FALSE])
+    # only get regression coefficients on the training data
+    train <- dat[train_ids, ]
     if (length(unique(utl)) == 1) {
       SX.norm <- cbind(S.norm, X, wt)
     } else {
-      SX.norm <- cbind(S.norm, X, utl, wt) 
+      SX.norm <- cbind(S.norm, X, utl, wt)
     }
-    id <- sample(1:nrow(dat), train.size, replace = TRUE)
-    SX.norm.corrupt <- apply(SX.norm[id, ], 2,
-                             function(x) {ifelse(rbinom(length(id), 1, corrupt.rate), mean(x), x)}
+    id <- sample(1:nrow(SX.norm[train_ids, ]), train.size, replace = TRUE)
+    SX.norm.corrupt <- apply(SX.norm[train_ids, ][id, ], 2,
+                             function(x) {
+                               ifelse(rbinom(length(id), 1, corrupt.rate), mean(x), x)
+                              }
     )
     sx_norm_df <- as.data.frame(SX.norm.corrupt)
     if (nm.wt == "") {
@@ -475,11 +487,12 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.r
     } else {
       weights <- sx_norm_df[[nm.wt]]
     }
-    b.all <- apply(S.norm, 2, function(ss) {
+    b.all <- apply(S.norm[train_ids, ], 2, function(ss) {
       lm(ss[id] ~ . - 1, data = sx_norm_df[, !(names(sx_norm_df) %in% nm.wt)], 
          weights = weights)$coef
     })
     b.all[is.na(b.all)] <- 0
+    # apply to the whole dataset
     S.norm <- as.matrix(SX.norm[, !(colnames(SX.norm) %in% nm.wt)]) %*% b.all
     if (length(unique(utl)) > 1) {
       b.all <- b.all[-dim(b.all)[1], ] 
@@ -491,21 +504,29 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.r
     postprob <- apply(S.norm, 2,
                       function(x) {
                         fit = PheNorm:::normalmixEM2comp2(x, lambda = 0.5,
-                                                mu = quantile(x, probs=c(1/3, 2/3)), sigsqrd = 1
+                                                mu = quantile(x, probs=c(1/3, 2/3)), 
+                                                sigsqrd = 1
                         )
                         fit$posterior[, 2]
                       }
     )
-    list("probs" = rowMeans(postprob, na.rm = TRUE), "betas" = b.all, "scores" = S.norm,
-         "alpha" = a.hat)
+    posterior_probs_agg <- rowMeans(postprob[, aggregate_labels], na.rm = TRUE)
+    result <- list("probs" = posterior_probs_agg, 
+                   "all_probs" = cbind.data.frame(postprob, "Aggregate" = posterior_probs_agg), 
+                   "betas" = b.all, "scores" = S.norm,
+                   "alpha" = a.hat)
     
   } else {
     fit <- PheNorm:::normalmixEM2comp2(unlist(S.norm), lambda = 0.5,
                              mu = quantile(S.norm, probs=c(1/3, 2/3)), sigsqrd = 1
     )
-    list("probs" = fit$posterior[,2], "betas" = b.all, "scores" = S.norm,
-         "alpha" = a.hat)
+    result <- list("probs" = fit$posterior[,2], 
+                   "all_probs" = fit$posterior[, 2],
+                   "betas" = b.all, "scores" = S.norm,
+                   "alpha" = a.hat)
   }
+  class(result) <- c("list", "PheNorm")
+  return(result)
 }
 
 # get predicted probabilities based on PheNorm model and new data
@@ -515,8 +536,8 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.r
 #' @param features the names of the additional features to use; a character vector.
 #' @param utilization the name of the healthcare utilization variable; a string.
 #'   passed to original PheNorm model
-#' @param use_empirical_sd should we use the empirical standard deviation of the
-#'   normalized silver label when obtaining predicted probabilities of the phenotype
+#' @param start_from_empirical should we use empirical values from the fitted PheNorm model when
+#'   normalizing the data and in the EM algorithm to get predicted probabilities?
 #'   \code{TRUE}; the default), or not (\code{FALSE})?
 #' @param aggregate_labels the names of the silver lables used in the aggregate predictions
 #'   (i.e., which silver label predicted probabilities to average for the aggregate approach)
@@ -524,7 +545,7 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL, corrupt.r
 #'   and \code{Aggregate} denoting the voting model (i.e., the mean of the other predicted probabilities)
 predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
                             silver_labels = NULL, features = NULL,
-                            utilization = NULL, use_empirical_sd = TRUE,
+                            utilization = NULL, start_from_empirical = TRUE,
                             aggregate_labels = silver_labels,
                             na.rm = TRUE) {
   if (is.null(phenorm_model)) {
@@ -537,8 +558,13 @@ predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
   newmat <- as.matrix(newdata)
   silver_label_data <- newmat[, silver_labels, drop = FALSE]
   util <- newmat[, utilization]
+  if (start_from_empirical) {
+    alpha <- phenorm_model$alpha
+  } else {
+    alpha <- apply(silver_label_data, 2, function(S) {PheNorm:::findMagicNumber(S, util)$coef})
+  }
   normalized_silver_labels <- silver_label_data -
-    PheNorm:::VTM(phenorm_model$alpha, nrow(newdata)) * util
+    PheNorm:::VTM(alpha, nrow(newdata)) * util
   # also add features if we used them
   if (!is.null(features)) {
     feature_data <- newmat[, features, drop = FALSE]
@@ -551,8 +577,8 @@ predict.PheNorm <- function(phenorm_model = NULL, newdata = NULL,
   original_phenorm_score <- phenorm_model$scores
   posterior_probs <- do.call(cbind, sapply(1:ncol(phenorm_score), function(i) {
     fit <- PheNorm:::normalmixEM2comp2(phenorm_score[, i], lambda = 0.5,
-                                       mu = quantile(original_phenorm_score[, i], probs = c(1/3, 2/3), na.rm = na.rm),
-                                       sigsqrd = ifelse(use_empirical_sd, sd(original_phenorm_score[, i], na.rm = na.rm) / 2, 1))
+                                       mu = quantile(`if`(start_from_empirical, original_phenorm_score[, i], phenorm_score[, i]), probs = c(1/3, 2/3), na.rm = na.rm),
+                                       sigsqrd = `if`(start_from_empirical, sd(original_phenorm_score[, i], na.rm = na.rm) / 2, 1))
     fit$posterior[, 2]
   }, simplify = FALSE))
   colnames(posterior_probs) <- colnames(phenorm_score)

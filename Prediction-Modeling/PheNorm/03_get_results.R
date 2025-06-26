@@ -87,12 +87,13 @@ if (args$model_site == args$data_site) {
 } else {
   # get features used to train external PheNorm model
   set.seed(args$seed)
-  preds <- predict.PheNorm(
-    phenorm_model = fit, newdata = analysis_data$test_all, silver_labels = silver_labels,
+  full_preds <- predict.PheNorm(
+    phenorm_model = fit, newdata = analysis_data$data, silver_labels = silver_labels,
     features = model_features,
     utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels,
     start_from_empirical = FALSE
   )
+  preds <- full_preds[analysis_data$test_ids, ]
   saveRDS(
     preds, file = paste0(
       fit_output_dir, args$analysis, "_", args$data_site, 
