@@ -6,4 +6,4 @@
 source 00_setup.sh
 
 # install packages
-Rscript 00_install_packages.R > "${io_dir}/00_install_packages.out" 2>&1
+Rscript 00_install_packages.R > "./${io_dir}/00_install_packages.out" 2>&1
