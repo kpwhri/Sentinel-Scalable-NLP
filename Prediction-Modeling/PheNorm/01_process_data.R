@@ -118,76 +118,51 @@ processed_data <- process_data(dataset = only_cuis_of_interest,
                                train_on_gold_data = args$train_on_gold,
                                chart_reviewed = args$chart_reviewed)
 # drop variables in the training data with 0 variance/only one unique value, outside of the special columns
-all_num_unique <- lapply(processed_data$train, function(x) length(unique(x)))
+all_num_unique <- unlist(lapply(processed_data$data, function(x) length(unique(x))))
 is_zero_one <- (all_num_unique == 0) | (all_num_unique == 1)
-train <- processed_data$train %>% 
+prelim_data <- processed_data$data %>% 
   select(!!args$study_id, all_of(silver_labels), !!args$weight, !!args$utilization,
-         !!args$valid_label, (1:ncol(processed_data$train))[!is_zero_one])
-test <- processed_data$test
+         !!args$valid_label, (1:ncol(processed_data$data))[!is_zero_one])
 outcomes <- processed_data$outcome
 all_data <- processed_data$all
 
 # apply AFEP screen to NLP variables ------------------------------------------
 if (args$use_afep) {
   afep_screened_data <- phenorm_afep(
-    train = train, test = test, study_id = args$study_id,
+    data = prelim_data, train_ids = processed_data$train_ids, 
+    test_ids = processed_data$test_ids, study_id = args$study_id,
     cui_of_interest = args$cui,
-    train_cui_cols = (1:ncol(train))[grepl("C[0-9]", names(train), ignore.case = TRUE)],
-    test_cui_cols = (1:ncol(test))[grepl("C[0-9]", names(test), ignore.case = TRUE)],
+    cui_cols = (1:ncol(prelim_data))[grepl("C[0-9]", names(prelim_data), ignore.case = TRUE)],
     threshold = 0.15
   )
-  train_screened <- afep_screened_data$train
-  test_screened <- afep_screened_data$test
 } else {
-  train_screened <- train
-  test_screened <- test
+  afep_screened_data <- prelim_data
 }
 
 # combine and log-transform ---------------------------------------------------
-train_all_cc <- train %>% 
-  filter(complete.cases(train)) %>% 
+prelim_cc <- prelim_data %>% 
+  filter(complete.cases(prelim_data))
+train_ids <- (1:nrow(prelim_cc))[prelim_data[[args$valid_label]] == 0]
+test_ids <- (1:nrow(prelim_cc))[prelim_data[[args$valid_label]] == 1]
+all_cc <- prelim_data %>% 
+  filter(complete.cases(prelim_data)) %>% 
   select(-!!args$study_id, -!!args$valid_label)
-train_screened_cc <- train_screened %>% 
-  filter(complete.cases(train_screened)) %>% 
+screened_cc <- afep_screened_data %>% 
+  filter(complete.cases(afep_screened_data)) %>% 
   select(-!!args$study_id, -!!args$valid_label)
-if (args$chart_reviewed) {
-  test_all_cc <- test %>% 
-    filter(complete.cases(test)) %>% 
-    select(-!!args$study_id, -!!args$valid_label, -!!args$gold_label)
-  test_screened_cc <- test_screened %>% 
-    filter(complete.cases(test_screened)) %>%
-    select(-!!args$study_id, -!!args$valid_label, -!!args$gold_label)
-} else {
-  test_all_cc <- test %>% 
-    filter(complete.cases(test)) %>% 
-    select(-!!args$study_id, -!!args$valid_label)
-  test_screened_cc <- test_screened %>% 
-    filter(complete.cases(test_screened)) %>%
-    select(-!!args$study_id, -!!args$valid_label)
-}
 
 # log transform
-log_train_all <- apply_log_transformation(
-  dataset = train_all_cc, 
-  varnames = names(train_all_cc)[!grepl(args$weight, names(train_all_cc))], 
-  utilization_var = args$utilization
-)
-log_test_all <- apply_log_transformation(
-  dataset = test_all_cc, 
-  varnames = names(test_all_cc)[!grepl(args$weight, names(test_all_cc))], 
-  utilization_var = args$utilization
-)
-log_train_screened <- apply_log_transformation(
-  dataset = train_screened_cc, 
-  varnames = names(train_screened_cc)[!grepl(args$weight, names(train_screened_cc))], 
-  utilization_var = args$utilization
-)
-log_test_screened <- apply_log_transformation(
-  dataset = test_screened_cc, 
-  varnames = names(test_screened_cc)[!grepl(args$weight, names(test_screened_cc))], 
-  utilization_var = args$utilization
-)
 log_all <- apply_log_transformation(
+  dataset = all_cc, 
+  varnames = names(all_cc)[!grepl(args$weight, names(all_cc))], 
+  utilization_var = args$utilization
+)
+log_screened <- apply_log_transformation(
+  dataset = screened_cc, 
+  varnames = names(screened_cc)[!grepl(args$weight, names(screened_cc))], 
+  utilization_var = args$utilization
+)
+log_full <- apply_log_transformation(
   dataset = all_data,
   varnames = names(all_data)[!(
     names(all_data) %in% c(args$gold_label, args$valid_label, args$study_id, args$weight)
@@ -196,8 +171,8 @@ log_all <- apply_log_transformation(
 )
 
 analysis_data <- list(
-  "train" = log_train_screened, "test" = log_test_screened, "outcomes" = outcomes,
-  "train_all" = log_train_all, "test_all" = log_test_all, "all" = log_all,
+  "data" = log_screened, "train_ids" = train_ids, "test_ids" = test_ids, 
+  "outcomes" = outcomes, "all" = log_all, "full" = log_full,
   "utilization_variable" = args$utilization, "silver_labels" = silver_labels
 )
 # save analysis dataset and some data summary statistics -----------------------
@@ -211,11 +186,11 @@ summary_stats <- tibble::tibble(
                           "Sample size (chart reviewed)", "Number of events",
                           "Number of NLP features", "Number of NLP features after screen"),
   `Value` = c(nrow(input_data), 
-              ifelse(args$chart_reviewed, nrow(train_all_cc) + nrow(test_all_cc), nrow(train_all_cc)),
-              ifelse(args$chart_reviewed, nrow(test_all_cc), 0), 
+              ifelse(args$chart_reviewed, length(train_ids) + length(test_ids), length(train_ids)),
+              ifelse(args$chart_reviewed, length(test_ids), 0), 
               sum(outcomes),
               length(cui_names), # need to account for study id, utilization
-              sum(grepl("C[0-9]", names(test_screened_cc), ignore.case = TRUE)))
+              sum(grepl("C[0-9]", names(screened_cc), ignore.case = TRUE)))
 )
 readr::write_csv(
   summary_stats, file = paste0(
