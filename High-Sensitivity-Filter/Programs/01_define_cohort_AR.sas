@@ -144,6 +144,7 @@ Libname CHSID "\\ghcmaster\ghri\Warehouse\sasdata\Chsid" access=readonly;
 ********************************************;
 *only need to do if Excel list changes;
 *see Notes tab on spreadsheet for rules for each path;
+* See example spreadsheet for anaphylaxis in `lookup/anaphylaxis_code_lookup.xlsx`;
 
 * IN: xlin.code_list;
 *OUT: lookup.code_list;
@@ -222,7 +223,7 @@ title3 "GET ENROLL";
 
 *n=4,145,186;
 *Collapse enrollment records 0 day gap between enrollment periods;
-	%CollapsePeriods(Lib		= work				/*The name of the sas library where your input dataset is located (e.g., ‘work’, ‘perm’, etc.)*/
+	%CollapsePeriods(Lib		= work				/*The name of the sas library where your input dataset is located (e.g., ï¿½workï¿½, ï¿½permï¿½, etc.)*/
 					,DSet		= Enroll_tmpA		/*The name of your input dataset*/
 					,RecStart	= EnrollStartDate	/*The name of the date variable in Dset holding the start of a period.*/
 					,RecEnd		= EnrollEndDate		/*The name of the date variable in Dset holding the end of a period.*/

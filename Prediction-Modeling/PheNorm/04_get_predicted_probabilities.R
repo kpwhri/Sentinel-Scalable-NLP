@@ -29,6 +29,8 @@ parser <- add_option(parser, "--analysis",
                      default = "phase_1_updated_symptomatic_covid", help = "The name of the analysis")
 parser <- add_option(parser, "--weight", default = "Sampling_Weight", 
                      help = "Inverse probability of selection into gold-standard set")
+parser <- add_option(parser, "--seed", type = "integer", default = 1234,
+                     help = "The random number seed to use")
 parser <- add_option(parser, "--data-site", default = "kpwa", help = "The site the data to evaluate on came from")
 parser <- add_option(parser, "--model-site", default = "kpwa", help = "The site the where the model was trained")                     
 parser <- add_option(parser, "--study-id", default = "Studyid", help = "The study id variable")
