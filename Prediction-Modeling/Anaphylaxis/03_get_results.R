@@ -70,7 +70,7 @@ analysis_data <- readRDS(
   file = paste0(
     args$data_dir, args$analysis, "_", args$data_site, "_analysis_data.rds"
   )
-)
+) 
 # note that "silver" is required to be in the variable name for all silver labels
 silver_labels <- analysis_data$silver_labels
 outcomes <- analysis_data$outcomes
@@ -81,16 +81,22 @@ phenorm_analysis <- readRDS(
 )
 fit <- phenorm_analysis$fit
 model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
-model_features <- model_fit_names[!(model_fit_names %in% c(silver_labels))]
+model_features <- toupper(model_fit_names[!(model_fit_names %in% c(silver_labels))])
 if (args$model_site == args$data_site) {
   preds <- phenorm_analysis$preds
 } else {
   # get features used to train external PheNorm model
+  # note that we use analysis_data$full because different NLP features may have been selected
+  full_dat <- analysis_data$full %>% 
+    select(where(~ !is.character(.))) %>% 
+    rename_with(toupper)
+  
   set.seed(args$seed)
   full_preds <- predict.PheNorm(
-    phenorm_model = fit, newdata = analysis_data$data, silver_labels = silver_labels,
+    phenorm_model = fit, newdata = full_dat, silver_labels = toupper(silver_labels),
     features = model_features,
-    utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels,
+    utilization = toupper(analysis_data$utilization_variable), 
+    aggregate_labels = toupper(silver_labels),
     start_from_empirical = FALSE
   )
   preds <- full_preds[analysis_data$test_ids, ]
