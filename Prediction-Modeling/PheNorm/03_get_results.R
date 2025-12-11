@@ -82,15 +82,14 @@ phenorm_analysis <- readRDS(
 fit <- phenorm_analysis$fit
 model_fit_names <- gsub("SX.norm.corrupt", "", rownames(fit$betas))
 model_features <- toupper(model_fit_names[!(model_fit_names %in% c(silver_labels))])
+# get features used to train external PheNorm model
+# note that we use analysis_data$full because different NLP features may have been selected
+full_dat <- analysis_data$full %>% 
+  select(where(~ !is.character(.))) %>% 
+  rename_with(toupper)
 if (args$model_site == args$data_site) {
   preds <- phenorm_analysis$preds
 } else {
-  # get features used to train external PheNorm model
-  # note that we use analysis_data$full because different NLP features may have been selected
-  full_dat <- analysis_data$full %>% 
-    select(where(~ !is.character(.))) %>% 
-    rename_with(toupper)
-  
   set.seed(args$seed)
   full_preds <- predict.PheNorm(
     phenorm_model = fit, newdata = full_dat, silver_labels = toupper(silver_labels),
@@ -188,10 +187,10 @@ readr::write_csv(
 # variable importance
 set.seed(args$seed)
 est_vim <- get_vimp(phenorm_model = fit, preds = preds,
-                    newdata = analysis_data$data[analysis_data$test_ids, ], 
+                    newdata = full_dat[analysis_data$test_ids, ], 
                     silver_labels = silver_labels,
                     features = model_features,
-                    utilization = analysis_data$utilization_variable, aggregate_labels = silver_labels,
+                    utilization = toupper(analysis_data$utilization_variable), aggregate_labels = toupper(silver_labels),
                     outcomes = outcomes,
                     measure = "permute")
 readr::write_csv(
@@ -202,7 +201,7 @@ readr::write_csv(
 # compute AUC for prediction using the "raw" silver labels ---------------------
 num_silvers <- length(silver_labels)
 raw_silver_perf <- lapply(as.list(seq_len(num_silvers)), function(k) {
-  get_performance_metrics(predictions = analysis_data$data[analysis_data$test_ids, ] %>% 
+  get_performance_metrics(predictions = full_dat[analysis_data$test_ids, ] %>% 
                             pull(silver_labels[k]), 
                           labels = outcomes,
                           identifier = silver_labels[k])
