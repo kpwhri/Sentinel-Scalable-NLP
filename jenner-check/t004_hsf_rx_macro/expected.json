@@ -1,0 +1,18 @@
+{
+  "_captured_at": "2026-06-18T16:38:27.425781Z",
+  "_captured_run_id": "r_019edb98cbc2724292f107368c1fb78f",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: Table WORK.Summary_by_Rx created.",
+    "NOTE: Table WORK.Summary_by_Rx_ByGeneric created."
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

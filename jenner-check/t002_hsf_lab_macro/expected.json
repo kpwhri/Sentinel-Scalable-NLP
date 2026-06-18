@@ -1,0 +1,18 @@
+{
+  "_captured_at": "2026-06-18T16:38:27.425781Z",
+  "_captured_run_id": "r_019edb98b56570f28dc51bc6988c1662",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: Table WORK.Summary_by_Lab created.",
+    "NOTE: PROC PRINT data=WORK.Summary_by_Lab"
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

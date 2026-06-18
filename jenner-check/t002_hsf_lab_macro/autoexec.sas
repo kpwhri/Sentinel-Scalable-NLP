@@ -1,0 +1,42 @@
+options obs=100;
+data work.MyCohort;
+  input PATID $4.;
+  datalines;
+P001
+P002
+P003
+P004
+P005
+P006
+;
+run;
+
+data work.DxData;
+  length PATID $4 ENCTYPE $2 DX $8 ORIGDX $8;
+  informat ADATE date9.; format ADATE date9.;
+  input PATID $ ADATE ENCTYPE $ DX $ ORIGDX $;
+  datalines;
+P001 05APR2020 AV U07.1 U071
+P002 10APR2020 IP U07.1 U071
+P004 20MAY2020 AV U07.1 U071
+P003 15APR2020 AV J44.9 J449
+P005 01JUN2020 AV J12.89 J1289
+;
+run;
+
+data work.LabData;
+  length PATID $4 Test_Type $20 Loinc $10;
+  informat Lab_Dt date9.; format Lab_Dt date9.;
+  input PATID $ Lab_Dt Test_Type $ Loinc $;
+  datalines;
+P001 06APR2020 SARS_PCR 94500-6
+P001 08APR2020 CBC 58410-2
+P002 11APR2020 SARS_PCR 94500-6
+P003 16APR2020 CBC 58410-2
+P004 21MAY2020 SARS_PCR 94500-6
+P005 02JUN2020 LIPID 24331-1
+P006 03JUN2020 CBC 58410-2
+;
+run;
+
+%let EXCELOUT = .;

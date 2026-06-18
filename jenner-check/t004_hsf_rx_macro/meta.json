@@ -1,0 +1,8 @@
+{
+  "bundle": "t004_hsf_rx_macro",
+  "source_file": "High-Sensitivity-Filter/Programs/Include_HSF_Rx_Macro.sas",
+  "source_blob_sha": "fe1204959817d5013bc871e3575a425bb4883393",
+  "source_commit": "cef1e75c8f04750d1a6b974eea2289bc2cc3e7a0",
+  "tier": "macro_caller",
+  "notes": "Caller for the repo's reusable %HSF_Rx High-Sensitivity-Filter macro. Mock cohort/encounter/code-list datasets (built in autoexec) satisfy the column shapes the macro reads (PatID, ADATE/encounter date, ENCTYPE, code, code-list desc). The macro's full relative-risk PROC SQL pipeline runs unchanged; only the environment-specific ODS EXCEL export tail (Windows path) was rewritten to a portable PROC PRINT of the same result table."
+}

@@ -1,0 +1,18 @@
+{
+  "_captured_at": "2026-06-18T16:38:27.425781Z",
+  "_captured_run_id": "r_019edb98a6af7212b14694b7a008fd12",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: Table WORK.Summary_by_Dx created.",
+    "NOTE: PROC PRINT data=WORK.Summary_by_Dx"
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

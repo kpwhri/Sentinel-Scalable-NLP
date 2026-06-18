@@ -1,0 +1,62 @@
+Jenner 0.1.0 (Unlicensed - limited to 100 observations)
+Get a license at https://jenneranalytics.com/license
+
+NOTE: Option OBS changed to 100.
+NOTE: DATA work.MyCohort
+
+NOTE: Processing inline DATALINES (6 lines)
+
+NOTE: Read 6 rows from DATALINES.
+NOTE: Wrote work.MyCohort (6 rows, 1 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.DxData
+
+NOTE: Processing inline DATALINES (9 lines)
+
+NOTE: Read 9 rows from DATALINES.
+NOTE: Wrote work.DxData (9 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.DiagCd
+
+NOTE: Processing inline DATALINES (4 lines)
+
+NOTE: Read 4 rows from DATALINES.
+NOTE: Wrote work.DiagCd (4 rows, 2 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC SQL 
+
+NOTE: Table WORK.SilverLabelDx created.
+NOTE: PROC SQL statement used.
+NOTE: PROC SQL 
+
+NOTE: Macro variable N_PTS_SILVERLABELDX = 3
+NOTE: PROC SQL statement used.
+NOTE: PROC SQL 
+
+NOTE: Table WORK.Numerator_Dx created.
+NOTE: PROC SQL statement used.
+NOTE: PROC SQL 
+
+NOTE: Macro variable DX_DENO_W_SLDX = 3
+NOTE: PROC SQL statement used.
+NOTE: PROC SQL 
+
+NOTE: Macro variable DX_DENO_WO_SLDX = 3
+NOTE: PROC SQL statement used.
+3
+3
+3
+NOTE: PROC SQL 
+
+NOTE: Table WORK.Summary_by_Dx created.
+NOTE: PROC SQL statement used.
+NOTE: Option TITLE changed to High Sensitivity Filter (DX) - Silver Label Dx 'U07.1', lookup 10 days, RR>=0.
+NOTE: PROC PRINT data=WORK.Summary_by_Dx
+
+NOTE: PROC PRINT completed: 4 observations printed, 9 variables
