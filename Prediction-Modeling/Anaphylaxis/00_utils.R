@@ -202,11 +202,44 @@ get_f_score <- function(precision, recall, beta) {
 }
 
 # Compute performance metrics on gold-standard data ----------------------------
+get_eif_interval <- function(predictions = NULL, labels = NULL, 
+                             weights = rep(1, length(predictions)), 
+                             scale = "identity", measure = "sensitivity",
+                             cutoff = 0.5, estimate_ipc_eif_pred = FALSE, ...) {
+  if (!isTRUE(estimate_ipc_eif_pred)) {
+    pred_obj_init <- vimp::predictiveness_measure(
+      type = measure, y = labels, a = rep(1, length(labels)),
+      fitted_values = predictions, full_y = labels, 
+      scale = scale, ipc_est_type = "ipw",
+      cutoff = cutoff, ...
+    )
+    est_eif_lst_init <- vimp::estimate(pred_obj_init)
+    ipc_eif_preds <- est_eif_lst_init$eif
+    ipc_fit_type <- "external"
+  } else {
+    ipc_eif_preds <- rep(1, length(predictions))
+    ipc_fit_type <- "SL"
+  }
+  pred_obj <- vimp::predictiveness_measure(
+    type = measure, y = labels, a = rep(1, length(labels)),
+    fitted_values = predictions, full_y = labels, 
+    ipc_weights = weights, scale = scale, ipc_est_type = "ipw",
+    cutoff = cutoff, ipc_eif_preds = ipc_eif_preds, ipc_fit_type = ipc_fit_type, ...
+  )
+  est_eif_lst <- vimp::estimate(pred_obj)
+  se <- sqrt(mean(est_eif_lst$eif ^ 2) / length(est_eif_lst$eif))
+  ci <- vimp::vimp_ci(est = est_eif_lst$point_est, se = se,
+                      scale = scale, level = 0.95, truncate = FALSE)
+  return(list("se" = se, "cil" = ci[1], "ciu" = ci[2]))
+}
 # @param predictions the predictions on test data
 # @param labels the true outcome labels from test data
+# @param Z the silver labels and features (test data)
 # @param weights the inverse probability of sampling weights into the test data
 # @param identifier the silver label that we're computing performance for
-get_performance_metrics <- function(predictions = NULL, labels = NULL, 
+# @param scale for calculating SEs
+# @param truncate should CIs be truncated at 0?
+get_performance_metrics <- function(predictions = NULL, labels = NULL, Z = NULL, 
                                     weights = rep(1, length(predictions)), 
                                     identifier = "model 1",
                                     scale = "identity",
@@ -237,6 +270,7 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
       prediction.obj = pred_obj, measure = "npv"
     )@y.values)
     cutoffs <- unlist(sens_spec@alpha.values)
+    
   } else {
     # weighted analysis
     pred_obj_init <- WeightedROC::WeightedROC(guess = predictions, label = labels,
@@ -263,13 +297,43 @@ get_performance_metrics <- function(predictions = NULL, labels = NULL,
     f05_score <- get_f_score(ppv, sens, beta = 0.5)
     cutoffs <- pred_obj$threshold
   }
-  perf <- list("Sensitivity" = sens, "Specificity" = spec,
-               "PPV" = ppv, "NPV" = npv, "F1" = f1_score, "F0.5" = f05_score)
+  # get EIF-based intervals for all values
+  sens_cis <- do.call(rbind.data.frame, 
+                      lapply(as.list(cutoffs), function(x) 
+                        get_eif_interval(predictions = predictions, labels = labels, 
+                                         weights = weights, measure = "sensitivity",
+                                         scale = scale, cutoff = x, estimate_ipc_eif_pred = FALSE))
+  )
+  spec_cis <- do.call(rbind.data.frame, 
+                      lapply(as.list(cutoffs), function(x) 
+                        get_eif_interval(predictions = predictions, labels = labels, 
+                                         weights = weights, measure = "specificity",
+                                         scale = scale, cutoff = x, estimate_ipc_eif_pred = FALSE))
+  )
+  ppv_cis <- do.call(rbind.data.frame, 
+                     lapply(as.list(cutoffs), function(x) 
+                       tryCatch(get_eif_interval(predictions = predictions, labels = labels, 
+                                                 weights = weights, measure = "ppv",
+                                                 scale = scale, cutoff = x, estimate_ipc_eif_pred = FALSE),
+                                error = function(e) list("se" = NA, "cil" = NA, "ciu" = NA)))
+  )
+  npv_cis <- do.call(rbind.data.frame, 
+                     lapply(as.list(cutoffs), function(x) 
+                       get_eif_interval(predictions = predictions, labels = labels, 
+                                        weights = weights, measure = "npv",
+                                        scale = scale, cutoff = x, estimate_ipc_eif_pred = FALSE))
+  )
+  perf <- list("Sensitivity" = cbind.data.frame("perf" = sens, sens_cis), 
+               "Specificity" = cbind.data.frame("perf" = spec, spec_cis),
+               "PPV" = cbind.data.frame("perf" = ppv, ppv_cis), 
+               "NPV" = cbind.data.frame("perf" = npv, npv_cis), 
+               "F1" = cbind.data.frame("perf" = f1_score, data.frame("se" = NA, "cil" = NA, "ciu" = NA)), 
+               "F0.5" = cbind.data.frame("perf" = f05_score, data.frame("se" = NA, "cil" = NA, "ciu" = NA)))
   cutoff_dependent <- do.call(rbind.data.frame,
                               lapply(as.list(seq_len(length(perf))),
                                      function(l) cbind.data.frame("measure" = names(perf)[l],
-                                                                  "perf" = perf[[l]],
-                                                                  "cutoff" = cutoffs))
+                                                                  "cutoff" = cutoffs,
+                                                                  perf[[l]]))
   )
   percentile_function <- ecdf(predictions)
   cutoff_dependent$quantile <- percentile_function(cutoff_dependent$cutoff) 
@@ -369,6 +433,7 @@ phenorm_roc <- function(performance_object = NULL, analysis_name = "Primary 1",
     select(id, auc)
   if (nrow(aucs) > 1) {
     roc_curve_init <- performance_object %>%
+      select(-se, -cil, -ciu) %>% 
       pivot_wider(names_from = measure, values_from = perf) %>%
       ggplot(aes(x = 1 - Specificity, y = Sensitivity, color = id)) +
       geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
@@ -380,8 +445,9 @@ phenorm_roc <- function(performance_object = NULL, analysis_name = "Primary 1",
       theme(legend.position = "bottom", legend.direction = "horizontal")
   } else {
     the_title <- paste0("Receiver operating characteristic curve: ", analysis_name, ", ",
-                     aucs$id)
+                        aucs$id)
     roc_curve_init <- performance_object %>%
+      select(-se, -cil, -ciu) %>% 
       pivot_wider(names_from = measure, values_from = perf) %>%
       ggplot(aes(x = 1 - Specificity, y = Sensitivity)) +
       geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
@@ -479,7 +545,7 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL,
     SX.norm.corrupt <- apply(SX.norm[train_ids, ][id, ], 2,
                              function(x) {
                                ifelse(rbinom(length(id), 1, corrupt.rate), mean(x), x)
-                              }
+                             }
     )
     sx_norm_df <- as.data.frame(SX.norm.corrupt)
     if (nm.wt == "") {
@@ -504,8 +570,8 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL,
     postprob <- apply(S.norm, 2,
                       function(x) {
                         fit = PheNorm:::normalmixEM2comp2(x, lambda = 0.5,
-                                                mu = quantile(x, probs=c(1/3, 2/3)), 
-                                                sigsqrd = 1
+                                                          mu = quantile(x, probs=c(1/3, 2/3)), 
+                                                          sigsqrd = 1
                         )
                         fit$posterior[, 2]
                       }
@@ -518,7 +584,7 @@ phenorm_prob <- function(nm.logS.ori, nm.utl, nm.wt, dat, nm.X = NULL,
     
   } else {
     fit <- PheNorm:::normalmixEM2comp2(unlist(S.norm), lambda = 0.5,
-                             mu = quantile(S.norm, probs=c(1/3, 2/3)), sigsqrd = 1
+                                       mu = quantile(S.norm, probs=c(1/3, 2/3)), sigsqrd = 1
     )
     result <- list("probs" = fit$posterior[,2], 
                    "all_probs" = fit$posterior[, 2],
